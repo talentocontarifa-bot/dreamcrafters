@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-// Mock Data (Simulando Firebase por ahora)
+// Mock Data (Simulando Firebase para evitar problemas de facturación)
 const MOCK_INVITATIONS: Record<string, any> = {
     "juan-y-ana": {
         names: "Juan & Ana",
