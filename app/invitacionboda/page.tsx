@@ -80,6 +80,7 @@ export default function WeddingInvitation() {
 
 
     const [showMapModal, setShowMapModal] = useState(false);
+    const [showEntryModal, setShowEntryModal] = useState(true); // New state for entry/music permission
     const [mapUrl, setMapUrl] = useState("");
 
     const openMap = (url: string) => {
@@ -106,6 +107,25 @@ export default function WeddingInvitation() {
         <div className="bg-wedding-light text-wedding-dark font-wedding-sans overflow-x-hidden relative">
             {/* FontAwesome integration */}
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+            {/* Entry Modal for Music Autoplay Permission */}
+            {showEntryModal && (
+                <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 backdrop-blur-md animate-fade-in text-center p-4">
+                    <div className="bg-wedding-dark text-white p-10 rounded-lg shadow-2xl max-w-md border border-wedding-gold/30">
+                        <h2 className="font-script text-5xl mb-4 text-wedding-gold">S & M</h2>
+                        <p className="font-classic uppercase tracking-widest text-sm mb-8">Bienvenidos a nuestra boda</p>
+                        <button
+                            onClick={() => {
+                                setShowEntryModal(false);
+                                toggleMusic(); // Try to play music on first interaction
+                            }}
+                            className="bg-wedding-gold text-white px-8 py-3 rounded-full hover:bg-white hover:text-wedding-dark transition uppercase tracking-widest text-xs font-bold animate-pulse"
+                        >
+                            Ingresar
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {/* Map Modal */}
             {showMapModal && (
@@ -221,9 +241,14 @@ export default function WeddingInvitation() {
                         )}
                     </div>
                     <div className="mt-10">
-                        <button className="border border-wedding-gold text-wedding-gold px-8 py-3 uppercase tracking-widest text-xs hover:bg-wedding-gold hover:text-white transition duration-300">
+                        <a
+                            href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+de+Sofia+%26+Mateo&dates=20251025T163000/20251026T020000&details=¡Acompáñanos+a+celebrar+nuestra+boda!&location=Hacienda+Santa+Cruz,+México"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block border border-wedding-gold text-wedding-gold px-8 py-3 uppercase tracking-widest text-xs hover:bg-wedding-gold hover:text-white transition duration-300"
+                        >
                             Agendar en Google Calendar
-                        </button>
+                        </a>
                     </div>
                 </div>
             </section>
