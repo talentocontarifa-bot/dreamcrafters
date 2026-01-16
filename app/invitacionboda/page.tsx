@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -10,8 +10,9 @@ export default function WeddingInvitation() {
     const [minutes, setMinutes] = useState(0);
     const [seconds, setSeconds] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
-    const [isMusicPlaying, setIsMusicPlaying] = useState(false); // Placeholder logic
+    const [isMusicPlaying, setIsMusicPlaying] = useState(false);
     const [showBankDetails, setShowBankDetails] = useState(false);
+    const audioRef = useRef<HTMLAudioElement>(null);
 
     useEffect(() => {
         AOS.init({
@@ -56,18 +57,32 @@ export default function WeddingInvitation() {
         };
     }, []);
 
+    const toggleMusic = () => {
+        if (audioRef.current) {
+            if (isMusicPlaying) {
+                audioRef.current.pause();
+            } else {
+                audioRef.current.play();
+            }
+            setIsMusicPlaying(!isMusicPlaying);
+        }
+    };
+
+
     return (
         <div className="bg-wedding-light text-wedding-dark font-wedding-sans overflow-x-hidden">
             {/* FontAwesome integration via CDN for simplicity in this demo page */}
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-            {/* Audio Player (Optional music) */}
+            {/* Audio Player */}
+            <audio ref={audioRef} loop src="/music/wedding_song.mp3" />
             <div className="fixed bottom-5 right-5 z-50">
                 <button
-                    onClick={() => setIsMusicPlaying(!isMusicPlaying)}
-                    className="bg-wedding-gold text-white p-3 rounded-full shadow-lg hover:bg-yellow-700 transition duration-300"
+                    onClick={toggleMusic}
+                    className="bg-wedding-gold text-white p-3 rounded-full shadow-lg hover:bg-yellow-700 transition duration-300 animate-pulse"
+                    title="Reproducir Música"
                 >
-                    <i className={`fas ${isMusicPlaying ? 'fa-volume-up' : 'fa-music'}`}></i>
+                    <i className={`fas ${isMusicPlaying ? 'fa-pause' : 'fa-music'}`}></i>
                 </button>
             </div>
 
@@ -164,7 +179,7 @@ export default function WeddingInvitation() {
                             <h3 className="font-serif text-3xl mb-2">Ceremonia Religiosa</h3>
                             <p className="font-classic text-sm text-gray-400 mb-6 uppercase tracking-widest">4:30 PM</p>
                             <p className="text-wedding-dark mb-6 leading-relaxed">Capilla de San Gabriel<br />Antigua Hacienda Santa Cruz</p>
-                            <a href="#" className="inline-block text-xs uppercase tracking-widest border-b border-wedding-gold pb-1 hover:text-wedding-gold transition">Ver Ubicación</a>
+                            <a href="https://goo.gl/maps/exampleLink" target="_blank" rel="noopener noreferrer" className="inline-block text-xs uppercase tracking-widest border-b border-wedding-gold pb-1 hover:text-wedding-gold transition">Ver Ubicación en Maps</a>
                         </div>
 
                         {/* Reception Card */}
@@ -173,7 +188,7 @@ export default function WeddingInvitation() {
                             <h3 className="font-serif text-3xl mb-2">Recepción y Fiesta</h3>
                             <p className="font-classic text-sm text-gray-400 mb-6 uppercase tracking-widest">6:00 PM - 2:00 AM</p>
                             <p className="text-wedding-dark mb-6 leading-relaxed">Jardín Principal<br />Hacienda Santa Cruz</p>
-                            <a href="#" className="inline-block text-xs uppercase tracking-widest border-b border-wedding-gold pb-1 hover:text-wedding-gold transition">Ver Ubicación</a>
+                            <a href="https://goo.gl/maps/exampleLink" target="_blank" rel="noopener noreferrer" className="inline-block text-xs uppercase tracking-widest border-b border-wedding-gold pb-1 hover:text-wedding-gold transition">Ver Ubicación en Maps</a>
                         </div>
                     </div>
                 </div>
