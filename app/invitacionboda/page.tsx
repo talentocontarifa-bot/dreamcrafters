@@ -61,10 +61,20 @@ export default function WeddingInvitation() {
         if (audioRef.current) {
             if (isMusicPlaying) {
                 audioRef.current.pause();
+                setIsMusicPlaying(false);
             } else {
-                audioRef.current.play();
+                const playPromise = audioRef.current.play();
+                if (playPromise !== undefined) {
+                    playPromise
+                        .then(() => {
+                            setIsMusicPlaying(true);
+                        })
+                        .catch((error) => {
+                            console.error("Error al reproducir audio:", error);
+                            setIsMusicPlaying(false);
+                        });
+                }
             }
-            setIsMusicPlaying(!isMusicPlaying);
         }
     };
 
