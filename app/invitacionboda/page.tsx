@@ -237,8 +237,8 @@ export default function WeddingInvitation() {
                 <div className="container mx-auto px-4 max-w-2xl relative z-10">
                     <div className="text-center mb-12">
                         <span className="font-script text-5xl text-wedding-gold block mb-2">Confirmación</span>
-                        <h2 class="font-classic text-2xl uppercase tracking-widest">R.S.V.P</h2>
-                        <p class="mt-4 text-gray-500 italic">Por favor confirmar antes del 1 de Octubre</p>
+                        <h2 className="font-classic text-2xl uppercase tracking-widest">R.S.V.P</h2>
+                        <p className="mt-4 text-gray-500 italic">Por favor confirmar antes del 1 de Octubre</p>
                     </div>
 
                     <form className="bg-white p-8 md:p-12 shadow-2xl space-y-6 border border-gray-100" onSubmit={(e) => { e.preventDefault(); alert('¡Gracias por confirmar! (Esto es una demo)'); }}>
