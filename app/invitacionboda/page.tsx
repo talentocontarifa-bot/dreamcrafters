@@ -79,10 +79,62 @@ export default function WeddingInvitation() {
     };
 
 
+    const [showMapModal, setShowMapModal] = useState(false);
+    const [mapUrl, setMapUrl] = useState("");
+
+    const openMap = (url: string) => {
+        setMapUrl(url);
+        setShowMapModal(true);
+    };
+
+    const handleWhatsAppConfirm = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const name = formData.get("name");
+        const attendance = formData.get("attendance");
+        const seats = formData.get("seats");
+        const message = formData.get("message");
+
+        const text = `🎉 *Confirmación de Boda - Sofia & Mateo* 🎉%0A%0A👤 *Nombre:* ${name}%0A✅ *Asistencia:* ${attendance === 'on' ? 'Sí, asistiré' : 'Sí asistiré'}%0A🎟 *Lugares:* ${seats}%0A💌 *Mensaje:* ${message}`;
+
+        // Reemplaza este número con el del cliente real
+        const phoneNumber = "525512345678";
+        window.open(`https://wa.me/${phoneNumber}?text=${text}`, '_blank');
+    };
+
     return (
-        <div className="bg-wedding-light text-wedding-dark font-wedding-sans overflow-x-hidden">
-            {/* FontAwesome integration via CDN for simplicity in this demo page */}
+        <div className="bg-wedding-light text-wedding-dark font-wedding-sans overflow-x-hidden relative">
+            {/* FontAwesome integration */}
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+            {/* Map Modal */}
+            {showMapModal && (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+                    <div className="bg-white w-full max-w-3xl rounded-lg shadow-2xl overflow-hidden relative">
+                        <button
+                            onClick={() => setShowMapModal(false)}
+                            className="absolute top-2 right-2 bg-black text-white w-8 h-8 rounded-full z-10 hover:bg-red-600 transition flex items-center justify-center"
+                        >
+                            <i className="fas fa-times"></i>
+                        </button>
+                        <div className="w-full h-[400px] md:h-[500px]">
+                            <iframe
+                                width="100%"
+                                height="100%"
+                                frameBorder="0"
+                                style={{ border: 0 }}
+                                src={mapUrl}
+                                allowFullScreen
+                            ></iframe>
+                        </div>
+                        <div className="p-4 text-center bg-wedding-dark text-white">
+                            <a href="https://maps.app.goo.gl/UBpFfzdHPHdf1xsj8" target="_blank" rel="noopener noreferrer" className="inline-block bg-wedding-gold text-white px-6 py-2 rounded text-xs uppercase tracking-widest hover:bg-white hover:text-wedding-dark transition">
+                                Abrir en App de Google Maps
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Audio Player */}
             <audio ref={audioRef} loop src="/music/wedding_song.mp3" />
@@ -189,7 +241,13 @@ export default function WeddingInvitation() {
                             <h3 className="font-serif text-3xl mb-2">Ceremonia Religiosa</h3>
                             <p className="font-classic text-sm text-gray-400 mb-6 uppercase tracking-widest">4:30 PM</p>
                             <p className="text-wedding-dark mb-6 leading-relaxed">Capilla de San Gabriel<br />Antigua Hacienda Santa Cruz</p>
-                            <a href="https://maps.app.goo.gl/UBpFfzdHPHdf1xsj8" target="_blank" rel="noopener noreferrer" className="inline-block text-xs uppercase tracking-widest border-b border-wedding-gold pb-1 hover:text-wedding-gold transition">Ver Ubicación en Maps</a>
+                            {/* Embed Map Modal Trigger */}
+                            <button
+                                onClick={() => openMap("https://maps.google.com/maps?q=Capilla+San+Pablo+Apostol+Cancun&t=&z=15&ie=UTF8&iwloc=&output=embed")}
+                                className="inline-block text-xs uppercase tracking-widest border-b border-wedding-gold pb-1 hover:text-wedding-gold cursor-pointer"
+                            >
+                                Ver Mapa
+                            </button>
                         </div>
 
                         {/* Reception Card */}
@@ -198,7 +256,13 @@ export default function WeddingInvitation() {
                             <h3 className="font-serif text-3xl mb-2">Recepción y Fiesta</h3>
                             <p className="font-classic text-sm text-gray-400 mb-6 uppercase tracking-widest">6:00 PM - 2:00 AM</p>
                             <p className="text-wedding-dark mb-6 leading-relaxed">Jardín Principal<br />Hacienda Santa Cruz</p>
-                            <a href="https://maps.app.goo.gl/UBpFfzdHPHdf1xsj8" target="_blank" rel="noopener noreferrer" className="inline-block text-xs uppercase tracking-widest border-b border-wedding-gold pb-1 hover:text-wedding-gold transition">Ver Ubicación en Maps</a>
+                            {/* Embed Map Modal Trigger */}
+                            <button
+                                onClick={() => openMap("https://maps.google.com/maps?q=Capilla+San+Pablo+Apostol+Cancun&t=&z=15&ie=UTF8&iwloc=&output=embed")}
+                                className="inline-block text-xs uppercase tracking-widest border-b border-wedding-gold pb-1 hover:text-wedding-gold cursor-pointer"
+                            >
+                                Ver Mapa
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -266,15 +330,15 @@ export default function WeddingInvitation() {
                         <p className="mt-4 text-gray-500 italic">Por favor confirmar antes del 1 de Octubre</p>
                     </div>
 
-                    <form className="bg-white p-8 md:p-12 shadow-2xl space-y-6 border border-gray-100" onSubmit={(e) => { e.preventDefault(); alert('¡Gracias por confirmar! (Esto es una demo)'); }}>
+                    <form className="bg-white p-8 md:p-12 shadow-2xl space-y-6 border border-gray-100" onSubmit={handleWhatsAppConfirm}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label htmlFor="name" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Nombre Completo</label>
-                                <input id="name" type="text" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold transition bg-transparent" placeholder="Tu Nombre" />
+                                <input id="name" name="name" type="text" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold transition bg-transparent" placeholder="Tu Nombre" required />
                             </div>
                             <div>
                                 <label htmlFor="phone" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Teléfono</label>
-                                <input id="phone" type="tel" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold transition bg-transparent" placeholder="55 1234 5678" />
+                                <input id="phone" name="phone" type="tel" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold transition bg-transparent" placeholder="55 1234 5678" />
                             </div>
                         </div>
 
@@ -282,7 +346,7 @@ export default function WeddingInvitation() {
                             <span className="block text-xs uppercase tracking-widest text-gray-500 mb-2">¿Asistirás?</span>
                             <div className="flex space-x-6 mt-2">
                                 <label className="flex items-center space-x-2 cursor-pointer">
-                                    <input type="radio" name="attendance" className="accent-wedding-gold" />
+                                    <input type="radio" name="attendance" className="accent-wedding-gold" defaultChecked />
                                     <span className="text-sm font-light">Sí, con gusto asistiré</span>
                                 </label>
                                 <label className="flex items-center space-x-2 cursor-pointer">
@@ -294,20 +358,21 @@ export default function WeddingInvitation() {
 
                         <div>
                             <label htmlFor="seats" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Número de Asientos</label>
-                            <select id="seats" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold bg-transparent">
+                            <select id="seats" name="seats" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold bg-transparent">
                                 <option>1 Adulto</option>
                                 <option>2 Adultos</option>
+                                <option>Familia (4)</option>
                             </select>
                         </div>
 
                         <div>
                             <label htmlFor="message" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Mensaje para los novios</label>
-                            <textarea id="message" rows={3} className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold bg-transparent resize-none" placeholder="Escribe tus buenos deseos..."></textarea>
+                            <textarea id="message" name="message" rows={3} className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold bg-transparent resize-none" placeholder="Escribe tus buenos deseos..."></textarea>
                         </div>
 
                         <div className="text-center pt-6">
                             <button type="submit" className="bg-wedding-dark text-white px-10 py-4 uppercase tracking-[0.2em] text-xs hover:bg-wedding-gold transition duration-500 w-full md:w-auto">
-                                Enviar Confirmación
+                                <i className="fab fa-whatsapp mr-2"></i> Enviar Confirmación por WhatsApp
                             </button>
                         </div>
                     </form>
