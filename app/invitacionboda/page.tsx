@@ -293,8 +293,8 @@ export default function WeddingInvitation() {
             <footer className="bg-wedding-dark text-white py-12 text-center">
                 <div className="container mx-auto px-4">
                     <h2 className="font-script text-5xl mb-6 text-wedding-gold">S & M</h2>
-                    <p class="font-classic text-sm tracking-widest uppercase mb-4">#BodaSofiaYMateo</p>
-                    <p class="text-gray-500 text-xs mt-8">
+                    <p className="font-classic text-sm tracking-widest uppercase mb-4">#BodaSofiaYMateo</p>
+                    <p className="text-gray-500 text-xs mt-8">
                         Diseñado con amor para nuestra boda.<br />
                         &copy; 2025. Todos los derechos reservados.
                     </p>
