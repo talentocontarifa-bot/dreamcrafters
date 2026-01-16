@@ -41,11 +41,11 @@ const App = () => {
     const audioRef = useRef<HTMLAudioElement>(null);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
+        const timer = setInterval(() => {
             setTimeLeft(calculateTimeLeft());
         }, 1000);
-        return () => clearTimeout(timer);
-    });
+        return () => clearInterval(timer);
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -256,7 +256,7 @@ const App = () => {
                             loading="lazy"
                             referrerPolicy="no-referrer-when-downgrade"
                             title="Mapa Ubicación"
-                            className="grayscale hover:grayscale-0 transition-all duration-500"
+                            className="grayscale hover:grayscale-0 transition-all duration-500 filter sepia-[0.3]"
                         ></iframe>
                         <div className="bg-neutral-800 p-4 flex justify-between items-center">
                             <div className="text-left">

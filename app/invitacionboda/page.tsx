@@ -125,6 +125,7 @@ export default function WeddingInvitation() {
                                 style={{ border: 0 }}
                                 src={mapUrl}
                                 allowFullScreen
+                                className="grayscale hover:grayscale-0 transition-all duration-500"
                             ></iframe>
                         </div>
                         <div className="p-4 text-center bg-wedding-dark text-white">
@@ -141,10 +142,11 @@ export default function WeddingInvitation() {
             <div className="fixed bottom-5 right-5 z-50">
                 <button
                     onClick={toggleMusic}
-                    className="bg-wedding-gold text-white p-3 rounded-full shadow-lg hover:bg-yellow-700 transition duration-300 animate-pulse"
+                    className="bg-wedding-gold text-white p-3 rounded-full shadow-lg hover:bg-yellow-700 transition duration-300 animate-pulse border-2 border-white"
                     title="Reproducir Música"
                 >
                     <i className={`fas ${isMusicPlaying ? 'fa-pause' : 'fa-music'}`}></i>
+                    {!isMusicPlaying && <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] px-1 rounded-full animate-bounce">Click</span>}
                 </button>
             </div>
 
@@ -211,10 +213,10 @@ export default function WeddingInvitation() {
                             <div className="text-3xl font-serif text-wedding-gold">¡Llegó el gran día!</div>
                         ) : (
                             <>
-                                <div className="flex flex-col items-center"><span className="text-4xl md:text-6xl font-serif">{days}</span><span className="text-xs uppercase tracking-widest mt-2 text-gray-400">Días</span></div>
-                                <div className="flex flex-col items-center"><span className="text-4xl md:text-6xl font-serif">{hours}</span><span className="text-xs uppercase tracking-widest mt-2 text-gray-400">Hs</span></div>
-                                <div className="flex flex-col items-center"><span className="text-4xl md:text-6xl font-serif">{minutes}</span><span className="text-xs uppercase tracking-widest mt-2 text-gray-400">Min</span></div>
-                                <div className="flex flex-col items-center"><span className="text-4xl md:text-6xl font-serif">{seconds}</span><span className="text-xs uppercase tracking-widest mt-2 text-gray-400">Seg</span></div>
+                                <div className="flex flex-col items-center bg-wedding-gold/10 p-4 w-24 rounded-lg border border-wedding-gold/20 backdrop-blur-sm"><span className="text-4xl md:text-5xl font-serif text-wedding-gold">{days}</span><span className="text-xs uppercase tracking-widest mt-2 text-gray-300">Días</span></div>
+                                <div className="flex flex-col items-center bg-wedding-gold/10 p-4 w-24 rounded-lg border border-wedding-gold/20 backdrop-blur-sm"><span className="text-4xl md:text-5xl font-serif text-wedding-gold">{hours}</span><span className="text-xs uppercase tracking-widest mt-2 text-gray-300">Hs</span></div>
+                                <div className="flex flex-col items-center bg-wedding-gold/10 p-4 w-24 rounded-lg border border-wedding-gold/20 backdrop-blur-sm"><span className="text-4xl md:text-5xl font-serif text-wedding-gold">{minutes}</span><span className="text-xs uppercase tracking-widest mt-2 text-gray-300">Min</span></div>
+                                <div className="flex flex-col items-center bg-wedding-gold/10 p-4 w-24 rounded-lg border border-wedding-gold/20 backdrop-blur-sm"><span className="text-4xl md:text-5xl font-serif text-wedding-gold">{seconds}</span><span className="text-xs uppercase tracking-widest mt-2 text-gray-300">Seg</span></div>
                             </>
                         )}
                     </div>
