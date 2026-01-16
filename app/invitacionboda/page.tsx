@@ -179,7 +179,7 @@ export default function WeddingInvitation() {
                             <h3 className="font-serif text-3xl mb-2">Ceremonia Religiosa</h3>
                             <p className="font-classic text-sm text-gray-400 mb-6 uppercase tracking-widest">4:30 PM</p>
                             <p className="text-wedding-dark mb-6 leading-relaxed">Capilla de San Gabriel<br />Antigua Hacienda Santa Cruz</p>
-                            <a href="https://goo.gl/maps/exampleLink" target="_blank" rel="noopener noreferrer" className="inline-block text-xs uppercase tracking-widest border-b border-wedding-gold pb-1 hover:text-wedding-gold transition">Ver Ubicación en Maps</a>
+                            <a href="https://maps.app.goo.gl/UBpFfzdHPHdf1xsj8" target="_blank" rel="noopener noreferrer" className="inline-block text-xs uppercase tracking-widest border-b border-wedding-gold pb-1 hover:text-wedding-gold transition">Ver Ubicación en Maps</a>
                         </div>
 
                         {/* Reception Card */}
@@ -188,7 +188,7 @@ export default function WeddingInvitation() {
                             <h3 className="font-serif text-3xl mb-2">Recepción y Fiesta</h3>
                             <p className="font-classic text-sm text-gray-400 mb-6 uppercase tracking-widest">6:00 PM - 2:00 AM</p>
                             <p className="text-wedding-dark mb-6 leading-relaxed">Jardín Principal<br />Hacienda Santa Cruz</p>
-                            <a href="https://goo.gl/maps/exampleLink" target="_blank" rel="noopener noreferrer" className="inline-block text-xs uppercase tracking-widest border-b border-wedding-gold pb-1 hover:text-wedding-gold transition">Ver Ubicación en Maps</a>
+                            <a href="https://maps.app.goo.gl/UBpFfzdHPHdf1xsj8" target="_blank" rel="noopener noreferrer" className="inline-block text-xs uppercase tracking-widest border-b border-wedding-gold pb-1 hover:text-wedding-gold transition">Ver Ubicación en Maps</a>
                         </div>
                     </div>
                 </div>
