@@ -154,15 +154,15 @@ export default function WeddingInvitation() {
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16" data-aos="fade-up">
                         <h2 className="font-script text-6xl text-wedding-gold mb-4">Itinerario</h2>
-                        <p class="uppercase tracking-widest text-sm text-wedding-dark font-bold">Detalles del Gran Día</p>
+                        <p className="uppercase tracking-widest text-sm text-wedding-dark font-bold">Detalles del Gran Día</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
                         {/* Ceremony Card */}
                         <div className="bg-white p-10 shadow-xl text-center border-t-4 border-wedding-gold transform hover:-translate-y-2 transition duration-500" data-aos="fade-right">
                             <div className="text-wedding-gold text-4xl mb-4"><i className="fas fa-church"></i></div>
-                            <h3 class="font-serif text-3xl mb-2">Ceremonia Religiosa</h3>
-                            <p class="font-classic text-sm text-gray-400 mb-6 uppercase tracking-widest">4:30 PM</p>
+                            <h3 className="font-serif text-3xl mb-2">Ceremonia Religiosa</h3>
+                            <p className="font-classic text-sm text-gray-400 mb-6 uppercase tracking-widest">4:30 PM</p>
                             <p className="text-wedding-dark mb-6 leading-relaxed">Capilla de San Gabriel<br />Antigua Hacienda Santa Cruz</p>
                             <a href="#" className="inline-block text-xs uppercase tracking-widest border-b border-wedding-gold pb-1 hover:text-wedding-gold transition">Ver Ubicación</a>
                         </div>
@@ -170,8 +170,8 @@ export default function WeddingInvitation() {
                         {/* Reception Card */}
                         <div className="bg-white p-10 shadow-xl text-center border-t-4 border-wedding-gold transform hover:-translate-y-2 transition duration-500" data-aos="fade-left">
                             <div className="text-wedding-gold text-4xl mb-4"><i className="fas fa-glass-cheers"></i></div>
-                            <h3 class="font-serif text-3xl mb-2">Recepción y Fiesta</h3>
-                            <p class="font-classic text-sm text-gray-400 mb-6 uppercase tracking-widest">6:00 PM - 2:00 AM</p>
+                            <h3 className="font-serif text-3xl mb-2">Recepción y Fiesta</h3>
+                            <p className="font-classic text-sm text-gray-400 mb-6 uppercase tracking-widest">6:00 PM - 2:00 AM</p>
                             <p className="text-wedding-dark mb-6 leading-relaxed">Jardín Principal<br />Hacienda Santa Cruz</p>
                             <a href="#" className="inline-block text-xs uppercase tracking-widest border-b border-wedding-gold pb-1 hover:text-wedding-gold transition">Ver Ubicación</a>
                         </div>
@@ -187,23 +187,23 @@ export default function WeddingInvitation() {
                         {/* Dress Code */}
                         <div className="p-6" data-aos="fade-up" data-aos-delay="100">
                             <i className="fas fa-user-tie text-3xl text-wedding-gold mb-4"></i>
-                            <h4 class="font-classic text-lg uppercase tracking-widest mb-3">Código de Vestimenta</h4>
-                            <p class="font-serif text-xl italic text-gray-600">Formal Riguroso</p>
-                            <p class="text-xs text-gray-400 mt-2">Ellos: Traje o Tuxedo | Ellas: Vestido Largo</p>
+                            <h4 className="font-classic text-lg uppercase tracking-widest mb-3">Código de Vestimenta</h4>
+                            <p className="font-serif text-xl italic text-gray-600">Formal Riguroso</p>
+                            <p className="text-xs text-gray-400 mt-2">Ellos: Traje o Tuxedo | Ellas: Vestido Largo</p>
                         </div>
 
                         {/* No Kids */}
                         <div className="p-6" data-aos="fade-up" data-aos-delay="200">
                             <i className="fas fa-child text-3xl text-wedding-gold mb-4"></i>
-                            <h4 class="font-classic text-lg uppercase tracking-widest mb-3">Solo Adultos</h4>
-                            <p class="text-sm text-gray-500 leading-relaxed">Amamos a sus pequeños, pero queremos que disfruten esta noche con nosotros. Recepción exclusiva para adultos.</p>
+                            <h4 className="font-classic text-lg uppercase tracking-widest mb-3">Solo Adultos</h4>
+                            <p className="text-sm text-gray-500 leading-relaxed">Amamos a sus pequeños, pero queremos que disfruten esta noche con nosotros. Recepción exclusiva para adultos.</p>
                         </div>
 
                         {/* Gifts */}
                         <div className="p-6" data-aos="fade-up" data-aos-delay="300">
                             <i className="fas fa-envelope-open-text text-3xl text-wedding-gold mb-4"></i>
-                            <h4 class="font-classic text-lg uppercase tracking-widest mb-3">Mesa de Regalos</h4>
-                            <p class="text-sm text-gray-500 leading-relaxed mb-3">Su presencia es nuestro mejor regalo. Si desean tener un detalle con nosotros:</p>
+                            <h4 className="font-classic text-lg uppercase tracking-widest mb-3">Mesa de Regalos</h4>
+                            <p className="text-sm text-gray-500 leading-relaxed mb-3">Su presencia es nuestro mejor regalo. Si desean tener un detalle con nosotros:</p>
                             <button onClick={() => setShowBankDetails(!showBankDetails)} className="text-wedding-gold font-bold text-xs uppercase underline cursor-pointer hover:text-wedding-dark">
                                 Ver datos bancarios / Sobre
                             </button>
@@ -244,17 +244,17 @@ export default function WeddingInvitation() {
                     <form className="bg-white p-8 md:p-12 shadow-2xl space-y-6 border border-gray-100" onSubmit={(e) => { e.preventDefault(); alert('¡Gracias por confirmar! (Esto es una demo)'); }}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Nombre Completo</label>
-                                <input type="text" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold transition bg-transparent" placeholder="Tu Nombre" />
+                                <label htmlFor="name" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Nombre Completo</label>
+                                <input id="name" type="text" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold transition bg-transparent" placeholder="Tu Nombre" />
                             </div>
                             <div>
-                                <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Teléfono</label>
-                                <input type="tel" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold transition bg-transparent" placeholder="55 1234 5678" />
+                                <label htmlFor="phone" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Teléfono</label>
+                                <input id="phone" type="tel" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold transition bg-transparent" placeholder="55 1234 5678" />
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">¿Asistirás?</label>
+                            <span className="block text-xs uppercase tracking-widest text-gray-500 mb-2">¿Asistirás?</span>
                             <div className="flex space-x-6 mt-2">
                                 <label className="flex items-center space-x-2 cursor-pointer">
                                     <input type="radio" name="attendance" className="accent-wedding-gold" />
@@ -268,16 +268,16 @@ export default function WeddingInvitation() {
                         </div>
 
                         <div>
-                            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Número de Asientos</label>
-                            <select className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold bg-transparent">
+                            <label htmlFor="seats" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Número de Asientos</label>
+                            <select id="seats" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold bg-transparent">
                                 <option>1 Adulto</option>
                                 <option>2 Adultos</option>
                             </select>
                         </div>
 
                         <div>
-                            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Mensaje para los novios</label>
-                            <textarea rows={3} className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold bg-transparent resize-none" placeholder="Escribe tus buenos deseos..."></textarea>
+                            <label htmlFor="message" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Mensaje para los novios</label>
+                            <textarea id="message" rows={3} className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold bg-transparent resize-none" placeholder="Escribe tus buenos deseos..."></textarea>
                         </div>
 
                         <div className="text-center pt-6">
