@@ -1,8 +1,15 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Great+Vibes&family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
 
 @theme {
   --font-bebas: var(--font-bebas), sans-serif;
   --font-outfit: var(--font-outfit), sans-serif;
+
+  /* Wedding Fonts */
+  --font-script: "Great Vibes", cursive;
+  --font-serif: "Playfair Display", serif;
+  --font-classic: "Cinzel", serif;
+  --font-wedding-sans: "Montserrat", sans-serif;
 
   --color-brand-blue: #02005e;
   --color-brand-cyan: #06b6d4;
@@ -11,6 +18,12 @@
   /* rose-500 */
   --color-brand-yellow: #fbbf24;
   /* amber-400 */
+
+  /* Wedding Colors */
+  --color-wedding-gold: #C5A059;
+  --color-wedding-dark: #2C2C2C;
+  --color-wedding-light: #F9F7F2;
+  --color-wedding-gray: #8A8A8A;
 }
 
 :root {
