@@ -449,7 +449,7 @@ const App = () => {
 
                                     <div>
                                         <label className="block text-xs font-black uppercase mb-2 text-gray-500">Mensaje para el Cumpleañero</label>
-                                        <textarea className="w-full bg-gray-100 border-b-2 border-gray-300 px-4 py-3 focus:outline-none focus:border-red-600 transition-colors text-sm" rows="3" placeholder="¡Feliz Vuelta 35!"></textarea>
+                                        <textarea className="w-full bg-gray-100 border-b-2 border-gray-300 px-4 py-3 focus:outline-none focus:border-red-600 transition-colors text-sm" rows={3} placeholder="¡Feliz Vuelta 35!"></textarea>
                                     </div>
 
                                     <button
