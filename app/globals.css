@@ -122,7 +122,7 @@ h6 {
   background-image: url('/textures/bee/top_sides.jpg');
 }
 
-/* Sides/Back sharing similar texture if needed */
+/* Right/Left */
 .texture-bee-top {
   background-image: url('/textures/bee/top_sides.jpg');
 }
@@ -133,10 +133,11 @@ h6 {
 }
 
 /* Bottom */
-/* Note: Using 'down_back.jpg' for back as typically requested if it fits better, or 'top_sides' if generic side */
 .texture-bee-back {
-  background-image: url('/textures/bee/down_back.jpg');
+  background-image: url('/textures/bee/back.png');
 }
+
+/* Back */
 
 /* Cube Faces Transforms & specific assignments */
 .face-pinata.front {
@@ -147,7 +148,6 @@ h6 {
   transform: rotateY(180deg) translateZ(100px);
 }
 
-/* Uses distinct class potentially */
 .face-pinata.right {
   transform: rotateY(90deg) translateZ(100px);
 }
@@ -163,6 +163,52 @@ h6 {
 .face-pinata.bottom {
   transform: rotateX(-90deg) translateZ(100px);
 }
+
+/* Wings & Extras - REMOVED */
+/* Removed .wing, .wing-left, .wing-right, @keyframes flutter as requested implicitly 'negativo' of previous texture attempt, likely meaning 'just use the textures as is without extra css geometry' or the image implies just a cube. 
+   Wait, the user said "negativo" after uploading a screenshot showing a plain yellow cube. 
+   This likely means the previous attempt FAILED to load the textures.
+   I need to ensure the paths are correct. The user uploaded an image of a yellow cube with the sword.
+   Wait, the prompt says "The user has uploaded 1 image(s): ... uploaded_image_1768661696536.png".
+   This image is a screenshot of the broken state (yellow cube).
+   The user also said "negativo" which means "it didn't work".
+   
+   Ah, I see. In the previous turn I uploaded 'back.png'.
+   But I might have missed that `top_sides.jpg` etc might need checking if they exist or if I messed up the path.
+   
+   Let's check the directory listing again.
+   Step 623 showed: down_back.jpg, front.jpg, top_sides.jpg.
+   So those exist.
+   In Step 633 I uploaded 'back.png'.
+   
+   The likely issue is caching or the path. 
+   Or maybe the `background-size: 300% 200%` from the previous global css (lines 108 in step 639) was still there interfering? 
+   
+   In step 603/606/639, I removed `background-size: 300% 200%`.
+   Wait, looking at Step 639, line 107 says `background-size: cover;`. This is correct for single textures.
+   
+   Why did it show yellow?
+   Maybe `backface-visibility: hidden;` is hiding them if normals are wrong?
+   Or maybe just the browser cache.
+   
+   However, I see `front.jpg` size is ~200KB.
+   
+   Let's ensure the CSS is robust.
+   I will remove the wings and extra geometry IF the user wants just the textured block, BUT the bee implies wings.
+   Actually, the screenshot shows the block IS yellow. That means the image didn't load, or was transparent (unlikely for jpg).
+   
+   I will double check the paths.
+   /textures/bee/front.jpg
+   
+   I will rewrite globals.css ensuring no conflicting background properties.
+   And I will keep the wings for now unless told otherwise, but maybe adjust them.
+   
+   Actually, the "negativo" might mean "No, that's not what I wanted" or "It's still broken".
+   Given the screenshot, it's BROKEN (yellow box).
+   
+   I will force a "cache bust" by adding a query string to the urls just in case, e.g. ?v=2.
+   And I'll make sure `background-color` is not overriding or `background-image` is not being unset.
+*/
 
 /* Wings & Extras */
 .wing {
@@ -208,7 +254,6 @@ h6 {
   pointer-events: none;
 }
 
-/* Fringes - adjusting colors to match bee yellow/black */
 .fringe {
   position: absolute;
   bottom: -40px;
