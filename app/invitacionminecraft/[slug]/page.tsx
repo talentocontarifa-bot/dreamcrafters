@@ -46,6 +46,11 @@ export default function InvitationPage() {
     const audioRef = useRef<HTMLAudioElement>(null);
 
     const handleUnlock = () => {
+        // Explosion sound
+        const explosion = new Audio('https://www.myinstants.com/media/sounds/minecraft-tnt-explosion.mp3');
+        explosion.volume = 0.8;
+        explosion.play().catch(() => { });
+
         if (audioRef.current) {
             audioRef.current.volume = 0.4;
             audioRef.current.play().catch(() => { });
@@ -64,11 +69,9 @@ export default function InvitationPage() {
                         exit={{ opacity: 0, pointerEvents: "none" }}
                         className="fixed inset-0 z-50 flex flex-col items-center justify-center transition-all duration-700"
                     >
-                        {/* CSS-ONLY DAY SKY BACKGROUND */}
-                        <div className="absolute inset-0 bg-gradient-to-b from-[#87CEEB] to-[#E0F7FA]"></div>
-                        {/* CSS CLOUDS */}
-                        <div className="absolute top-10 left-10 w-32 h-12 bg-white/80 image-pixelated"></div>
-                        <div className="absolute top-20 right-20 w-48 h-16 bg-white/60 image-pixelated"></div>
+                        {/* LOCAL BACKGROUND IMAGE from PUBLIC FOLDER */}
+                        <div className="absolute inset-0 bg-[url('/backgrounds/minecraft-day.jpg')] bg-cover bg-center"></div>
+                        <div className="absolute inset-0 bg-black/10"></div>
 
                         <LockScreen onUnlock={handleUnlock} />
                     </motion.div>
@@ -81,7 +84,6 @@ export default function InvitationPage() {
 
                     {/* CSS GRASS & DIRT DIVIDER */}
                     <div className="h-8 bg-[#5fb346] border-b-8 border-[#367023] relative">
-                        {/* Random Grass bits */}
                         <div className="absolute -top-4 left-[10%] w-4 h-4 bg-[#5fb346]"></div>
                         <div className="absolute -top-4 right-[20%] w-4 h-4 bg-[#5fb346]"></div>
                         <div className="absolute -top-4 left-[40%] w-6 h-4 bg-[#5fb346]"></div>
@@ -102,50 +104,21 @@ export default function InvitationPage() {
 // --- COMPONENTS ---
 
 function LockScreen({ onUnlock }: { onUnlock: () => void }) {
-    const [hp, setHp] = useState(10); // Match user's maxHealth
+    const [hp, setHp] = useState(10);
     const [hitAnim, setHitAnim] = useState(false);
-    const [audioCtx, setAudioCtx] = useState<AudioContext | null>(null);
 
-    // Initialize AudioContext on first interaction if possible, or lazy load
-    useEffect(() => {
-        const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-        if (AudioContext) {
-            setAudioCtx(new AudioContext());
-        }
-    }, []);
-
-    const playSound = (type: 'hit' | 'explode') => {
-        if (!audioCtx) return;
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-
-        const t = audioCtx.currentTime;
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-
-        if (type === 'hit') {
-            osc.type = 'square';
-            osc.frequency.setValueAtTime(150, t);
-            osc.frequency.exponentialRampToValueAtTime(40, t + 0.1);
-            gain.gain.setValueAtTime(0.1, t);
-            gain.gain.linearRampToValueAtTime(0, t + 0.1);
-            osc.start(t); osc.stop(t + 0.1);
-        } else {
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(100, t);
-            osc.frequency.exponentialRampToValueAtTime(10, t + 0.6);
-            gain.gain.setValueAtTime(0.2, t);
-            gain.gain.linearRampToValueAtTime(0, t + 0.6);
-            osc.start(t); osc.stop(t + 0.6);
-        }
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
+    const playHitSound = () => {
+        const audio = new Audio('https://www.myinstants.com/media/sounds/classic_hurt.mp3');
+        audio.currentTime = 0;
+        audio.volume = 0.6;
+        audio.play().catch(() => { });
     };
 
     const spawnParticles = (x: number, y: number, amount: number, isExplosion: boolean = false) => {
         const colors = ['#facc15', '#ef4444', '#3b82f6', '#22c55e', '#ffffff'];
         for (let i = 0; i < amount; i++) {
             const p = document.createElement('div');
-            // Inline styles for performance, similar to user snippet
+            // Inline styles for performance
             p.style.cssText = `position:fixed; width:${Math.random() * 8 + 4}px; height:${Math.random() * 8 + 4}px; background:${colors[Math.floor(Math.random() * colors.length)]}; left:${x}px; top:${y}px; z-index:100; pointer-events:none;`;
             document.body.appendChild(p);
 
@@ -159,7 +132,7 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
             const anim = setInterval(() => {
                 p.style.left = (parseFloat(p.style.left) + vx) + 'px';
                 p.style.top = (parseFloat(p.style.top) + vy) + 'px';
-                vy += 0.8; // Gravity
+                vy += 0.8;
                 op -= 0.02;
                 p.style.opacity = op.toString();
                 if (op <= 0) { clearInterval(anim); p.remove(); }
@@ -168,8 +141,6 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
     };
 
     const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
-        // Prevent default only if it's touch to avoid double firing, but React handles this well usually.
-        // If coming from touch event, normalize geometry
         let clientX, clientY;
         if ('touches' in e) {
             clientX = e.touches[0].clientX;
@@ -179,12 +150,10 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
             clientY = (e as React.MouseEvent).clientY;
         }
 
-        playSound('hit');
-        // onHit(); // Removed prop dependency since logic is internal now
+        playHitSound();
         setHitAnim(true);
         setTimeout(() => setHitAnim(false), 150);
 
-        // Visual damage calculation
         const damageOverlay = document.querySelectorAll('.damage-overlay');
         const opacity = (10 - (hp - 1)) / 10;
         damageOverlay.forEach((el) => (el as HTMLElement).style.opacity = opacity.toString());
@@ -192,9 +161,8 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
         spawnParticles(clientX, clientY, 5);
 
         if (hp <= 1) {
-            playSound('explode');
             spawnParticles(window.innerWidth / 2, window.innerHeight / 2, 60, true);
-            setTimeout(onUnlock, 800); // Delay unlock to show explosion
+            setTimeout(onUnlock, 800);
         } else {
             setHp(h => h - 1);
         }
@@ -202,12 +170,10 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
 
     return (
         <div className="text-center w-full h-full flex flex-col items-center justify-center relative overflow-hidden backdrop-blur-sm">
-            {/* Header / Instructions */}
             <div className="fixed top-0 left-0 w-full text-center pt-8 pointer-events-none z-40">
-                <h1 className="text-3xl text-yellow-400 drop-shadow-[4px_4px_0_#000] font-vt323">MINECRAFT PARTY</h1>
+                <h1 className="text-3xl text-yellow-400 drop-shadow-[4px_4px_0_#000] font-vt323 stroke-black">MINECRAFT PARTY</h1>
             </div>
 
-            {/* HEARTS DISPLAY */}
             <div className="fixed top-20 text-2xl z-40">
                 {Array.from({ length: 5 }).map((_, i) => (
                     <span key={i} className="text-red-600 drop-shadow-md">{i < Math.ceil(hp / 2) ? '❤️' : '🖤'}</span>
@@ -238,7 +204,6 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
                 </div>
             </div>
 
-            {/* Simple action prompt */}
             <div className="fixed bottom-10 z-40 animate-pulse">
                 <button
                     onClick={(e) => handleClick(e as any)}
@@ -254,15 +219,8 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
 function HeroSection({ config }: { config: PartyConfig }) {
     return (
         <section className="h-[85vh] relative flex flex-col items-center justify-center border-b-8 border-[#3e2723] text-center overflow-hidden">
-            {/* CSS DAY SKY */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#64B5F6] to-[#E3F2FD]"></div>
-
-            {/* CSS SUN */}
-            <div className="absolute top-10 right-10 w-24 h-24 bg-[#FDD835] border-4 border-[#FBC02D] shadow-[0_0_40px_rgba(253,216,53,0.6)]"></div>
-
-            {/* CSS CLOUDS */}
-            <div className="absolute top-20 left-[-50px] w-48 h-12 bg-white/90 opacity-80 animate-[float_15s_linear_infinite]"></div>
-            <div className="absolute top-40 right-[-100px] w-64 h-16 bg-white/80 opacity-60 animate-[float_20s_linear_infinite_reverse]"></div>
+            {/* LOCAL BACKGROUND IMAGE */}
+            <div className="absolute inset-0 bg-[url('/backgrounds/minecraft-day.jpg')] bg-cover bg-center"></div>
 
             <div className="relative z-10 p-4 pt-10">
                 <motion.div
