@@ -248,7 +248,7 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
                 <img
                     src="/sprites/title-fiesta.png"
                     alt="Fiesta Minecraft"
-                    className="h-24 md:h-32 mx-auto drop-shadow-lg image-pixelated"
+                    className="h-32 md:h-48 mx-auto drop-shadow-lg image-pixelated mb-4"
                 />
             </div>
 
