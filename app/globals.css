@@ -5,6 +5,10 @@
   --font-bebas: var(--font-bebas), sans-serif;
   --font-outfit: var(--font-outfit), sans-serif;
 
+  /* Minecraft Fonts */
+  --font-vt323: var(--font-vt323), monospace;
+  --font-press-start: var(--font-press-start), cursive;
+
   /* Wedding Fonts */
   --font-script: "Great Vibes", cursive;
   --font-serif: "Playfair Display", serif;
@@ -13,11 +17,13 @@
 
   --color-brand-blue: #02005e;
   --color-brand-cyan: #06b6d4;
-  /* cyan-500 equivalent but punchier */
   --color-brand-pink: #f43f5e;
-  /* rose-500 */
   --color-brand-yellow: #fbbf24;
-  /* amber-400 */
+
+  /* Minecraft Colors */
+  --color-mc-green: #5fb346;
+  --color-mc-green-dark: #367023;
+  --color-mc-brown: #5c4a33;
 
   /* Wedding Colors */
   --color-wedding-gold: #C5A059;
@@ -44,4 +50,90 @@ h4,
 h5,
 h6 {
   font-family: var(--font-bebas);
+}
+
+/* MINECRAFT THEME UTILITIES */
+.text-shadow {
+  text-shadow: 2px 2px 0 #000;
+}
+
+.text-shadow-lg {
+  text-shadow: 4px 4px 0 #000;
+}
+
+.text-shadow-xl {
+  text-shadow: 6px 6px 0 #000;
+}
+
+.image-pixelated {
+  image-rendering: pixelated;
+}
+
+/* 3D Utils */
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.translate-z-24 {
+  transform: translateZ(96px);
+}
+
+/* Animations */
+@keyframes sway {
+  0% {
+    transform: rotate(5deg);
+  }
+
+  100% {
+    transform: rotate(-5deg);
+  }
+}
+
+.animate-sway {
+  animation: sway 2s ease-in-out infinite alternate;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Cube Faces Specifics */
+.face {
+  backface-visibility: hidden;
+}
+
+.front {
+  transform: translateZ(6rem);
+}
+
+.back {
+  transform: rotateY(180deg) translateZ(6rem);
+}
+
+.right {
+  transform: rotateY(90deg) translateZ(6rem);
+}
+
+.left {
+  transform: rotateY(-90deg) translateZ(6rem);
+}
+
+.top {
+  transform: rotateX(90deg) translateZ(6rem);
+}
+
+.bottom {
+  transform: rotateX(-90deg) translateZ(6rem);
 }
