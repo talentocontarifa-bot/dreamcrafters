@@ -395,6 +395,15 @@ function CountdownSection({ targetDate }: { targetDate: string }) {
                 <p className="text-[#eee] px-4 py-2 text-lg md:text-xl border-2 border-[#111] bg-[#222] tracking-wider" style={{ fontFamily: 'var(--font-press-start)' }}>TIEMPO FALTANTE PARA LA FIESTA</p>
             </motion.div>
 
+            {/* 3D Clock Decoration */}
+            <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="mb-8"
+            >
+                <img src="/sprites/clock-icon-3d.png" alt="Reloj Minecraft" className="w-24 md:w-32 drop-shadow-xl image-pixelated" />
+            </motion.div>
+
             <div className="flex flex-wrap justify-center gap-6 md:gap-8 px-4 z-10 text-white">
                 <TimeBox val={timeLeft.days} label="DÍAS" />
                 <TimeBox val={timeLeft.hours} label="HRS" />
@@ -557,24 +566,18 @@ function MapSection({ mapUrl }: { mapUrl: string }) {
                 initial={{ scale: 0.8, opacity: 0 }}
                 whileInView={{ scale: 1, opacity: 1 }}
                 viewport={{ once: true }}
-                className="inline-block"
+                className="inline-block relative group cursor-pointer"
                 onClick={() => setIsOpen(true)}
             >
-                {/* Custom Map Item Style - Looks like a Minecraft Map Item */}
-                <div
-                    className="block w-80 h-80 mx-auto bg-[#f4eeb1] border-8 border-[#5d4037] relative group hover:scale-105 transition-transform cursor-pointer shadow-2xl"
-                >
-                    {/* Map Texture Details */}
-                    <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#8d6e63_1px,transparent_1px)] [background-size:10px_10px]"></div>
-                    <div className="absolute inset-4 border-2 border-[#bcaaa4] opacity-50"></div>
-
-                    {/* Center 'X' marks the spot */}
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-red-600 text-8xl font-bold animate-pulse">+</div>
-
-                    {/* Label */}
-                    <div className="absolute bottom-6 left-0 w-full text-center">
-                        <span className="bg-[#5d4037] text-white px-4 py-2 text-sm shadow-md" style={{ fontFamily: 'var(--font-press-start)' }}>VER MAPA</span>
-                    </div>
+                <motion.img
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                    src="/sprites/map-icon-3d.png"
+                    alt="Mapa 3D"
+                    className="w-64 md:w-80 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] image-pixelated hover:brightness-110 transition-all"
+                />
+                <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-[#5d4037] text-white px-4 py-2 text-xs md:text-sm border-2 border-[#3e2723] shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" style={{ fontFamily: 'var(--font-press-start)' }}>
+                    CLICK PARA VER EL MAPA
                 </div>
             </motion.div>
 
