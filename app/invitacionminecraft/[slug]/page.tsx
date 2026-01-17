@@ -650,7 +650,19 @@ function FooterButton({ label, onClick, color }: any) {
 
 function Footer() {
     return (
-        <footer className="bg-black py-8 text-center border-t-8 border-[#222]" >
+        <footer className="bg-black py-16 text-center border-t-8 border-[#222]" >
+            {/* SALES CTA */}
+            <div className="mb-12">
+                <a
+                    href="https://wa.me/529845828658?text=%C2%A1Hola!%20Me%20encant%C3%B3%20la%20invitaci%C3%B3n%20de%20Minecraft%20y%20quiero%20la%20m%C3%ADa%20ya!"
+                    target="_blank"
+                    className="inline-block bg-gradient-to-b from-[#fcd34d] to-[#f59e0b] border-b-4 border-r-4 border-[#78350f] text-[#3e2723] text-lg md:text-xl py-4 px-8 shadow-[0_0_15px_rgba(251,191,36,0.5)] hover:scale-105 active:scale-95 transition-all animate-bounce"
+                    style={{ fontFamily: 'var(--font-press-start)' }}
+                >
+                    ¡QUIERO LA MÍA YA! 💎
+                </a>
+            </div>
+
             <a href="https://www.dreamcrafters.lat" target="_blank" className="flex items-center justify-center gap-3 mb-2 opacity-70 hover:opacity-100 transition-opacity cursor-pointer group">
                 {/* Click icon */}
                 <svg className="w-5 h-5 text-[#5fb346] animate-pulse group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
