@@ -123,7 +123,7 @@ export default function OrderForm() {
                                         type="text"
                                         name="name"
                                         placeholder="Escribe el nombre aquí..."
-                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 px-3 md:py-3 md:px-4 text-base focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -133,7 +133,7 @@ export default function OrderForm() {
                                         type="number"
                                         name="age"
                                         placeholder="#"
-                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 px-3 md:py-3 md:px-4 text-base focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -151,7 +151,7 @@ export default function OrderForm() {
                                     type="tel"
                                     name="whatsappNumber"
                                     placeholder="Ej: 55 1234 5678"
-                                    className="w-full bg-black/60 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-pink-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                    className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 px-3 md:py-3 md:px-4 text-base focus:ring-2 focus:ring-pink-500 focus:outline-none transition-all placeholder:text-gray-500"
                                     onChange={handleChange}
                                 />
                             </div>
@@ -168,7 +168,7 @@ export default function OrderForm() {
                                     <input
                                         type="date"
                                         name="date"
-                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all text-white scheme-dark"
+                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 px-3 md:py-3 md:px-4 text-base focus:ring-2 focus:ring-green-500 focus:outline-none transition-all text-white scheme-dark"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -177,7 +177,7 @@ export default function OrderForm() {
                                     <input
                                         type="time"
                                         name="time"
-                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all text-white scheme-dark"
+                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 px-3 md:py-3 md:px-4 text-base focus:ring-2 focus:ring-green-500 focus:outline-none transition-all text-white scheme-dark"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -196,7 +196,7 @@ export default function OrderForm() {
                                         type="text"
                                         name="locationName"
                                         placeholder="Ej: Salón 'El Castillo'"
-                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 px-3 md:py-3 md:px-4 text-base focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -206,7 +206,7 @@ export default function OrderForm() {
                                         type="text"
                                         name="locationAddress"
                                         placeholder="Calle, Número, Colonia, Ciudad"
-                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 px-3 md:py-3 md:px-4 text-base focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -226,7 +226,7 @@ export default function OrderForm() {
                                         type="text"
                                         name="mapUrl"
                                         placeholder="Pega aquí el link (https://maps.app.goo.gl/...)"
-                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500 text-sm"
+                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 px-3 md:py-3 md:px-4 text-base focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500 text-sm"
                                         onChange={handleChange}
                                     />
                                 </div>
