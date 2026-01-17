@@ -268,20 +268,22 @@ h6 {
   filter: sepia(1) hue-rotate(-50deg) saturate(5) brightness(0.8);
 }
 
-/* --- SPRITE ANIMATIONS (3D ISOMETRIC ASSETS) --- */
+/* --- SPRITE ANIMATIONS (3D ISOMETRIC ASSETS - ENHANCED SIZE) --- */
 
-/* SWORD CURSOR (SVG) */
+/* SWORD CURSOR (Custom User Asset) */
 .sword-cursor {
   position: fixed;
-  width: 64px;
-  height: 64px;
+  width: 100px;
+  height: 100px;
   pointer-events: none;
   z-index: 9999;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges"><path fill="%23222" d="M0 16h3v-1h2v-1h2v-2h-1v-2h-1v-1h1v-1h1v-1h-1v-1h-1v-1h1v-1h1v-1h-1v-1h-1v-1h1v-1h1v1h1v1h1v1h1v1h-1v1h-1v1h-1v1h-1v1h1v1h-1v1h-1v1h-1v1h-2v1h-2v1h-1v1H0z"/><path fill="%23aee" d="M3 13h2v-1h2v-2h-2v1H3z"/><path fill="%236dd" d="M5 10h1v1H5zm1-1h1v1H6zm1-1h1v1H7zm1-1h1v1H8zm1-1h1v1H9zm1-1h1v1h-1z"/><path fill="%232aa" d="M5 11h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h-1v1h-1v1h-1v1h-1v1h-1v1H5z"/><path fill="%23642" d="M1 15h2v-1H1zM2 14h2v-1H2z"/></svg>');
+  background-image: url('/sprites/sword-custom.png');
   background-size: contain;
   background-repeat: no-repeat;
   transform-origin: bottom left;
-  margin-top: -48px;
+  /* Center the handle roughly based on typical sword sprite angles */
+  margin-top: -80px;
+  margin-left: -20px;
   filter: drop-shadow(4px 4px 0 rgba(0, 0, 0, 0.5));
 }
 
@@ -295,7 +297,7 @@ h6 {
   }
 
   50% {
-    transform: rotate(-90deg) translate(-10px, 10px);
+    transform: rotate(-90deg) translate(-20px, 20px);
   }
 
   100% {
@@ -303,10 +305,10 @@ h6 {
   }
 }
 
-/* CREEPER WALKER (3D Asset) */
+/* CREEPER WALKER (3D Asset - 150% Size) */
 @keyframes creeper-screen-move {
   0% {
-    left: -150px;
+    left: -200px;
     transform: scaleX(1);
   }
 
@@ -321,7 +323,7 @@ h6 {
   }
 
   100% {
-    left: -150px;
+    left: -200px;
     transform: scaleX(-1);
   }
 }
@@ -340,11 +342,10 @@ h6 {
 
 .creeper-walker {
   position: fixed;
-  bottom: 10px;
-  left: -150px;
-  width: 100px;
-  /* Wider for 3D asset */
-  height: 100px;
+  bottom: 0px;
+  left: -200px;
+  width: 150px;
+  height: 150px;
   z-index: 50;
   pointer-events: none;
   animation: creeper-screen-move 25s linear infinite;
@@ -354,10 +355,10 @@ h6 {
   background-repeat: no-repeat;
 }
 
-/* STEVE DANCER (3D Asset) */
+/* STEVE DANCER (3D Asset - 150% Size) */
 .steve-dancer {
-  width: 120px;
-  height: 140px;
+  width: 180px;
+  height: 210px;
   display: inline-block;
   position: relative;
 
@@ -366,8 +367,8 @@ h6 {
   background-repeat: no-repeat;
 
   animation: gentle-bounce 2s infinite ease-in-out;
-  margin-bottom: 2rem;
-  filter: drop-shadow(0 10px 5px rgba(0, 0, 0, 0.3));
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 15px 5px rgba(0, 0, 0, 0.3));
 }
 
 /* WOODEN PLANKS TEXTURE */
