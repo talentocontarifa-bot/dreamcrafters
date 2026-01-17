@@ -349,7 +349,7 @@ function HeroSection({ config }: { config: PartyConfig }) {
                     className="-mt-8 mb-6"
                 >
                     <img
-                        src="/sprites/name-lucas.png?v=3"
+                        src="/sprites/name-lucas.webp?v=1"
                         alt={config.name}
                         className="w-full max-w-[280px] md:max-w-xl mx-auto image-pixelated drop-shadow-[8px_8px_0_rgba(0,0,0,0.5)]"
                     />
