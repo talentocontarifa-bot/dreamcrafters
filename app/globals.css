@@ -56,13 +56,12 @@ h6 {
   transform: translateY(2px);
 }
 
-/* Minecraft Panel */
 .mc-panel {
   box-shadow: inset 2px 2px 0px 0px #c6c6c6, inset -2px -2px 0px 0px #555555, inset 4px 4px 0px 0px #ffffff, inset -4px -4px 0px 0px #222222;
   background-color: #8b8b8b;
 }
 
-/* --- 3D PIÑATA PHYSICS & TEXTURES --- */
+/* --- 3D PIÑATA --- */
 .scene {
   width: 200px;
   height: 200px;
@@ -113,7 +112,6 @@ h6 {
   backface-visibility: hidden;
 }
 
-/* TEXTURAS ABEJA */
 .texture-bee-face {
   background: linear-gradient(to right, transparent 20%, #111 20%, #111 35%, transparent 35%, transparent 65%, #111 65%, #111 80%, transparent 80%), linear-gradient(to bottom, #ffce20 20%, #222 20%, #222 40%, #ffce20 40%, #ffce20 60%, #222 60%, #222 80%, #ffce20 80%);
   background-color: #ffce20;
@@ -270,19 +268,43 @@ h6 {
   filter: sepia(1) hue-rotate(-50deg) saturate(5) brightness(0.8);
 }
 
-/* --- SPRITE ANIMATIONS --- */
+/* --- SPRITE ANIMATIONS (SVG & CSS ONLY) --- */
 
-@keyframes sprite-walk {
-  from {
-    background-position-x: 0;
+/* SWORD CURSOR (SVG) */
+.sword-cursor {
+  position: fixed;
+  width: 64px;
+  height: 64px;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges"><path fill="%23222" d="M0 16h3v-1h2v-1h2v-2h-1v-2h-1v-1h1v-1h1v-1h-1v-1h-1v-1h1v-1h1v-1h-1v-1h-1v-1h1v-1h1v1h1v1h1v1h1v1h-1v1h-1v1h-1v1h-1v1h1v1h-1v1h-1v1h-1v1h-2v1h-2v1h-1v1H0z"/><path fill="%23aee" d="M3 13h2v-1h2v-2h-2v1H3z"/><path fill="%236dd" d="M5 10h1v1H5zm1-1h1v1H6zm1-1h1v1H7zm1-1h1v1H8zm1-1h1v1H9zm1-1h1v1h-1z"/><path fill="%232aa" d="M5 11h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h-1v1h-1v1h-1v1h-1v1h-1v1H5z"/><path fill="%23642" d="M1 15h2v-1H1zM2 14h2v-1H2z"/></svg>');
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform-origin: bottom left;
+  margin-top: -48px;
+  filter: drop-shadow(4px 4px 0 rgba(0, 0, 0, 0.5));
+}
+
+.sword-swing {
+  animation: swing-sword 0.15s ease-out;
+}
+
+@keyframes swing-sword {
+  0% {
+    transform: rotate(0deg);
   }
 
-  to {
-    background-position-x: 100%;
+  50% {
+    transform: rotate(-90deg) translate(-10px, 10px);
+  }
+
+  100% {
+    transform: rotate(0deg);
   }
 }
 
-@keyframes creeper-walk-anim {
+/* CREEPER WALKER (SVG + Move Anim) */
+@keyframes creeper-screen-move {
   0% {
     left: -100px;
     transform: scaleX(1);
@@ -304,81 +326,73 @@ h6 {
   }
 }
 
+@keyframes bobbing {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* IMPORTANT: Background Image is SVG */
 .creeper-walker {
   position: fixed;
   bottom: 0px;
-  left: 0;
+  left: -100px;
   width: 64px;
-  height: 64px;
-  background-image: url('/sprites/creeper-sheet.jpg');
-  /* Sheet has 6 cols, 4 rows. We want 1st row. */
-  background-size: 600% 400%;
-  background-position: 0 0;
-  image-rendering: pixelated;
-  opacity: 1;
-  animation:
-    sprite-walk 0.8s steps(6) infinite,
-    creeper-walk-anim 20s linear infinite;
-  z-index: 5;
+  height: 128px;
+  z-index: 50;
   pointer-events: none;
+  animation: creeper-screen-move 30s linear infinite;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 16" shape-rendering="crispEdges"><path fill="%230d0" d="M2 0h4v4H2z"/><path fill="%23000" d="M3 1h1v1H3zm3 1h1v1H6zM4 2h1v1H4z"/><path fill="%23000" d="M3 3h2v1H3z"/><path fill="%230d0" d="M2 4h4v6H2z"/><path fill="%23000" opacity="0.1" d="M2 4h4v6H2z"/><path fill="%230d0" d="M2 10h1v2H2zm3 10h1v2H5z"/></svg>');
+  background-size: contain;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
 }
 
+/* STEVE DANCER (SVG) */
 .steve-dancer {
   width: 80px;
-  height: 140px;
-  background-image: url('/sprites/steve-sheet.jpg');
-  /* Sheet has 6 cols. We use top row. */
-  background-size: 600% 200%;
-  background-position: 0 0;
-  image-rendering: pixelated;
-  animation: sprite-walk 1s steps(6) infinite;
+  height: 160px;
   display: inline-block;
+  position: relative;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 16" shape-rendering="crispEdges"><path fill="%23533" d="M2 0h4v1H2z"/><path fill="%23cba" d="M2 1h4v3H2z"/><path fill="%23fff" d="M3 2h1v1H3zm3 0h1v1H6z"/><path fill="%23533" d="M4 3h2v1H4z"/><path fill="%230aa" d="M2 4h4v6H2z"/><path fill="%23cba" d="M0 4h2v4H0zM6 4h2v4H6z"/><path fill="%2344c" d="M2 10h4v6H2z"/><path fill="%23888" d="M2 15h2v1H2zm2 15h2v1H4z"/></svg>');
+  background-size: contain;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  animation: steve-bounce 1s infinite ease-in-out;
   margin-bottom: 2rem;
+}
+
+@keyframes steve-bounce {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  25% {
+    transform: translateY(-5px) rotate(-3deg);
+  }
+
+  50% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  75% {
+    transform: translateY(-5px) rotate(3deg);
+  }
 }
 
 /* WOODEN PLANKS TEXTURE */
 .tex-wood-dark {
   background-color: #3e2723;
-  background-image:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.2) 1px, transparent 1px),
-    linear-gradient(rgba(0, 0, 0, 0.2) 1px, transparent 1px);
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.2) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, 0.2) 1px, transparent 1px);
   background-size: 32px 32px;
   position: relative;
   border-top: 6px solid #271c19;
-}
-
-/* SWORD CURSOR */
-.sword-cursor {
-  position: fixed;
-  width: 100px;
-  height: 100px;
-  pointer-events: none;
-  z-index: 9999;
-  background-image: url('/sprites/diamond-sword.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  transform-origin: bottom right;
-  transition: transform 0.05s;
-  /* Center handle on cursor roughly */
-  margin-top: -50px;
-  margin-left: -50px;
-  filter: drop-shadow(4px 4px 0 rgba(0, 0, 0, 0.5));
-}
-
-.sword-swing {
-  animation: swing-sword 0.15s ease-out;
-}
-
-@keyframes swing-sword {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  50% {
-    transform: rotate(-60deg) translate(-20px, 20px);
-  }
-
-  100% {
-    transform: rotate(0deg);
-  }
 }
