@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Mail, MapPin, Calendar, Clock, User, Hash } from 'lucide-react';
+import { Send, Mail, MapPin, Calendar, Clock, User, Hash, CreditCard } from 'lucide-react';
 
 export default function OrderForm() {
     const [formData, setFormData] = useState({
@@ -15,8 +15,18 @@ export default function OrderForm() {
         mapUrl: ''
     });
 
+    const [showPayment, setShowPayment] = useState(false);
+
+    // PLACEHOLDERS - REPLACE WITH REAL LINKS
+    const MP_LINK = "#"; // E.g., https://mpago.la/xyz
+    const PAYPAL_LINK = "#"; // E.g., https://paypal.me/dreamcrafters/250
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const isFormValid = () => {
+        return formData.name && formData.date && formData.locationName;
     };
 
     const generateMessage = () => {
@@ -33,14 +43,24 @@ export default function OrderForm() {
     };
 
     const handleWhatsApp = () => {
+        if (!isFormValid()) {
+            alert("Por favor completa al menos Nombre, Fecha y Lugar antes de enviar.");
+            return;
+        }
         const text = generateMessage();
         window.open(`https://wa.me/529845828658?text=${text}`, '_blank');
+        setShowPayment(true); // Show payment options after sending
     };
 
     const handleEmail = () => {
+        if (!isFormValid()) {
+            alert("Por favor completa al menos Nombre, Fecha y Lugar antes de enviar.");
+            return;
+        }
         const subject = `Nuevo Pedido DreamCrafters: ${formData.name}`;
-        const body = generateMessage().replace(/%0A/g, '\n').replace(/\*/g, ''); // Clean formatting for email
+        const body = generateMessage().replace(/%0A/g, '\n').replace(/\*/g, '');
         window.location.href = `mailto:somos.dreamcrafters@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        setShowPayment(true);
     };
 
     return (
@@ -55,38 +75,41 @@ export default function OrderForm() {
                         CONFIGURA TU INVITACIÓN
                     </h1>
                     <p className="text-gray-300 text-lg">
-                        Llena los datos del evento y recibiremos tu pedido al instante.
+                        Llena los datos, envía tu pedido y realiza el pago para activar tu invitación.
                     </p>
                 </header>
 
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl"
+                    className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden"
                 >
-                    <div className="grid gap-6">
+                    {/* Background decoration */}
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
+
+                    <div className="grid gap-6 relative z-10">
 
                         {/* Section: Festejado */}
                         <div className="space-y-4">
-                            <h3 className="text-purple-400 font-bold tracking-wider text-sm uppercase mb-2 border-b border-white/10 pb-2">Datos del Jugador</h3>
+                            <h3 className="text-purple-400 font-bold tracking-wider text-sm uppercase mb-2 border-b border-white/10 pb-2 flex items-center gap-2">
+                                <User size={16} /> Datos del Jugador
+                            </h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div className="md:col-span-2 relative group">
-                                    <User className="absolute left-3 top-3.5 text-gray-400 group-focus-within:text-purple-400 transition-colors" size={20} />
                                     <input
                                         type="text"
                                         name="name"
                                         placeholder="Nombre del Festejado/a"
-                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-10 pr-4 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
                                 <div className="relative group">
-                                    <Hash className="absolute left-3 top-3.5 text-gray-400 group-focus-within:text-purple-400 transition-colors" size={20} />
                                     <input
                                         type="number"
                                         name="age"
                                         placeholder="Edad"
-                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-10 pr-4 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -95,25 +118,25 @@ export default function OrderForm() {
 
                         {/* Section: Cuándo */}
                         <div className="space-y-4">
-                            <h3 className="text-purple-400 font-bold tracking-wider text-sm uppercase mb-2 border-b border-white/10 pb-2">Fecha de Misión</h3>
+                            <h3 className="text-green-400 font-bold tracking-wider text-sm uppercase mb-2 border-b border-white/10 pb-2 flex items-center gap-2">
+                                <Calendar size={16} /> Fecha de Misión
+                            </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="relative group">
-                                    <Calendar className="absolute left-3 top-3.5 text-gray-400 group-focus-within:text-green-400 transition-colors" size={20} />
                                     <input
                                         type="text"
                                         name="date"
                                         placeholder="Eje: Sábado 25 de Octubre"
-                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-10 pr-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
                                 <div className="relative group">
-                                    <Clock className="absolute left-3 top-3.5 text-gray-400 group-focus-within:text-green-400 transition-colors" size={20} />
                                     <input
                                         type="text"
                                         name="time"
                                         placeholder="Eje: 5:00 PM"
-                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-10 pr-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -122,28 +145,29 @@ export default function OrderForm() {
 
                         {/* Section: Dónde */}
                         <div className="space-y-4">
-                            <h3 className="text-purple-400 font-bold tracking-wider text-sm uppercase mb-2 border-b border-white/10 pb-2">Coordenadas del Checkpoint</h3>
-                            <div className="relative group">
-                                <MapPin className="absolute left-3 top-3.5 text-gray-400 group-focus-within:text-blue-400 transition-colors" size={20} />
+                            <h3 className="text-blue-400 font-bold tracking-wider text-sm uppercase mb-2 border-b border-white/10 pb-2 flex items-center gap-2">
+                                <MapPin size={16} /> Coordenadas
+                            </h3>
+                            <div className="relative group space-y-3">
                                 <input
                                     type="text"
                                     name="locationName"
                                     placeholder="Nombre del Lugar (Eje: Salón 'El Castillo')"
-                                    className="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-10 pr-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500 mb-3"
+                                    className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
                                     onChange={handleChange}
                                 />
                                 <input
                                     type="text"
                                     name="locationAddress"
                                     placeholder="Dirección Completa (Calle, Número, Colonia)"
-                                    className="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-4 pr-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500 mb-3"
+                                    className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
                                     onChange={handleChange}
                                 />
                                 <input
                                     type="text"
                                     name="mapUrl"
-                                    placeholder="Google Maps Link (Opcional)"
-                                    className="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-4 pr-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500 text-sm"
+                                    placeholder="Link de Google Maps (Opcional)"
+                                    className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500 text-sm"
                                     onChange={handleChange}
                                 />
                             </div>
@@ -156,16 +180,45 @@ export default function OrderForm() {
                                 className="w-full bg-[#25D366] hover:bg-[#1ebd59] text-black font-bold py-4 rounded-xl shadow-lg transform active:scale-95 transition-all flex items-center justify-center gap-2 text-lg"
                             >
                                 <Send size={24} />
-                                ENVIAR POR WHATSAPP
+                                1. ENVIAR PEDIDO
                             </button>
 
                             <button
                                 onClick={handleEmail}
-                                className="w-full bg-white/10 hover:bg-white/20 text-white font-medium py-3 rounded-xl border border-white/10 active:scale-95 transition-all flex items-center justify-center gap-2 text-sm"
+                                className="w-full bg-white/5 hover:bg-white/10 text-gray-300 font-medium py-3 rounded-xl border border-white/10 active:scale-95 transition-all flex items-center justify-center gap-2 text-sm"
                             >
                                 <Mail size={18} />
-                                Enviar copia por Correo
+                                O enviar por Correo
                             </button>
+                        </div>
+
+                        {/* Payment Section (Revealed or always visible) */}
+                        <div className="mt-8 pt-8 border-t border-white/10">
+                            <h3 className="text-yellow-400 font-bold tracking-wider text-sm uppercase mb-4 flex items-center gap-2">
+                                <CreditCard size={16} /> Métodos de Pago
+                            </h3>
+                            <p className="text-sm text-gray-400 mb-4">
+                                Una vez enviado tu pedido, puedes completar el pago seguro para iniciar el diseño.
+                            </p>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <a
+                                    href={MP_LINK}
+                                    target="_blank"
+                                    className="group flex items-center justify-center gap-3 bg-[#009ee3] hover:bg-[#008bc7] text-white py-4 rounded-xl transition-all shadow-[0_4px_0_#0073a1] active:shadow-none active:translate-y-1"
+                                >
+                                    <span className="font-bold">Mercado Pago</span>
+                                    <div className="bg-white/20 p-1 rounded">🤝</div>
+                                </a>
+
+                                <a
+                                    href={PAYPAL_LINK}
+                                    target="_blank"
+                                    className="group flex items-center justify-center gap-3 bg-[#003087] hover:bg-[#002569] text-white py-4 rounded-xl transition-all shadow-[0_4px_0_#001c52] active:shadow-none active:translate-y-1"
+                                >
+                                    <span className="font-bold">PayPal</span>
+                                    <div className="bg-white/20 p-1 rounded">💳</div>
+                                </a>
+                            </div>
                         </div>
 
                     </div>
