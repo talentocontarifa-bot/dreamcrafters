@@ -157,6 +157,7 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
     const [hitAnim, setHitAnim] = useState(false);
     const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
     const [isSwinging, setIsSwinging] = useState(false);
+    const [isBreaking, setIsBreaking] = useState(false); // Guard against spam clicks
 
     useEffect(() => {
         const move = (e: MouseEvent | TouchEvent) => {
@@ -207,6 +208,8 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
     };
 
     const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
+        if (isBreaking) return; // Prevent interaction if already breaking
+
         setIsSwinging(true);
         setTimeout(() => setIsSwinging(false), 200);
 
@@ -230,6 +233,7 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
         spawnParticles(clientX, clientY, 5);
 
         if (hp <= 1) {
+            setIsBreaking(true); // Lock interactions
             spawnParticles(window.innerWidth / 2, window.innerHeight / 2, 60, true);
             setTimeout(onUnlock, 800);
         } else {
@@ -252,11 +256,7 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
                 />
             </div>
 
-            <div className="fixed top-24 text-2xl z-40">
-                {Array.from({ length: 5 }).map((_, i) => (
-                    <PixelHeart key={i} filled={i < Math.ceil(hp / 2)} />
-                ))}
-            </div>
+            {/* <div className="fixed top-24 text-2xl z-40"> MOVED BELOW </div> */}
 
             <div className="scene">
                 <div className="pivot-group">
@@ -279,6 +279,13 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
                         <div className="wing wing-right"></div>
                     </div>
                 </div>
+            </div>
+
+            {/* Hearts moved here - scaled up and positioned */}
+            <div className="fixed bottom-32 z-40 text-center w-full pointer-events-none transform scale-125 md:scale-150">
+                {Array.from({ length: 5 }).map((_, i) => (
+                    <PixelHeart key={i} filled={i < Math.ceil(hp / 2)} />
+                ))}
             </div>
 
             <div className="fixed bottom-12 z-40 animate-pulse w-full px-4">
