@@ -128,6 +128,28 @@ function Modal({ isOpen, onClose, title, children }: any) {
     );
 }
 
+// --- PIXEL HEART COMPONENT ---
+function PixelHeart({ filled }: { filled: boolean }) {
+    // 9x9 Pixel Heart
+    // Colors
+    const border = "#000000";
+    const fill = filled ? "#FF0000" : "#222"; // Red or Dark Gray
+    const highlight = filled ? "#FF8888" : "#444";
+
+    return (
+        <svg width="32" height="32" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline-block mx-1 drop-shadow-md" style={{ imageRendering: 'pixelated' }}>
+            {/* Outline (Black) */}
+            <path d="M2,2 h2 v-1 h-2 z M5,2 h2 v-1 h-2 z M1,3 h1 v2 h-1 z M7,3 h1 v2 h-1 z M2,5 h1 v1 h-1 z M6,5 h1 v1 h-1 z M3,6 h1 v1 h-1 z M5,6 h1 v1 h-1 z M4,7 h1 v1 h-1 z" fill={border} />
+
+            {/* Fill */}
+            <path d="M2,2 h2 v1 h-2 z M5,2 h2 v1 h-2 z M1,3 h1 v2 h-1 z M7,3 h1 v2 h-1 z M2,3 h5 v2 h-5 z M2,5 h5 v1 h-5 z M3,6 h3 v1 h-3 z M4,7 h1 v1 h-1 z" fill={fill} />
+
+            {/* Shine/Highlight (Optional for filled) */}
+            {filled && <rect x="2" y="3" width="1" height="1" fill={highlight} />}
+        </svg>
+    );
+}
+
 // --- SUB-COMPONENTS ---
 
 function LockScreen({ onUnlock }: { onUnlock: () => void }) {
@@ -232,7 +254,7 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
 
             <div className="fixed top-24 text-2xl z-40">
                 {Array.from({ length: 5 }).map((_, i) => (
-                    <div key={i} className={`inline-block mx-1 ${i < Math.ceil(hp / 2) ? 'pixel-heart-red' : 'pixel-heart-black'}`}></div>
+                    <PixelHeart key={i} filled={i < Math.ceil(hp / 2)} />
                 ))}
             </div>
 
