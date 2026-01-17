@@ -61,7 +61,7 @@ export default function OrderForm() {
     };
 
     return (
-        <main className="min-h-screen relative text-white p-4 md:p-8 font-outfit overflow-x-hidden">
+        <main className="min-h-screen relative text-white p-3 md:p-8 font-outfit overflow-x-hidden">
             {/* Background Image & Overlay */}
             <div className="fixed inset-0 z-0">
                 <div className="absolute inset-0 bg-[url('/backgrounds/minecraft-day.jpg')] bg-cover bg-center"></div>
@@ -72,11 +72,11 @@ export default function OrderForm() {
             <div className="max-w-2xl mx-auto relative z-10">
                 <header className="text-center mb-10 pt-10">
                     <div className="mb-6 flex justify-center transform hover:scale-105 transition-transform duration-300">
-                        {/* Fiesta Minecraft Logo */}
+                        {/* Fiesta Minecraft Logo - Reduced height on mobile for better fit */}
                         <img
                             src="/sprites/title-fiesta.png"
                             alt="Fiesta Minecraft"
-                            className="h-28 md:h-36 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] image-pixelated user-select-none"
+                            className="h-20 md:h-36 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] image-pixelated user-select-none"
                         />
                     </div>
                     <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-yellow-400" style={{ fontFamily: 'var(--font-bebas)' }}>
@@ -90,7 +90,7 @@ export default function OrderForm() {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden"
+                    className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-4 md:p-8 shadow-2xl relative overflow-hidden"
                 >
                     {/* Background decoration */}
                     <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
@@ -273,13 +273,21 @@ export default function OrderForm() {
                     <p className="text-[10px] text-gray-500 leading-relaxed uppercase tracking-widest mb-2 font-bold">
                         Términos y Condiciones del Servicio
                     </p>
-                    <p className="text-[10px] text-gray-600 leading-relaxed max-w-xl mx-auto border-t border-white/5 pt-4">
-                        La invitación estará disponible desde el momento en que se libere (o que se termine), limitado a 60 días antes del evento, hasta 15 días después del evento.
-                        El diseño está exclusivamente limitado a la plantilla de ejemplo que se ha mostrado, así como las secciones y funciones que se despliegan en la invitación de ejemplo.
-                        DreamCrafters no se hace responsable de fallas en la invitación ajenas a nuestra operación; esto incluye el servicio de internet, limitaciones de compatibilidad entre diferentes dispositivos y navegadores,
-                        o servicios de terceros como Facebook, WhatsApp, Google Maps, etc.
-                    </p>
-                    <p className="text-gray-700 mt-4 text-xs font-bold">
+                    <div className="text-[10px] text-gray-500 leading-relaxed max-w-xl mx-auto border-t border-white/5 pt-4 space-y-2 text-justify md:text-center opacity-70">
+                        <p>
+                            La elaboración de la invitación digital tendrá un tiempo de entrega de 24 horas, el cual comenzará a contar una vez recibida toda la información necesaria por parte del cliente y confirmado el pago correspondiente.
+                        </p>
+                        <p>
+                            La invitación digital estará disponible desde el momento de su activación, con un máximo de 60 días previos al evento y hasta 15 días posteriores a su realización.
+                        </p>
+                        <p>
+                            El diseño de la invitación se limita exclusivamente a la plantilla previamente seleccionada, incluyendo únicamente las secciones, funciones y características mostradas en dicha plantilla. No se contemplan modificaciones fuera de este alcance.
+                        </p>
+                        <p>
+                            DreamCrafters no será responsable por fallas, interrupciones o limitaciones en el funcionamiento de la invitación derivadas de factores ajenos a su operación, incluyendo, de manera enunciativa más no limitativa: fallas en el servicio de internet, incompatibilidades entre dispositivos o navegadores, así como el funcionamiento de servicios de terceros como Facebook, WhatsApp, Google Maps u otros similares.
+                        </p>
+                    </div>
+                    <p className="text-gray-600 mt-6 text-xs font-bold">
                         DreamCrafters © 2026. Todos los derechos reservados.
                     </p>
                 </div>
