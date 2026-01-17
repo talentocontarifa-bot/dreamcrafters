@@ -268,7 +268,7 @@ h6 {
   filter: sepia(1) hue-rotate(-50deg) saturate(5) brightness(0.8);
 }
 
-/* --- SPRITE ANIMATIONS (SVG & CSS ONLY) --- */
+/* --- SPRITE ANIMATIONS (3D ISOMETRIC ASSETS) --- */
 
 /* SWORD CURSOR (SVG) */
 .sword-cursor {
@@ -303,10 +303,10 @@ h6 {
   }
 }
 
-/* CREEPER WALKER (SVG + Move Anim) */
+/* CREEPER WALKER (3D Asset) */
 @keyframes creeper-screen-move {
   0% {
-    left: -100px;
+    left: -150px;
     transform: scaleX(1);
   }
 
@@ -321,12 +321,12 @@ h6 {
   }
 
   100% {
-    left: -100px;
+    left: -150px;
     transform: scaleX(-1);
   }
 }
 
-@keyframes bobbing {
+@keyframes gentle-bounce {
 
   0%,
   100% {
@@ -334,58 +334,40 @@ h6 {
   }
 
   50% {
-    transform: translateY(-4px);
+    transform: translateY(-10px);
   }
 }
 
-/* IMPORTANT: Background Image is SVG */
 .creeper-walker {
   position: fixed;
-  bottom: 0px;
-  left: -100px;
-  width: 64px;
-  height: 128px;
+  bottom: 10px;
+  left: -150px;
+  width: 100px;
+  /* Wider for 3D asset */
+  height: 100px;
   z-index: 50;
   pointer-events: none;
-  animation: creeper-screen-move 30s linear infinite;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 16" shape-rendering="crispEdges"><path fill="%230d0" d="M2 0h4v4H2z"/><path fill="%23000" d="M3 1h1v1H3zm3 1h1v1H6zM4 2h1v1H4z"/><path fill="%23000" d="M3 3h2v1H3z"/><path fill="%230d0" d="M2 4h4v6H2z"/><path fill="%23000" opacity="0.1" d="M2 4h4v6H2z"/><path fill="%230d0" d="M2 10h1v2H2zm3 10h1v2H5z"/></svg>');
+  animation: creeper-screen-move 25s linear infinite;
+
+  background-image: url('/sprites/creeper-3d.png');
   background-size: contain;
   background-repeat: no-repeat;
-  image-rendering: pixelated;
 }
 
-/* STEVE DANCER (SVG) */
+/* STEVE DANCER (3D Asset) */
 .steve-dancer {
-  width: 80px;
-  height: 160px;
+  width: 120px;
+  height: 140px;
   display: inline-block;
   position: relative;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 16" shape-rendering="crispEdges"><path fill="%23533" d="M2 0h4v1H2z"/><path fill="%23cba" d="M2 1h4v3H2z"/><path fill="%23fff" d="M3 2h1v1H3zm3 0h1v1H6z"/><path fill="%23533" d="M4 3h2v1H4z"/><path fill="%230aa" d="M2 4h4v6H2z"/><path fill="%23cba" d="M0 4h2v4H0zM6 4h2v4H6z"/><path fill="%2344c" d="M2 10h4v6H2z"/><path fill="%23888" d="M2 15h2v1H2zm2 15h2v1H4z"/></svg>');
+
+  background-image: url('/sprites/steve-3d.png');
   background-size: contain;
   background-repeat: no-repeat;
-  image-rendering: pixelated;
-  animation: steve-bounce 1s infinite ease-in-out;
+
+  animation: gentle-bounce 2s infinite ease-in-out;
   margin-bottom: 2rem;
-}
-
-@keyframes steve-bounce {
-
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-
-  25% {
-    transform: translateY(-5px) rotate(-3deg);
-  }
-
-  50% {
-    transform: translateY(0) rotate(0deg);
-  }
-
-  75% {
-    transform: translateY(-5px) rotate(3deg);
-  }
+  filter: drop-shadow(0 10px 5px rgba(0, 0, 0, 0.3));
 }
 
 /* WOODEN PLANKS TEXTURE */
