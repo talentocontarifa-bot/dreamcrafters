@@ -24,6 +24,10 @@
   --color-mc-green: #5fb346;
   --color-mc-green-dark: #367023;
   --color-mc-brown: #5c4a33;
+  --color-mc-stone: #7e7e7e;
+  --color-mc-stone-dark: #585858;
+  --color-mc-btn-top: #a7a7a7;
+  --color-mc-btn-side: #3b3b3b;
 
   /* Wedding Colors */
   --color-wedding-gold: #C5A059;
@@ -52,88 +56,99 @@ h6 {
   font-family: var(--font-bebas);
 }
 
-/* MINECRAFT THEME UTILITIES */
-.text-shadow {
+/* --- MINECRAFT UTILITIES --- */
+.text-mc-shadow {
   text-shadow: 2px 2px 0 #000;
 }
 
-.text-shadow-lg {
-  text-shadow: 4px 4px 0 #000;
-}
-
-.text-shadow-xl {
-  text-shadow: 6px 6px 0 #000;
+.text-mc-shadow-sm {
+  text-shadow: 1px 1px 0 #000;
 }
 
 .image-pixelated {
   image-rendering: pixelated;
 }
 
-/* 3D Utils */
+/* Minecraft Button Bevel */
+.mc-btn {
+  box-shadow: inset 2px 2px 0px 0px rgba(255, 255, 255, 0.4), inset -2px -2px 0px 0px rgba(0, 0, 0, 0.6);
+  transition: all 0.05s;
+}
+
+.mc-btn:active {
+  box-shadow: inset 2px 2px 0px 0px rgba(0, 0, 0, 0.6), inset -2px -2px 0px 0px rgba(255, 255, 255, 0.4);
+  transform: translateY(2px);
+}
+
+/* Minecraft Panel */
+.mc-panel {
+  box-shadow:
+    inset 2px 2px 0px 0px #c6c6c6,
+    inset -2px -2px 0px 0px #555555,
+    inset 4px 4px 0px 0px #ffffff,
+    inset -4px -4px 0px 0px #222222;
+  background-color: #8b8b8b;
+}
+
+/* 3D CUBE PHYSICS */
+.scene-container {
+  perspective: 1000px;
+}
+
 .transform-style-3d {
   transform-style: preserve-3d;
 }
 
-.translate-z-24 {
-  transform: translateZ(96px);
+.cube {
+  width: 200px;
+  /* Base size */
+  height: 200px;
 }
 
-/* Animations */
+.face {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+  backface-visibility: hidden;
+}
+
+/* Proper 200px Cube Transforms */
+.front {
+  transform: translateZ(100px);
+}
+
+.back {
+  transform: rotateY(180deg) translateZ(100px);
+}
+
+.right {
+  transform: rotateY(90deg) translateZ(100px);
+}
+
+.left {
+  transform: rotateY(-90deg) translateZ(100px);
+}
+
+.top {
+  transform: rotateX(90deg) translateZ(100px);
+}
+
+.bottom {
+  transform: rotateX(-90deg) translateZ(100px);
+}
+
 @keyframes sway {
   0% {
-    transform: rotate(5deg);
+    transform: rotate(15deg);
   }
 
   100% {
-    transform: rotate(-5deg);
+    transform: rotate(-15deg);
   }
 }
 
 .animate-sway {
-  animation: sway 2s ease-in-out infinite alternate;
-}
-
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.animate-float {
-  animation: float 4s ease-in-out infinite;
-}
-
-/* Cube Faces Specifics */
-.face {
-  backface-visibility: hidden;
-}
-
-.front {
-  transform: translateZ(6rem);
-}
-
-.back {
-  transform: rotateY(180deg) translateZ(6rem);
-}
-
-.right {
-  transform: rotateY(90deg) translateZ(6rem);
-}
-
-.left {
-  transform: rotateY(-90deg) translateZ(6rem);
-}
-
-.top {
-  transform: rotateX(90deg) translateZ(6rem);
-}
-
-.bottom {
-  transform: rotateX(-90deg) translateZ(6rem);
+  transform-origin: top center;
+  animation: sway 2.5s ease-in-out infinite alternate;
 }
