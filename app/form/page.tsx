@@ -41,6 +41,20 @@ export default function OrderForm() {
             `_Enviado desde el formulario web_`;
     };
 
+    const openMapPopup = () => {
+        // Open Google Maps in a centered popup window
+        const width = 800;
+        const height = 600;
+        const left = (window.screen.width - width) / 2;
+        const top = (window.screen.height - height) / 2;
+
+        window.open(
+            'https://www.google.com.mx/maps',
+            'GoogleMapsPopup',
+            `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=yes,status=yes`
+        );
+    };
+
     const handleWhatsApp = () => {
         if (!isFormValid()) {
             alert("Por favor completa los campos obligatorios: Nombre, Fecha, Lugar y Tu WhatsApp.");
@@ -61,7 +75,7 @@ export default function OrderForm() {
     };
 
     return (
-        <main className="min-h-screen relative text-white p-3 md:p-8 font-outfit overflow-x-hidden">
+        <main className="min-h-screen relative text-white p-2 md:p-8 font-outfit overflow-x-hidden">
             {/* Background Image & Overlay */}
             <div className="fixed inset-0 z-0">
                 <div className="absolute inset-0 bg-[url('/backgrounds/minecraft-day.jpg')] bg-cover bg-center"></div>
@@ -70,19 +84,19 @@ export default function OrderForm() {
             </div>
 
             <div className="max-w-2xl mx-auto relative z-10">
-                <header className="text-center mb-10 pt-10">
-                    <div className="mb-6 flex justify-center transform hover:scale-105 transition-transform duration-300">
-                        {/* Fiesta Minecraft Logo - Reduced height on mobile for better fit */}
+                <header className="text-center mb-6 pt-6">
+                    <div className="mb-4 flex justify-center transform hover:scale-105 transition-transform duration-300">
+                        {/* Fiesta Minecraft Logo */}
                         <img
                             src="/sprites/title-fiesta.png"
                             alt="Fiesta Minecraft"
-                            className="h-20 md:h-36 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] image-pixelated user-select-none"
+                            className="h-24 md:h-36 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] image-pixelated user-select-none"
                         />
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-yellow-400" style={{ fontFamily: 'var(--font-bebas)' }}>
+                    <h1 className="text-3xl md:text-5xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-yellow-400" style={{ fontFamily: 'var(--font-bebas)' }}>
                         CONFIGURA TU INVITACIÓN
                     </h1>
-                    <p className="text-gray-300 text-lg">
+                    <p className="text-gray-300 text-sm md:text-lg px-4">
                         Completa tu misión en 3 pasos: Datos, Pago y Confirmación.
                     </p>
                 </header>
@@ -90,7 +104,7 @@ export default function OrderForm() {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-4 md:p-8 shadow-2xl relative overflow-hidden"
+                    className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-2xl relative overflow-hidden mx-1 md:mx-0"
                 >
                     {/* Background decoration */}
                     <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
@@ -109,7 +123,7 @@ export default function OrderForm() {
                                         type="text"
                                         name="name"
                                         placeholder="Escribe el nombre aquí..."
-                                        className="w-full bg-black/50 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -119,7 +133,7 @@ export default function OrderForm() {
                                         type="number"
                                         name="age"
                                         placeholder="#"
-                                        className="w-full bg-black/50 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -137,7 +151,7 @@ export default function OrderForm() {
                                     type="tel"
                                     name="whatsappNumber"
                                     placeholder="Ej: 55 1234 5678"
-                                    className="w-full bg-black/50 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-pink-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                    className="w-full bg-black/60 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-pink-500 focus:outline-none transition-all placeholder:text-gray-500"
                                     onChange={handleChange}
                                 />
                             </div>
@@ -154,7 +168,7 @@ export default function OrderForm() {
                                     <input
                                         type="date"
                                         name="date"
-                                        className="w-full bg-black/50 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all text-white scheme-dark"
+                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all text-white scheme-dark"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -163,7 +177,7 @@ export default function OrderForm() {
                                     <input
                                         type="time"
                                         name="time"
-                                        className="w-full bg-black/50 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all text-white scheme-dark"
+                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all text-white scheme-dark"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -182,7 +196,7 @@ export default function OrderForm() {
                                         type="text"
                                         name="locationName"
                                         placeholder="Ej: Salón 'El Castillo'"
-                                        className="w-full bg-black/50 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -192,7 +206,7 @@ export default function OrderForm() {
                                         type="text"
                                         name="locationAddress"
                                         placeholder="Calle, Número, Colonia, Ciudad"
-                                        className="w-full bg-black/50 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -200,15 +214,19 @@ export default function OrderForm() {
                                 <div>
                                     <div className="flex justify-between items-center mb-1">
                                         <label className="text-xs text-gray-400 ml-2 block">Link de Google Maps</label>
-                                        <a href="https://www.google.com.mx/maps" target="_blank" rel="noreferrer" className="text-xs text-blue-400 hover:text-blue-300 underline flex items-center gap-1">
-                                            <MapPin size={10} /> Buscar Link en Maps
-                                        </a>
+                                        <button
+                                            onClick={openMapPopup}
+                                            type="button"
+                                            className="text-xs text-blue-400 hover:text-blue-300 underline flex items-center gap-1 cursor-pointer"
+                                        >
+                                            <MapPin size={12} /> Buscar y Copiar Link en Maps
+                                        </button>
                                     </div>
                                     <input
                                         type="text"
                                         name="mapUrl"
                                         placeholder="Pega aquí el link (https://maps.app.goo.gl/...)"
-                                        className="w-full bg-black/50 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500 text-sm"
+                                        className="w-full bg-black/60 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500 text-sm"
                                         onChange={handleChange}
                                     />
                                 </div>
