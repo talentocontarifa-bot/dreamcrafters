@@ -278,44 +278,45 @@ h6 {
 
 /* --- SPRITES & SIZES --- */
 
-/* SWORD CURSOR */
+/* SWORD CURSOR (Initial 140px -> +30% -> ~180px) */
 .sword-cursor {
   position: fixed;
-  width: 140px;
-  height: 140px;
+  width: 180px;
+  height: 180px;
   pointer-events: none;
   z-index: 9999;
   background-image: url('/sprites/sword-custom.png');
   background-size: contain;
   background-repeat: no-repeat;
   transform-origin: bottom left;
-  margin-top: -110px;
-  margin-left: -30px;
-  filter: drop-shadow(4px 4px 0 rgba(0, 0, 0, 0.5));
+  margin-top: -140px;
+  margin-left: -40px;
+  filter: drop-shadow(6px 6px 0 rgba(0, 0, 0, 0.5));
+  transition: transform 0.05s;
 }
 
 .sword-swing {
-  animation: swing-sword 0.15s ease-out;
+  animation: swing-sword-dynamic 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-@keyframes swing-sword {
+@keyframes swing-sword-dynamic {
   0% {
-    transform: rotate(0deg);
+    transform: rotate(0deg) scale(1);
   }
 
   50% {
-    transform: rotate(-90deg) translate(-20px, 20px);
+    transform: rotate(-100deg) translate(-30px, 30px) scale(1.1);
   }
 
   100% {
-    transform: rotate(0deg);
+    transform: rotate(0deg) scale(1);
   }
 }
 
-/* CREEPER WALKER */
+/* CREEPER WALKER (200px -> +20% -> 240px) */
 @keyframes creeper-screen-move {
   0% {
-    left: -250px;
+    left: -300px;
     transform: scaleX(1);
   }
 
@@ -330,7 +331,7 @@ h6 {
   }
 
   100% {
-    left: -250px;
+    left: -300px;
     transform: scaleX(-1);
   }
 }
@@ -351,10 +352,10 @@ h6 {
 .creeper-interactive {
   position: fixed;
   bottom: 0px;
-  left: -250px;
+  left: -300px;
   /* Start offscreen */
-  width: 200px;
-  height: 200px;
+  width: 240px;
+  height: 240px;
   z-index: 50;
   cursor: url('/sprites/sword-custom.png'), auto;
   /* Custom cursor over creeper too */
@@ -370,10 +371,10 @@ h6 {
 }
 
 
-/* STEVE DANCER */
+/* STEVE DANCER (240px -> +20% -> ~290px) */
 .steve-dancer {
-  width: 240px;
-  height: 280px;
+  width: 290px;
+  height: 340px;
   display: inline-block;
   position: relative;
   background-image: url('/sprites/steve-3d.png');

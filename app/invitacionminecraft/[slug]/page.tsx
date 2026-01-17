@@ -260,7 +260,7 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
                     onClick={(e) => handleClick(e as any)}
                     className="bg-[#8d6e63] text-white font-vt323 text-xl px-6 py-4 border-b-[6px] border-[#3e2723] rounded-sm active:border-b-0 active:translate-y-2 transition-all shadow-xl w-full max-w-xs cursor-none"
                 >
-                    ¡GOLPEA LA PIÑATA!
+                    ¡ROMPE LA PIÑATA!
                 </button>
             </div>
         </div>
@@ -319,7 +319,7 @@ function HeroSection({ config }: { config: PartyConfig }) {
                     className="inline-block bg-[#000]/40 backdrop-blur-md px-8 py-4 border-2 border-white/40 transform -skew-x-12"
                 >
                     <h2 className="text-3xl md:text-5xl text-[#5fb346] drop-shadow-[4px_4px_0_#000] stroke-black transform skew-x-12" style={{ fontFamily: 'var(--font-press-start)' }}>
-                        NIVEL {config.age}
+                        CUMPLE {config.age}
                     </h2>
                 </motion.div>
             </div>
@@ -393,7 +393,7 @@ function InventorySection({ config }: { config: PartyConfig }) {
                 className="text-center mb-10"
             >
                 <div className="inline-block bg-[#5c4033] border-4 border-[#3e2723] px-8 py-4 shadow-lg transform -skew-y-2">
-                    <h2 className="text-white text-2xl md:text-4xl drop-shadow-[2px_2px_0_#000]" style={{ fontFamily: 'var(--font-press-start)' }}>QUEST LOG</h2>
+                    <h2 className="text-white text-2xl md:text-4xl drop-shadow-[2px_2px_0_#000]" style={{ fontFamily: 'var(--font-press-start)' }}>DETALLES AVENTURA</h2>
                 </div>
             </motion.div>
 
