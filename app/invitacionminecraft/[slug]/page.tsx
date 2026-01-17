@@ -45,20 +45,7 @@ export default function InvitationPage() {
     const [unlocked, setUnlocked] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
 
-    const playHit = () => {
-        const audio = new Audio('https://www.myinstants.com/media/sounds/classic_hurt.mp3');
-        audio.volume = 0.5;
-        audio.play().catch(() => { });
-    };
-
-    const playExplosion = () => {
-        const audio = new Audio('https://www.myinstants.com/media/sounds/minecraft-tnt-explosion.mp3');
-        audio.volume = 0.6;
-        audio.play().catch(() => { });
-    };
-
     const handleUnlock = () => {
-        playExplosion();
         if (audioRef.current) {
             audioRef.current.volume = 0.4;
             audioRef.current.play().catch(() => { });
@@ -74,8 +61,8 @@ export default function InvitationPage() {
             <AnimatePresence>
                 {!unlocked && (
                     <motion.div
-                        exit={{ opacity: 0, scale: 1.1, pointerEvents: "none" }}
-                        className="fixed inset-0 z-50 flex flex-col items-center justify-center"
+                        exit={{ opacity: 0, pointerEvents: "none" }}
+                        className="fixed inset-0 z-50 flex flex-col items-center justify-center transition-all duration-700"
                     >
                         {/* CSS-ONLY DAY SKY BACKGROUND */}
                         <div className="absolute inset-0 bg-gradient-to-b from-[#87CEEB] to-[#E0F7FA]"></div>
@@ -83,7 +70,7 @@ export default function InvitationPage() {
                         <div className="absolute top-10 left-10 w-32 h-12 bg-white/80 image-pixelated"></div>
                         <div className="absolute top-20 right-20 w-48 h-16 bg-white/60 image-pixelated"></div>
 
-                        <LockScreen onUnlock={handleUnlock} onHit={playHit} />
+                        <LockScreen onUnlock={handleUnlock} />
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -114,76 +101,152 @@ export default function InvitationPage() {
 
 // --- COMPONENTS ---
 
-function LockScreen({ onUnlock, onHit }: { onUnlock: () => void, onHit: () => void }) {
-    const [hp, setHp] = useState(5);
+function LockScreen({ onUnlock }: { onUnlock: () => void }) {
+    const [hp, setHp] = useState(10); // Match user's maxHealth
     const [hitAnim, setHitAnim] = useState(false);
+    const [audioCtx, setAudioCtx] = useState<AudioContext | null>(null);
 
-    const handleClick = (e: React.MouseEvent) => {
-        onHit();
+    // Initialize AudioContext on first interaction if possible, or lazy load
+    useEffect(() => {
+        const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+        if (AudioContext) {
+            setAudioCtx(new AudioContext());
+        }
+    }, []);
+
+    const playSound = (type: 'hit' | 'explode') => {
+        if (!audioCtx) return;
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const t = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        if (type === 'hit') {
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(150, t);
+            osc.frequency.exponentialRampToValueAtTime(40, t + 0.1);
+            gain.gain.setValueAtTime(0.1, t);
+            gain.gain.linearRampToValueAtTime(0, t + 0.1);
+            osc.start(t); osc.stop(t + 0.1);
+        } else {
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(100, t);
+            osc.frequency.exponentialRampToValueAtTime(10, t + 0.6);
+            gain.gain.setValueAtTime(0.2, t);
+            gain.gain.linearRampToValueAtTime(0, t + 0.6);
+            osc.start(t); osc.stop(t + 0.6);
+        }
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+    };
+
+    const spawnParticles = (x: number, y: number, amount: number, isExplosion: boolean = false) => {
+        const colors = ['#facc15', '#ef4444', '#3b82f6', '#22c55e', '#ffffff'];
+        for (let i = 0; i < amount; i++) {
+            const p = document.createElement('div');
+            // Inline styles for performance, similar to user snippet
+            p.style.cssText = `position:fixed; width:${Math.random() * 8 + 4}px; height:${Math.random() * 8 + 4}px; background:${colors[Math.floor(Math.random() * colors.length)]}; left:${x}px; top:${y}px; z-index:100; pointer-events:none;`;
+            document.body.appendChild(p);
+
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = isExplosion ? Math.random() * 15 + 5 : Math.random() * 5 + 2;
+            let vx = Math.cos(angle) * velocity;
+            let vy = Math.sin(angle) * velocity;
+            if (isExplosion) vy -= 5;
+
+            let op = 1;
+            const anim = setInterval(() => {
+                p.style.left = (parseFloat(p.style.left) + vx) + 'px';
+                p.style.top = (parseFloat(p.style.top) + vy) + 'px';
+                vy += 0.8; // Gravity
+                op -= 0.02;
+                p.style.opacity = op.toString();
+                if (op <= 0) { clearInterval(anim); p.remove(); }
+            }, 16);
+        }
+    };
+
+    const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
+        // Prevent default only if it's touch to avoid double firing, but React handles this well usually.
+        // If coming from touch event, normalize geometry
+        let clientX, clientY;
+        if ('touches' in e) {
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+        } else {
+            clientX = (e as React.MouseEvent).clientX;
+            clientY = (e as React.MouseEvent).clientY;
+        }
+
+        playSound('hit');
+        // onHit(); // Removed prop dependency since logic is internal now
         setHitAnim(true);
         setTimeout(() => setHitAnim(false), 150);
 
+        // Visual damage calculation
+        const damageOverlay = document.querySelectorAll('.damage-overlay');
+        const opacity = (10 - (hp - 1)) / 10;
+        damageOverlay.forEach((el) => (el as HTMLElement).style.opacity = opacity.toString());
+
+        spawnParticles(clientX, clientY, 5);
+
         if (hp <= 1) {
-            onUnlock();
+            playSound('explode');
+            spawnParticles(window.innerWidth / 2, window.innerHeight / 2, 60, true);
+            setTimeout(onUnlock, 800); // Delay unlock to show explosion
         } else {
             setHp(h => h - 1);
         }
     };
 
     return (
-        <div className="text-center w-full h-full flex flex-col items-center justify-center relative overflow-hidden backdrop-blur-[2px]">
-            <div className="bg-black/60 p-6 rounded-none border-4 border-[#3e2723] shadow-[8px_8px_0_rgba(0,0,0,0.5)] z-10">
-                <h1 className="text-3xl md:text-5xl text-white mb-2 font-press-start drop-shadow-[4px_4px_0_#000]" style={{ fontFamily: 'var(--font-press-start)' }}>
-                    HAPPY BIRTHDAY!
-                </h1>
-                <p className="text-[#facc15] font-press-start text-[10px] tracking-widest animate-pulse mt-2">LEVEL {10} — UNLOCK LOOT</p>
+        <div className="text-center w-full h-full flex flex-col items-center justify-center relative overflow-hidden backdrop-blur-sm">
+            {/* Header / Instructions */}
+            <div className="fixed top-0 left-0 w-full text-center pt-8 pointer-events-none z-40">
+                <h1 className="text-3xl text-yellow-400 drop-shadow-[4px_4px_0_#000] font-vt323">MINECRAFT PARTY</h1>
             </div>
 
-            <div className="scene-container relative z-20 h-[450px] flex justify-center mt-10">
-                <div className="origin-top animate-sway flex flex-col items-center">
-                    <div className="w-2 h-32 bg-[#3e2723] -mb-1 shadow-lg border-x border-black/30"></div>
+            {/* HEARTS DISPLAY */}
+            <div className="fixed top-20 text-2xl z-40">
+                {Array.from({ length: 5 }).map((_, i) => (
+                    <span key={i} className="text-red-600 drop-shadow-md">{i < Math.ceil(hp / 2) ? '❤️' : '🖤'}</span>
+                ))}
+            </div>
 
-                    <motion.div
-                        className={`cube transform-style-3d cursor-pointer ${hitAnim ? 'brightness-150 scale-95' : ''}`}
-                        onClick={handleClick}
-                        whileHover={{ scale: 1.05 }}
-                        initial={{ rotateY: 25, rotateX: -10 }}
+            {/* 3D SCENE - BEE PIÑATA */}
+            <div className="scene">
+                <div className="pivot-group">
+                    <div className="rope"></div>
+                    <div
+                        className={`cube-pinata ${hitAnim ? 'hit-anim flash-red' : ''}`}
+                        onMouseDown={handleClick}
+                        onTouchStart={handleClick}
                     >
-                        {/* SVG Creeper Face Fully Embedded */}
-                        <div className="face front bg-[#0d0] border-[6px] border-[#000]/10 flex items-center justify-center">
-                            <svg viewBox="0 0 24 24" className="w-[80%] h-[80%] image-pixelated opacity-90 shape-rendering-crispEdges">
-                                <rect x="4" y="4" width="4" height="4" fill="black" />
-                                <rect x="16" y="4" width="4" height="4" fill="black" />
-                                <rect x="9" y="10" width="6" height="6" fill="black" />
-                                <rect x="6" y="16" width="4" height="6" fill="black" />
-                                <rect x="14" y="16" width="4" height="6" fill="black" />
-                            </svg>
+                        <div className="face-pinata top texture-bee-top"></div>
+                        <div className="face-pinata bottom texture-bee-bottom">
+                            <div className="fringe f1"></div><div className="fringe f2"></div>
+                            <div className="fringe f3"></div><div className="fringe f4"></div>
                         </div>
-                        <div className="face back bg-[#0b0] border-[6px] border-black/10"></div>
-                        <div className="face right bg-[#090] border-[6px] border-black/10"></div>
-                        <div className="face left bg-[#090] border-[6px] border-black/10"></div>
-                        <div className="face top bg-[#0f0] border-[6px] border-black/10"></div>
-                        <div className="face bottom bg-[#070] border-[6px] border-black/10"></div>
-                    </motion.div>
+                        <div className="face-pinata front texture-bee-face"><div className="damage-overlay"></div></div>
+                        <div className="face-pinata back texture-bee-side"><div className="damage-overlay"></div></div>
+                        <div className="face-pinata right texture-bee-side"><div className="damage-overlay"></div></div>
+                        <div className="face-pinata left texture-bee-side"><div className="damage-overlay"></div></div>
+                        <div className="wing wing-left"></div>
+                        <div className="wing wing-right"></div>
+                    </div>
                 </div>
             </div>
 
-            <div className="mt-4 w-72 h-8 border-[4px] border-[#222] bg-[#111] relative z-10 shadow-xl">
-                <div
-                    className="h-full bg-gradient-to-r from-red-500 to-green-500 transition-all duration-200"
-                    style={{ width: `${(hp / 5) * 100}%` }}
-                />
+            {/* Simple action prompt */}
+            <div className="fixed bottom-10 z-40 animate-pulse">
+                <button
+                    onClick={(e) => handleClick(e as any)}
+                    className="bg-[#8d6e63] text-white font-vt323 text-xl px-8 py-4 border-b-[6px] border-[#3e2723] rounded-sm active:border-b-0 active:translate-y-2 transition-all shadow-xl"
+                >
+                    CLICK TO HIT PIÑATA!
+                </button>
             </div>
-
-            <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={(e) => handleClick(e)}
-                className="mt-8 bg-[#8d6e63] text-white font-press-start text-sm px-8 py-4 border-b-[6px] border-[#3e2723] border-r-[6px] border-r-[#3e2723] border-t-2 border-t-[#d7ccc8] border-l-2 border-l-[#d7ccc8] shadow-[0_8px_0_rgba(0,0,0,0.5)] active:shadow-none active:translate-y-2 transition-all z-20"
-                style={{ fontFamily: 'var(--font-press-start)' }}
-            >
-                HIT PIÑATA!
-            </motion.button>
         </div>
     );
 }
@@ -362,7 +425,7 @@ function RSVPSection({ phone, name }: { phone: string, name: string }) {
 
     return (
         <section className="bg-[#3e2723] py-20 border-t-[8px] border-[#271c19] text-center shadow-inner relative overflow-hidden">
-            {/* Simple noise overlay via base64 for robustness */}
+            {/* CSS DIRT PATTERN */}
             <div className="absolute inset-0 opacity-20 bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhQwWgwYgKE0kE0bDgAAwAA//8wI58KAAAAAElFTkSuQmCC')]"></div>
 
             <div className="relative z-10 max-w-2xl mx-auto px-4">

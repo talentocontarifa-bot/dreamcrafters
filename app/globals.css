@@ -90,65 +90,213 @@ h6 {
   background-color: #8b8b8b;
 }
 
-/* 3D CUBE PHYSICS */
-.scene-container {
-  perspective: 1000px;
+/* --- 3D PIÑATA PHYSICS & TEXTURES (USER REFERENCE) --- */
+.scene {
+  width: 200px;
+  height: 200px;
+  perspective: 800px;
+  z-index: 10;
 }
 
-.transform-style-3d {
+.pivot-group {
+  width: 100%;
+  height: 100%;
   transform-style: preserve-3d;
+  transform-origin: 50% -200px;
+  animation: dramatic-sway 4s ease-in-out infinite alternate;
 }
 
-.cube {
-  width: 200px;
-  /* Base size */
-  height: 200px;
-}
-
-.face {
-  position: absolute;
-  width: 200px;
-  height: 200px;
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
-  backface-visibility: hidden;
-}
-
-/* Proper 200px Cube Transforms */
-.front {
-  transform: translateZ(100px);
-}
-
-.back {
-  transform: rotateY(180deg) translateZ(100px);
-}
-
-.right {
-  transform: rotateY(90deg) translateZ(100px);
-}
-
-.left {
-  transform: rotateY(-90deg) translateZ(100px);
-}
-
-.top {
-  transform: rotateX(90deg) translateZ(100px);
-}
-
-.bottom {
-  transform: rotateX(-90deg) translateZ(100px);
-}
-
-@keyframes sway {
+@keyframes dramatic-sway {
   0% {
-    transform: rotate(15deg);
+    transform: rotateZ(-25deg) rotateY(35deg) translateY(-10px);
+  }
+
+  50% {
+    transform: rotateZ(0deg) rotateY(0deg) translateY(10px);
   }
 
   100% {
+    transform: rotateZ(25deg) rotateY(-35deg) translateY(-10px);
+  }
+}
+
+.cube-pinata {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.face-pinata {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  image-rendering: pixelated;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.25);
+  backface-visibility: hidden;
+}
+
+/* TEXTURA ABEJA */
+.texture-bee-face {
+  background: linear-gradient(to right, transparent 20%, #111 20%, #111 35%, transparent 35%, transparent 65%, #111 65%, #111 80%, transparent 80%),
+    linear-gradient(to bottom, #ffce20 20%, #222 20%, #222 40%, #ffce20 40%, #ffce20 60%, #222 60%, #222 80%, #ffce20 80%);
+  background-color: #ffce20;
+}
+
+.texture-bee-side {
+  background: linear-gradient(to bottom, #ffce20 20%, #222 20%, #222 40%, #ffce20 40%, #ffce20 60%, #222 60%, #222 80%, #ffce20 80%);
+  background-color: #e5b81d;
+}
+
+.texture-bee-top {
+  background-color: #ffce20;
+}
+
+.texture-bee-bottom {
+  background-color: #4a3b0a;
+}
+
+.face-pinata.front {
+  transform: rotateY(0deg) translateZ(100px);
+}
+
+.face-pinata.back {
+  transform: rotateY(180deg) translateZ(100px);
+}
+
+.face-pinata.right {
+  transform: rotateY(90deg) translateZ(100px);
+}
+
+.face-pinata.left {
+  transform: rotateY(-90deg) translateZ(100px);
+}
+
+.face-pinata.top {
+  transform: rotateX(90deg) translateZ(100px);
+}
+
+.face-pinata.bottom {
+  transform: rotateX(-90deg) translateZ(100px);
+}
+
+.wing {
+  position: absolute;
+  width: 80px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid #ddd;
+  top: -20px;
+  transform-origin: bottom left;
+  animation: flutter 0.2s infinite alternate;
+}
+
+.wing-left {
+  left: 20px;
+  transform: rotateY(-20deg);
+}
+
+.wing-right {
+  right: 20px;
+  transform: rotateY(20deg) scaleX(-1);
+  transform-origin: bottom right;
+}
+
+@keyframes flutter {
+  from {
+    transform: rotateX(0deg);
+  }
+
+  to {
+    transform: rotateX(40deg);
+  }
+}
+
+.rope {
+  position: absolute;
+  width: 4px;
+  height: 1000px;
+  background: #8d6e63;
+  bottom: 200px;
+  left: 98px;
+  transform: translateZ(0);
+  pointer-events: none;
+}
+
+.fringe {
+  position: absolute;
+  bottom: -40px;
+  width: 20px;
+  height: 60px;
+  transform-origin: top;
+  animation: loose-paper 2s ease-in-out infinite alternate;
+}
+
+.f1 {
+  left: 20px;
+  background: #ff0055;
+}
+
+.f2 {
+  left: 60px;
+  background: #00ddff;
+  animation-delay: 0.2s;
+}
+
+.f3 {
+  left: 100px;
+  background: #ffee00;
+  animation-delay: 0.4s;
+}
+
+.f4 {
+  left: 140px;
+  background: #00ff00;
+  animation-delay: 0.1s;
+}
+
+@keyframes loose-paper {
+  from {
+    transform: rotate(15deg);
+  }
+
+  to {
     transform: rotate(-15deg);
   }
 }
 
-.animate-sway {
-  transform-origin: top center;
-  animation: sway 2.5s ease-in-out infinite alternate;
+.damage-overlay {
+  position: absolute;
+  inset: 0;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20 20 L40 50 L10 60 Z" fill="black"/></svg>');
+  background-size: 60%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.hit-anim {
+  animation: shake 0.2s ease-in-out;
+}
+
+@keyframes shake {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.9);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.flash-red .face-pinata {
+  filter: sepia(1) hue-rotate(-50deg) saturate(5) brightness(0.8);
 }
