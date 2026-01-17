@@ -250,7 +250,7 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
 
             <div className="fixed top-0 left-0 w-full text-center pt-8 pointer-events-none z-40">
                 <img
-                    src="/sprites/title-fiesta.png"
+                    src="/sprites/title-fiesta.webp"
                     alt="Fiesta Minecraft"
                     className="h-32 md:h-48 mx-auto drop-shadow-lg image-pixelated mb-4"
                 />

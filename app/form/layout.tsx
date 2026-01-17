@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: "Estás a unas preguntas de disfrutar tu invitación",
         description: "Configura los detalles de tu evento en DreamCrafters.",
-        images: ['/sprites/title-fiesta.png?v=3'], // Cache bust
+        images: ['/sprites/title-fiesta.webp?v=1'], // Cache bust for new webp
     },
 };
 

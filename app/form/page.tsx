@@ -88,7 +88,7 @@ export default function OrderForm() {
                     <div className="mb-4 flex justify-center transform hover:scale-105 transition-transform duration-300">
                         {/* Fiesta Minecraft Logo */}
                         <img
-                            src="/sprites/title-fiesta.png"
+                            src="/sprites/title-fiesta.webp"
                             alt="Fiesta Minecraft"
                             className="h-24 md:h-36 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] image-pixelated user-select-none"
                         />
