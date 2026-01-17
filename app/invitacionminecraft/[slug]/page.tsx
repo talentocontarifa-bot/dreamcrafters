@@ -360,9 +360,9 @@ function HeroSection({ config }: { config: PartyConfig }) {
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.5 }}
-                    className="inline-block bg-[#000]/60 backdrop-blur-md px-8 py-3 border-4 border-white/90 transform -skew-x-12 z-20 shadow-[0_0_15px_rgba(95,179,70,0.6)]"
+                    className="inline-block bg-[#000]/60 backdrop-blur-md px-10 py-6 border-4 border-white/90 transform -skew-x-12 z-20 shadow-[0_0_15px_rgba(95,179,70,0.6)]"
                 >
-                    <h2 className="text-4xl md:text-6xl text-[#5fb346] drop-shadow-[3px_3px_0_#000] stroke-black transform skew-x-12 font-bold tracking-wider" style={{ fontFamily: 'var(--font-press-start)' }}>
+                    <h2 className="text-4xl md:text-6xl text-[#5fb346] drop-shadow-[3px_3px_0_#000] stroke-black transform skew-x-12 font-bold tracking-wider leading-relaxed" style={{ fontFamily: 'var(--font-press-start)' }}>
                         CUMPLE {config.age}
                     </h2>
                 </motion.div>
@@ -403,7 +403,6 @@ function CountdownSection({ targetDate }: { targetDate: string }) {
                 <p className="text-[#eee] px-4 py-2 text-lg md:text-xl border-2 border-[#111] bg-[#222] tracking-wider" style={{ fontFamily: 'var(--font-press-start)' }}>TIEMPO FALTANTE PARA LA FIESTA</p>
             </motion.div>
 
-            {/* 3D Clock Decoration - No initial hidden state to ensure visibility */}
             {/* 3D Clock Decoration */}
             <motion.div
                 animate={{ y: [0, -10, 0] }}
@@ -411,13 +410,9 @@ function CountdownSection({ targetDate }: { targetDate: string }) {
                 className="mb-8"
             >
                 <img
-                    src="/sprites/clock-icon-3d.png?v=5"
+                    src="/sprites/clock-icon-3d.png"
                     alt="Reloj Minecraft"
                     className="w-24 md:w-32 drop-shadow-xl image-pixelated block mx-auto"
-                    onError={(e) => {
-                        e.currentTarget.style.display = 'none'; // Hide broken image
-                        e.currentTarget.parentElement?.classList.add('hidden'); // Hide container
-                    }}
                 />
             </motion.div>
 
@@ -583,35 +578,17 @@ function MapSection({ mapUrl }: { mapUrl: string }) {
                 className="inline-block relative group cursor-pointer"
                 onClick={() => setIsOpen(true)}
             >
-                {/* Try to load 3D Sprite, if fail show CSS Map */}
+                {/* 3D Map Sprite */}
                 <motion.div
                     animate={{ y: [0, -10, 0] }}
                     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 >
                     <img
-                        src="/sprites/map-icon-3d.png?v=5"
+                        src="/sprites/map-icon-3d.png"
                         alt="Mapa 3D"
                         className="w-64 md:w-80 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] image-pixelated hover:brightness-110 transition-all block mx-auto"
-                        onError={(e) => {
-                            // Fallback to CSS map if image fails
-                            e.currentTarget.style.display = 'none';
-                            const fallback = document.getElementById('map-fallback');
-                            if (fallback) fallback.style.display = 'block';
-                        }}
                     />
                 </motion.div>
-
-                {/* Fallback CSS Map (Hidden by default) */}
-                <div id="map-fallback" style={{ display: 'none' }}>
-                    <div className="block w-64 h-64 md:w-80 md:h-80 mx-auto bg-[#f4eeb1] border-8 border-[#5d4037] relative shadow-2xl">
-                        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#8d6e63_1px,transparent_1px)] [background-size:10px_10px]"></div>
-                        <div className="absolute inset-4 border-2 border-[#bcaaa4] opacity-50"></div>
-                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-red-600 text-8xl font-bold">+</div>
-                        <div className="absolute bottom-6 left-0 w-full text-center">
-                            <span className="bg-[#5d4037] text-white px-4 py-2 text-sm shadow-md" style={{ fontFamily: 'var(--font-press-start)' }}>VER MAPA</span>
-                        </div>
-                    </div>
-                </div>
 
                 <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-[#5d4037] text-white px-4 py-2 text-xs md:text-sm border-2 border-[#3e2723] shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" style={{ fontFamily: 'var(--font-press-start)' }}>
                     CLICK PARA VER EL MAPA

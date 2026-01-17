@@ -17,7 +17,10 @@ export const metadata: Metadata = {
   title: "DreamCrafters - Invitaciones Digitales Épicas",
   description: "Transforma tu evento en una memoria inolvidable con invitaciones web personalizadas.",
   icons: {
-    icon: "/icons/favicon-custom.png",
+    icon: [
+      { url: '/icons/favicon-purple.png', media: '(prefers-color-scheme: light)' },
+      { url: '/icons/favicon-white.png', media: '(prefers-color-scheme: dark)' },
+    ],
   },
 };
 
