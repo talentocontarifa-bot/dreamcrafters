@@ -281,8 +281,8 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
                 </div>
             </div>
 
-            {/* Hearts moved here - scaled up and positioned */}
-            <div className="fixed bottom-32 z-40 text-center w-full pointer-events-none transform scale-125 md:scale-150">
+            {/* Hearts moved here - Positioned higher to maintain clearance */}
+            <div className="fixed bottom-44 z-40 text-center w-full pointer-events-none transform scale-125 md:scale-150">
                 {Array.from({ length: 5 }).map((_, i) => (
                     <PixelHeart key={i} filled={i < Math.ceil(hp / 2)} />
                 ))}
@@ -291,10 +291,10 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
             <div className="fixed bottom-12 z-40 animate-pulse w-full px-4">
                 <button
                     onClick={(e) => handleClick(e as any)}
-                    className="active:scale-95 transition-transform w-full max-w-sm mx-auto block cursor-none focus:outline-none"
+                    className="active:scale-95 transition-transform w-[180px] md:w-[240px] mx-auto block cursor-none focus:outline-none"
                 >
                     <img
-                        src="/sprites/btn-break-pinata.jpg"
+                        src="/sprites/btn-break-pinata.jpg?v=3"
                         alt="¡ROMPE LA PIÑATA!"
                         className="w-full drop-shadow-[0_4px_0_#000] border-4 border-black rounded-lg image-pixelated"
                     />
@@ -336,29 +336,33 @@ function HeroSection({ config }: { config: PartyConfig }) {
         <section className="h-[85vh] relative flex flex-col items-center justify-center border-b-8 border-[#3e2723] text-center overflow-hidden">
             <div className="absolute inset-0 bg-[url('/backgrounds/minecraft-day.jpg')] bg-cover bg-center"></div>
 
-            <div className="relative z-10 p-4 pt-10">
-                <div className="steve-dancer"></div>
+            <div className="relative z-10 p-4 pt-10 flex flex-col items-center">
 
+                {/* 1. Steve (Reduced bottom margin via negative margin on next element or CSS) */}
+                <div className="steve-dancer mb-0"></div>
+
+                {/* 2. Name (Pulled up closer to Steve) */}
                 <motion.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.3 }}
-                    className="mb-8"
+                    className="-mt-8 mb-6"
                 >
                     <img
-                        src="/sprites/name-lucas.png"
+                        src="/sprites/name-lucas.png?v=3"
                         alt={config.name}
-                        className="w-full max-w-sm md:max-w-xl mx-auto image-pixelated drop-shadow-[8px_8px_0_rgba(0,0,0,0.5)]"
+                        className="w-full max-w-[280px] md:max-w-xl mx-auto image-pixelated drop-shadow-[8px_8px_0_rgba(0,0,0,0.5)]"
                     />
                 </motion.div>
 
+                {/* 3. Age Label (Ensured high visibility) */}
                 <motion.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.5 }}
-                    className="inline-block bg-[#000]/40 backdrop-blur-md px-8 py-4 border-2 border-white/40 transform -skew-x-12"
+                    className="inline-block bg-[#000]/60 backdrop-blur-md px-8 py-3 border-4 border-white/90 transform -skew-x-12 z-20 shadow-[0_0_15px_rgba(95,179,70,0.6)]"
                 >
-                    <h2 className="text-3xl md:text-5xl text-[#5fb346] drop-shadow-[4px_4px_0_#000] stroke-black transform skew-x-12" style={{ fontFamily: 'var(--font-press-start)' }}>
+                    <h2 className="text-4xl md:text-6xl text-[#5fb346] drop-shadow-[3px_3px_0_#000] stroke-black transform skew-x-12 font-bold tracking-wider" style={{ fontFamily: 'var(--font-press-start)' }}>
                         CUMPLE {config.age}
                     </h2>
                 </motion.div>
@@ -406,7 +410,7 @@ function CountdownSection({ targetDate }: { targetDate: string }) {
                 className="mb-8"
             >
                 <img
-                    src="/sprites/clock-icon-3d.png"
+                    src="/sprites/clock-icon-3d.png?v=4"
                     alt="Reloj Minecraft"
                     className="w-24 md:w-32 drop-shadow-xl image-pixelated block mx-auto"
                 />
@@ -577,7 +581,7 @@ function MapSection({ mapUrl }: { mapUrl: string }) {
                 <motion.img
                     animate={{ y: [0, -10, 0] }}
                     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                    src="/sprites/map-icon-3d.png"
+                    src="/sprites/map-icon-3d.png?v=4"
                     alt="Mapa 3D"
                     className="w-64 md:w-80 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] image-pixelated hover:brightness-110 transition-all block mx-auto"
                 />
