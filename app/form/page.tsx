@@ -15,11 +15,8 @@ export default function OrderForm() {
         mapUrl: ''
     });
 
-    const [showPayment, setShowPayment] = useState(false);
-
-    // PLACEHOLDERS - REPLACE WITH REAL LINKS
-    const MP_LINK = "#"; // E.g., https://mpago.la/xyz
-    const PAYPAL_LINK = "#"; // E.g., https://paypal.me/dreamcrafters/250
+    // Placeholder for when PayPal is ready
+    const PAYPAL_LINK = "#";
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -49,7 +46,6 @@ export default function OrderForm() {
         }
         const text = generateMessage();
         window.open(`https://wa.me/529845828658?text=${text}`, '_blank');
-        setShowPayment(true); // Show payment options after sending
     };
 
     const handleEmail = () => {
@@ -60,7 +56,6 @@ export default function OrderForm() {
         const subject = `Nuevo Pedido DreamCrafters: ${formData.name}`;
         const body = generateMessage().replace(/%0A/g, '\n').replace(/\*/g, '');
         window.location.href = `mailto:somos.dreamcrafters@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        setShowPayment(true);
     };
 
     return (
@@ -192,31 +187,27 @@ export default function OrderForm() {
                             </button>
                         </div>
 
-                        {/* Payment Section (Revealed or always visible) */}
+                        {/* Payment Section - Always Visible for Clarity */}
                         <div className="mt-8 pt-8 border-t border-white/10">
                             <h3 className="text-yellow-400 font-bold tracking-wider text-sm uppercase mb-4 flex items-center gap-2">
                                 <CreditCard size={16} /> Métodos de Pago
                             </h3>
                             <p className="text-sm text-gray-400 mb-4">
-                                Una vez enviado tu pedido, puedes completar el pago seguro para iniciar el diseño.
+                                El proceso inicia una vez confirmado tu pago.
                             </p>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <a
-                                    href={MP_LINK}
-                                    target="_blank"
-                                    className="group flex items-center justify-center gap-3 bg-[#009ee3] hover:bg-[#008bc7] text-white py-4 rounded-xl transition-all shadow-[0_4px_0_#0073a1] active:shadow-none active:translate-y-1"
-                                >
-                                    <span className="font-bold">Mercado Pago</span>
-                                    <div className="bg-white/20 p-1 rounded">🤝</div>
-                                </a>
 
+                            <div className="flex flex-col items-center gap-4">
+                                {/* MercadoPago Integration */}
+                                <div className="w-full flex justify-center bg-[#009ee3]/10 py-4 rounded-xl border border-[#009ee3]/30">
+                                    <MercadoPagoButton />
+                                </div>
+
+                                {/* PayPal Placeholder */}
                                 <a
                                     href={PAYPAL_LINK}
-                                    target="_blank"
-                                    className="group flex items-center justify-center gap-3 bg-[#003087] hover:bg-[#002569] text-white py-4 rounded-xl transition-all shadow-[0_4px_0_#001c52] active:shadow-none active:translate-y-1"
+                                    className="w-full group flex items-center justify-center gap-3 bg-[#003087]/20 hover:bg-[#003087]/30 text-white/60 hover:text-white py-3 rounded-xl transition-all border border-white/5"
                                 >
-                                    <span className="font-bold">PayPal</span>
-                                    <div className="bg-white/20 p-1 rounded">💳</div>
+                                    <span className="font-bold text-sm">PayPal (Próximamente)</span>
                                 </a>
                             </div>
                         </div>
@@ -229,5 +220,27 @@ export default function OrderForm() {
                 </p>
             </div>
         </main>
+    );
+}
+
+// Separate Component for the Script Injection
+function MercadoPagoButton() {
+    React.useEffect(() => {
+        // Clear previous buttons to avoid duplication if re-rendered
+        const container = document.getElementById('mp-button-container');
+        if (container) container.innerHTML = '';
+
+        const script = document.createElement('script');
+        script.src = 'https://www.mercadopago.com.mx/integrations/v1/web-payment-checkout.js';
+        script.setAttribute('data-preference-id', '47667883-242f635d-1e44-4b1a-bb2e-33cbe2fc6c50');
+        script.setAttribute('data-source', 'button');
+
+        if (container) {
+            container.appendChild(script);
+        }
+    }, []);
+
+    return (
+        <div id="mp-button-container" className="mercadopago-button-wrapper" />
     );
 }
