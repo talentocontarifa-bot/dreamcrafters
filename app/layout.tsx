@@ -22,9 +22,9 @@ export const metadata: Metadata = {
     images: ['/opengraph-image.png'],
   },
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/favicon.ico',
+    icon: '/icons/favicon-purple.png?v=99',
+    shortcut: '/icons/favicon-purple.png?v=99',
+    apple: '/icons/favicon-purple.png?v=99',
   },
 };
 
