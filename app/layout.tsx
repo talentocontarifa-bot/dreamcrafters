@@ -16,6 +16,11 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: "DreamCrafters - Invitaciones Digitales Épicas",
   description: "Transforma tu evento en una memoria inolvidable con invitaciones web personalizadas.",
+  openGraph: {
+    title: 'Invitaciones Web - Dreamcrafters',
+    description: '¡Descubre nuestras invitaciones digitales personalizadas!',
+    images: ['/opengraph-image.png'],
+  },
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon.ico',
