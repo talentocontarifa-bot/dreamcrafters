@@ -291,9 +291,13 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
             <div className="fixed bottom-12 z-40 animate-pulse w-full px-4">
                 <button
                     onClick={(e) => handleClick(e as any)}
-                    className="bg-[#8d6e63] text-white font-vt323 text-xl px-6 py-4 border-b-[6px] border-[#3e2723] rounded-sm active:border-b-0 active:translate-y-2 transition-all shadow-xl w-full max-w-xs cursor-none"
+                    className="active:scale-95 transition-transform w-full max-w-sm mx-auto block cursor-none focus:outline-none"
                 >
-                    ¡ROMPE LA PIÑATA!
+                    <img
+                        src="/sprites/btn-break-pinata.jpg"
+                        alt="¡ROMPE LA PIÑATA!"
+                        className="w-full drop-shadow-[0_4px_0_#000] border-4 border-black rounded-lg image-pixelated"
+                    />
                 </button>
             </div>
         </div>
