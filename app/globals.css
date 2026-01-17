@@ -61,7 +61,7 @@ h6 {
   background-color: #8b8b8b;
 }
 
-/* --- 3D PIÑATA --- */
+/* --- 3D PIÑATA WITH SEPARATE TEXTURES --- */
 .scene {
   width: 200px;
   height: 200px;
@@ -104,8 +104,7 @@ h6 {
   position: absolute;
   width: 200px;
   height: 200px;
-  background-image: url('/textures/bee-atlas.png');
-  background-size: 300% 200%;
+  background-size: cover;
   image-rendering: pixelated;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.25);
@@ -113,31 +112,33 @@ h6 {
   background-color: #ffce20;
 }
 
-/* BEE TEXTURE MAPPING (Atlas is 3x2) */
-/* Row 1: Face | Stripe | Dark Stripe */
-/* Row 2: Stripe 2 | Dark 2 | Stripe 3 */
+/* Individual Face Textures - Using separate files */
 .texture-bee-face {
-  background-position: 0% 0%;
+  background-image: url('/textures/bee/front.jpg');
 }
 
-/* Top Left */
+/* Front face */
 .texture-bee-side {
-  background-position: 50% 0%;
+  background-image: url('/textures/bee/top_sides.jpg');
 }
 
-/* Top Mid */
+/* Sides/Back sharing similar texture if needed */
 .texture-bee-top {
-  background-position: 0% 100%;
+  background-image: url('/textures/bee/top_sides.jpg');
 }
 
-/* Bottom Left */
+/* Top */
 .texture-bee-bottom {
-  background-position: 50% 100%;
+  background-image: url('/textures/bee/down_back.jpg');
 }
 
-/* Bottom Mid */
+/* Bottom */
+/* Note: Using 'down_back.jpg' for back as typically requested if it fits better, or 'top_sides' if generic side */
+.texture-bee-back {
+  background-image: url('/textures/bee/down_back.jpg');
+}
 
-/* Cube Faces Transforms */
+/* Cube Faces Transforms & specific assignments */
 .face-pinata.front {
   transform: rotateY(0deg) translateZ(100px);
 }
@@ -146,6 +147,7 @@ h6 {
   transform: rotateY(180deg) translateZ(100px);
 }
 
+/* Uses distinct class potentially */
 .face-pinata.right {
   transform: rotateY(90deg) translateZ(100px);
 }
@@ -279,13 +281,12 @@ h6 {
 }
 
 
-/* --- SPRITES & SIZES (+30% from previous +50%) --- */
+/* --- SPRITES & SIZES --- */
 
-/* SWORD CURSOR (100px -> 130px) */
+/* SWORD CURSOR */
 .sword-cursor {
   position: fixed;
   width: 140px;
-  /* bumped slightly more for impact */
   height: 140px;
   pointer-events: none;
   z-index: 9999;
@@ -316,7 +317,7 @@ h6 {
   }
 }
 
-/* CREEPER WALKER (150px -> ~200px) */
+/* CREEPER WALKER */
 @keyframes creeper-screen-move {
   0% {
     left: -250px;
@@ -362,12 +363,9 @@ h6 {
   z-index: 50;
   cursor: url('/sprites/sword-custom.png'), auto;
   /* Custom cursor over creeper too */
-  /* pointer-events: auto;  <-- Handled in JS component */
   background-image: url('/sprites/creeper-3d.png');
   background-size: contain;
   background-repeat: no-repeat;
-
-  /* Mix animations */
   animation: creeper-screen-move 30s linear infinite, gentle-bounce 1s infinite alternate;
 }
 
@@ -377,7 +375,7 @@ h6 {
 }
 
 
-/* STEVE DANCER (180px -> ~240px) */
+/* STEVE DANCER */
 .steve-dancer {
   width: 240px;
   height: 280px;
