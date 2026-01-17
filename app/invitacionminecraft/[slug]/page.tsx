@@ -26,14 +26,17 @@ const DB: Record<string, PartyConfig> = {
         locationName: "Salón 'El Bloque'", locationAddress: 'Av. Siempre Viva 742',
         mapUrl: 'https://maps.google.com',
         musicUrl: 'https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg',
-        targetDate: '2025-10-25T16:00:00', whatsappPhone: '5555555555'
+        // UPDATED YEAR TO 2026 (Future)
+        targetDate: '2026-10-25T16:00:00',
+        whatsappPhone: '5555555555'
     },
     'juanito8': {
         name: 'JUANITO', age: 8, date: '12 OCT', time: '5:00 PM',
         locationName: 'Jardín Real', locationAddress: 'Calle Falsa 123',
         mapUrl: 'https://maps.google.com',
         musicUrl: 'https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg',
-        targetDate: '2025-10-12T17:00:00', whatsappPhone: '5555555555'
+        targetDate: '2026-10-12T17:00:00',
+        whatsappPhone: '5555555555'
     }
 };
 
