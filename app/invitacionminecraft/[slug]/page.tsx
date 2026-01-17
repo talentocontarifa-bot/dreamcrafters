@@ -360,9 +360,9 @@ function HeroSection({ config }: { config: PartyConfig }) {
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.5 }}
-                    className="inline-block bg-[#000]/60 backdrop-blur-md px-10 py-6 border-4 border-white/90 transform -skew-x-12 z-20 shadow-[0_0_15px_rgba(95,179,70,0.6)]"
+                    className="inline-block bg-[#000]/70 backdrop-blur-md px-12 py-6 border-4 border-white transform -skew-x-12 z-20 shadow-[0_0_20px_rgba(95,179,70,0.8)] min-w-[300px]"
                 >
-                    <h2 className="text-4xl md:text-6xl text-[#5fb346] drop-shadow-[3px_3px_0_#000] stroke-black transform skew-x-12 font-bold tracking-wider leading-relaxed" style={{ fontFamily: 'var(--font-press-start)' }}>
+                    <h2 className="text-5xl md:text-7xl text-[#5fb346] drop-shadow-[4px_4px_0_#000] stroke-black transform skew-x-12 font-bold tracking-widest leading-normal" style={{ fontFamily: 'var(--font-press-start)' }}>
                         CUMPLE {config.age}
                     </h2>
                 </motion.div>
@@ -410,7 +410,7 @@ function CountdownSection({ targetDate }: { targetDate: string }) {
                 className="mb-8"
             >
                 <img
-                    src="/sprites/clock-icon-3d.png"
+                    src="/sprites/clock-item-v2.png"
                     alt="Reloj Minecraft"
                     className="w-24 md:w-32 drop-shadow-xl image-pixelated block mx-auto"
                 />
@@ -584,7 +584,7 @@ function MapSection({ mapUrl }: { mapUrl: string }) {
                     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 >
                     <img
-                        src="/sprites/map-icon-3d.png"
+                        src="/sprites/map-item-v2.png"
                         alt="Mapa 3D"
                         className="w-64 md:w-80 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] image-pixelated hover:brightness-110 transition-all block mx-auto"
                     />
