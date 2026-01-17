@@ -12,8 +12,11 @@ export default function OrderForm() {
         time: '',
         locationName: '',
         locationAddress: '',
-        mapUrl: ''
+        mapUrl: '',
+        whatsappNumber: ''
     });
+
+    const [isPaid, setIsPaid] = useState(false);
 
     // Placeholder for when PayPal is ready
     const PAYPAL_LINK = "#";
@@ -23,7 +26,7 @@ export default function OrderForm() {
     };
 
     const isFormValid = () => {
-        return formData.name && formData.date && formData.locationName;
+        return formData.name && formData.date && formData.locationName && formData.whatsappNumber;
     };
 
     const generateMessage = () => {
@@ -33,6 +36,7 @@ export default function OrderForm() {
             `*Cumple:* ${formData.age} años%0A` +
             `*Fecha:* ${formData.date}%0A` +
             `*Hora:* ${formData.time}%0A` +
+            `*WhatsApp Cliente:* ${formData.whatsappNumber}%0A` +
             `*Lugar:* ${formData.locationName}%0A` +
             `*Dirección:* ${formData.locationAddress}%0A` +
             `*Mapa:* ${formData.mapUrl}%0A%0A` +
@@ -41,7 +45,7 @@ export default function OrderForm() {
 
     const handleWhatsApp = () => {
         if (!isFormValid()) {
-            alert("Por favor completa al menos Nombre, Fecha y Lugar antes de enviar.");
+            alert("Por favor completa todos los campos obligatorios antes de enviar (Nombre, Fecha, Lugar, Tu WhatsApp).");
             return;
         }
         const text = generateMessage();
@@ -50,7 +54,7 @@ export default function OrderForm() {
 
     const handleEmail = () => {
         if (!isFormValid()) {
-            alert("Por favor completa al menos Nombre, Fecha y Lugar antes de enviar.");
+            alert("Por favor completa todos los campos antes de enviar.");
             return;
         }
         const subject = `Nuevo Pedido DreamCrafters: ${formData.name}`;
@@ -70,7 +74,7 @@ export default function OrderForm() {
                         CONFIGURA TU INVITACIÓN
                     </h1>
                     <p className="text-gray-300 text-lg">
-                        Llena los datos, envía tu pedido y realiza el pago para activar tu invitación.
+                        Completa tu misión en 3 pasos: Datos, Pago y Confirmación.
                     </p>
                 </header>
 
@@ -87,27 +91,46 @@ export default function OrderForm() {
                         {/* Section: Festejado */}
                         <div className="space-y-4">
                             <h3 className="text-purple-400 font-bold tracking-wider text-sm uppercase mb-2 border-b border-white/10 pb-2 flex items-center gap-2">
-                                <User size={16} /> Datos del Jugador
+                                <User size={16} /> 1. Datos del Jugador
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div className="md:col-span-2 relative group">
+                                    <label className="text-xs text-gray-400 ml-2 mb-1 block">Nombre del Cumpleañero/a</label>
                                     <input
                                         type="text"
                                         name="name"
-                                        placeholder="Nombre del Festejado/a"
+                                        placeholder="Escribe el nombre aquí..."
                                         className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
                                 <div className="relative group">
+                                    <label className="text-xs text-gray-400 ml-2 mb-1 block">Edad a cumplir</label>
                                     <input
                                         type="number"
                                         name="age"
-                                        placeholder="Edad"
+                                        placeholder="#"
                                         className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
+                            </div>
+                        </div>
+
+                        {/* Section: Contacto */}
+                        <div className="space-y-4">
+                            <h3 className="text-pink-400 font-bold tracking-wider text-sm uppercase mb-2 border-b border-white/10 pb-2 flex items-center gap-2">
+                                <Send size={16} /> Contacto para Entrega
+                            </h3>
+                            <div className="relative group">
+                                <label className="text-xs text-gray-400 ml-2 mb-1 block">Tu Número de WhatsApp</label>
+                                <input
+                                    type="tel"
+                                    name="whatsappNumber"
+                                    placeholder="Ej: 55 1234 5678"
+                                    className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-pink-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                    onChange={handleChange}
+                                />
                             </div>
                         </div>
 
@@ -118,20 +141,20 @@ export default function OrderForm() {
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="relative group">
+                                    <label className="text-xs text-gray-400 ml-2 mb-1 block">Día del Evento</label>
                                     <input
-                                        type="text"
+                                        type="date"
                                         name="date"
-                                        placeholder="Eje: Sábado 25 de Octubre"
-                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all text-white scheme-dark"
                                         onChange={handleChange}
                                     />
                                 </div>
                                 <div className="relative group">
+                                    <label className="text-xs text-gray-400 ml-2 mb-1 block">Hora de Inicio</label>
                                     <input
-                                        type="text"
+                                        type="time"
                                         name="time"
-                                        placeholder="Eje: 5:00 PM"
-                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all text-white scheme-dark"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -144,71 +167,92 @@ export default function OrderForm() {
                                 <MapPin size={16} /> Coordenadas
                             </h3>
                             <div className="relative group space-y-3">
-                                <input
-                                    type="text"
-                                    name="locationName"
-                                    placeholder="Nombre del Lugar (Eje: Salón 'El Castillo')"
-                                    className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
-                                    onChange={handleChange}
-                                />
-                                <input
-                                    type="text"
-                                    name="locationAddress"
-                                    placeholder="Dirección Completa (Calle, Número, Colonia)"
-                                    className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
-                                    onChange={handleChange}
-                                />
-                                <input
-                                    type="text"
-                                    name="mapUrl"
-                                    placeholder="Link de Google Maps (Opcional)"
-                                    className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500 text-sm"
-                                    onChange={handleChange}
-                                />
+                                <div>
+                                    <label className="text-xs text-gray-400 ml-2 mb-1 block">Nombre del Lugar</label>
+                                    <input
+                                        type="text"
+                                        name="locationName"
+                                        placeholder="Ej: Salón 'El Castillo'"
+                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="text-xs text-gray-400 ml-2 mb-1 block">Dirección</label>
+                                    <input
+                                        type="text"
+                                        name="locationAddress"
+                                        placeholder="Calle, Número, Colonia, Ciudad"
+                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        onChange={handleChange}
+                                    />
+                                </div>
+
+                                <div>
+                                    <div className="flex justify-between items-center mb-1">
+                                        <label className="text-xs text-gray-400 ml-2 block">Link de Google Maps</label>
+                                        <a href="https://www.google.com.mx/maps" target="_blank" rel="noreferrer" className="text-xs text-blue-400 hover:text-blue-300 underline flex items-center gap-1">
+                                            <MapPin size={10} /> Buscar Link en Maps
+                                        </a>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="mapUrl"
+                                        placeholder="Pega aquí el link (https://maps.app.goo.gl/...)"
+                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500 text-sm"
+                                        onChange={handleChange}
+                                    />
+                                </div>
                             </div>
                         </div>
 
-                        {/* Actions */}
-                        <div className="pt-6 flex flex-col gap-3">
-                            <button
-                                onClick={handleWhatsApp}
-                                className="w-full bg-[#25D366] hover:bg-[#1ebd59] text-black font-bold py-4 rounded-xl shadow-lg transform active:scale-95 transition-all flex items-center justify-center gap-2 text-lg"
-                            >
-                                <Send size={24} />
-                                1. ENVIAR PEDIDO
-                            </button>
 
-                            <button
-                                onClick={handleEmail}
-                                className="w-full bg-white/5 hover:bg-white/10 text-gray-300 font-medium py-3 rounded-xl border border-white/10 active:scale-95 transition-all flex items-center justify-center gap-2 text-sm"
-                            >
-                                <Mail size={18} />
-                                O enviar por Correo
-                            </button>
-                        </div>
-
-                        {/* Payment Section - Always Visible for Clarity */}
-                        <div className="mt-8 pt-8 border-t border-white/10">
-                            <h3 className="text-yellow-400 font-bold tracking-wider text-sm uppercase mb-4 flex items-center gap-2">
-                                <CreditCard size={16} /> Métodos de Pago
+                        {/* Payment Section - Step 2 */}
+                        <div className="mt-8 pt-6 border-t border-white/10 bg-white/5 p-6 rounded-2xl border border-yellow-500/30">
+                            <h3 className="text-yellow-400 font-bold tracking-wider text-lg uppercase mb-4 flex items-center gap-2">
+                                <CreditCard size={20} /> 2. Realizar Pago
                             </h3>
-                            <p className="text-sm text-gray-400 mb-4">
-                                El proceso inicia una vez confirmado tu pago.
+                            <p className="text-sm text-gray-300 mb-4">
+                                Para activar tu pedido, es necesario realizar el pago del anticipo o total.
                             </p>
 
                             <div className="flex flex-col items-center gap-4">
                                 {/* MercadoPago Integration */}
-                                <div className="w-full flex justify-center bg-[#009ee3]/10 py-4 rounded-xl border border-[#009ee3]/30">
+                                <div className="w-full flex justify-center bg-[#009ee3]/10 py-2 rounded-xl border border-[#009ee3]/30">
                                     <MercadoPagoButton />
                                 </div>
 
                                 {/* PayPal Placeholder */}
                                 <a
                                     href={PAYPAL_LINK}
-                                    className="w-full group flex items-center justify-center gap-3 bg-[#003087]/20 hover:bg-[#003087]/30 text-white/60 hover:text-white py-3 rounded-xl transition-all border border-white/5"
+                                    className="text-xs text-gray-500 hover:text-white transition-colors"
                                 >
-                                    <span className="font-bold text-sm">PayPal (Próximamente)</span>
+                                    Pagar con PayPal (Próximamente)
                                 </a>
+                            </div>
+                        </div>
+
+                        {/* Actions - Step 3 */}
+                        <div className="pt-6">
+                            <h3 className="text-green-400 font-bold tracking-wider text-sm uppercase mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                                <Send size={16} /> 3. Confirmar Pedido
+                            </h3>
+                            <div className="flex flex-col gap-3">
+                                <button
+                                    onClick={handleWhatsApp}
+                                    className="w-full bg-[#25D366] hover:bg-[#1ebd59] text-black font-bold py-4 rounded-xl shadow-lg transform active:scale-95 transition-all flex items-center justify-center gap-2 text-lg"
+                                >
+                                    <Send size={24} />
+                                    ENVIAR DATOS POR WHATSAPP
+                                </button>
+
+                                <button
+                                    onClick={handleEmail}
+                                    className="w-full bg-white/5 hover:bg-white/10 text-gray-300 font-medium py-3 rounded-xl border border-white/10 active:scale-95 transition-all flex items-center justify-center gap-2 text-sm"
+                                >
+                                    <Mail size={18} />
+                                    Enviar copia por Correo
+                                </button>
                             </div>
                         </div>
 
