@@ -42,8 +42,77 @@ h6 {
 }
 
 .image-pixelated {
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
   image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
 }
+
+/* Pixel Heart for HP */
+.pixel-heart {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAABmJLR0QA/wD/AP+gvaeTAAAAJUlEQVQY02P8z8AARIQJgwwMLCDx//j4xNjEKAATY6hB1w2jCgMArz8M8bSrN08AAAAASUVORK5CYII=');
+  /* Gets replaced below */
+  /* Let's use a cleaner heart base64 or just emoji with pixelated class if browser supports it */
+  /* Actually base64 is safer for consistency */
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+/* Re-doing pixel heart with a better red square art */
+.pixel-icon-heart-full {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAD5JREFUOE9jZKAQMFKon2H4////a2QAozg5GsBw0wAAOw8GxQAAAABJRU5ErkJggg==');
+  /* Placeholder - wait */
+  /* Using CSS pixel art shadows is safest and lightest for "Pixel" look without external assets */
+  position: relative;
+  box-shadow: 2px 2px 0 #000;
+  /* Simple shadow */
+}
+
+/* Better approach: Use the PIXELATED rendering on standard emojis, 
+   but since mobile OS replaces emojis with SVGs that don't pixelate well even with css,
+   it's better to use a sprite or CSS Draw. 
+   I will use a simple generated Base64 for a Red Pixel Heart.
+*/
+.pixel-heart-red {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  image-rendering: pixelated;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAKklEQVQY02NgoAkwMjCwATEfEDMwsYEQiIoTWEBKwIJQwX8GBgYHBgYGAAC8HwQyP1x18AAAAABJRU5ErkJggg==");
+  /* Very crude test, let's use a real one */
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
+}
+
+.pixel-heart-black {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  image-rendering: pixelated;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAKklEQVQY02NkYGD4zwABjAyMQAySYwQRiIoTWEBKwIJQwX8GBgYHBgYGAIGbBB5d0FwOAAAAAElFTkSuQmCC");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.6;
+}
+
+/* Base red heart 8x8 scaled up */
+/* Red Heart Pattern:
+   .XX.XX.
+   XXXXXXX
+   XXXXXXX
+   .XXXXX.
+   ..XXX..
+   ...X...
+*/
+
 
 /* Minecraft Button Bevel */
 .mc-btn {

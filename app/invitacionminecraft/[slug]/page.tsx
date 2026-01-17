@@ -223,12 +223,16 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
             />
 
             <div className="fixed top-0 left-0 w-full text-center pt-8 pointer-events-none z-40">
-                <h1 className="text-4xl text-yellow-400 drop-shadow-[4px_4px_0_#000] font-vt323 stroke-black">¡FIESTA MINECRAFT!</h1>
+                <img
+                    src="/sprites/title-fiesta.png"
+                    alt="Fiesta Minecraft"
+                    className="h-24 md:h-32 mx-auto drop-shadow-lg image-pixelated"
+                />
             </div>
 
             <div className="fixed top-24 text-2xl z-40">
                 {Array.from({ length: 5 }).map((_, i) => (
-                    <span key={i} className="text-red-600 drop-shadow-md">{i < Math.ceil(hp / 2) ? '❤️' : '🖤'}</span>
+                    <div key={i} className={`inline-block mx-1 ${i < Math.ceil(hp / 2) ? 'pixel-heart-red' : 'pixel-heart-black'}`}></div>
                 ))}
             </div>
 
@@ -302,15 +306,18 @@ function HeroSection({ config }: { config: PartyConfig }) {
             <div className="relative z-10 p-4 pt-10">
                 <div className="steve-dancer"></div>
 
-                <motion.h1
+                <motion.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.3 }}
-                    className="text-6xl md:text-[9rem] text-white drop-shadow-[8px_8px_0_#222] leading-none mb-4 stroke-black tracking-tight"
-                    style={{ fontFamily: 'var(--font-press-start)' }}
+                    className="mb-8"
                 >
-                    {config.name}
-                </motion.h1>
+                    <img
+                        src="/sprites/name-lucas.png"
+                        alt={config.name}
+                        className="w-full max-w-sm md:max-w-xl mx-auto image-pixelated drop-shadow-[8px_8px_0_rgba(0,0,0,0.5)]"
+                    />
+                </motion.div>
 
                 <motion.div
                     initial={{ y: 20, opacity: 0 }}

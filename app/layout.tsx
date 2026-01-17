@@ -16,6 +16,9 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: "DreamCrafters - Invitaciones Digitales Épicas",
   description: "Transforma tu evento en una memoria inolvidable con invitaciones web personalizadas.",
+  icons: {
+    icon: "/icons/favicon-custom.png",
+  },
 };
 
 export default function RootLayout({
