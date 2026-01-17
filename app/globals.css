@@ -4,36 +4,16 @@
 @theme {
   --font-bebas: var(--font-bebas), sans-serif;
   --font-outfit: var(--font-outfit), sans-serif;
-
-  /* Minecraft Fonts */
   --font-vt323: var(--font-vt323), monospace;
   --font-press-start: var(--font-press-start), cursive;
 
-  /* Wedding Fonts */
-  --font-script: "Great Vibes", cursive;
-  --font-serif: "Playfair Display", serif;
-  --font-classic: "Cinzel", serif;
-  --font-wedding-sans: "Montserrat", sans-serif;
-
-  --color-brand-blue: #02005e;
-  --color-brand-cyan: #06b6d4;
-  --color-brand-pink: #f43f5e;
-  --color-brand-yellow: #fbbf24;
-
-  /* Minecraft Colors */
+  /* Colors */
   --color-mc-green: #5fb346;
   --color-mc-green-dark: #367023;
   --color-mc-brown: #5c4a33;
   --color-mc-stone: #7e7e7e;
-  --color-mc-stone-dark: #585858;
   --color-mc-btn-top: #a7a7a7;
   --color-mc-btn-side: #3b3b3b;
-
-  /* Wedding Colors */
-  --color-wedding-gold: #C5A059;
-  --color-wedding-dark: #2C2C2C;
-  --color-wedding-light: #F9F7F2;
-  --color-wedding-gray: #8A8A8A;
 }
 
 :root {
@@ -61,10 +41,6 @@ h6 {
   text-shadow: 2px 2px 0 #000;
 }
 
-.text-mc-shadow-sm {
-  text-shadow: 1px 1px 0 #000;
-}
-
 .image-pixelated {
   image-rendering: pixelated;
 }
@@ -82,15 +58,11 @@ h6 {
 
 /* Minecraft Panel */
 .mc-panel {
-  box-shadow:
-    inset 2px 2px 0px 0px #c6c6c6,
-    inset -2px -2px 0px 0px #555555,
-    inset 4px 4px 0px 0px #ffffff,
-    inset -4px -4px 0px 0px #222222;
+  box-shadow: inset 2px 2px 0px 0px #c6c6c6, inset -2px -2px 0px 0px #555555, inset 4px 4px 0px 0px #ffffff, inset -4px -4px 0px 0px #222222;
   background-color: #8b8b8b;
 }
 
-/* --- 3D PIÑATA PHYSICS & TEXTURES (USER REFERENCE) --- */
+/* --- 3D PIÑATA PHYSICS & TEXTURES --- */
 .scene {
   width: 200px;
   height: 200px;
@@ -140,10 +112,9 @@ h6 {
   backface-visibility: hidden;
 }
 
-/* TEXTURA ABEJA */
+/* TEXTURAS ABEJA */
 .texture-bee-face {
-  background: linear-gradient(to right, transparent 20%, #111 20%, #111 35%, transparent 35%, transparent 65%, #111 65%, #111 80%, transparent 80%),
-    linear-gradient(to bottom, #ffce20 20%, #222 20%, #222 40%, #ffce20 40%, #ffce20 60%, #222 60%, #222 80%, #ffce20 80%);
+  background: linear-gradient(to right, transparent 20%, #111 20%, #111 35%, transparent 35%, transparent 65%, #111 65%, #111 80%, transparent 80%), linear-gradient(to bottom, #ffce20 20%, #222 20%, #222 40%, #ffce20 40%, #ffce20 60%, #222 60%, #222 80%, #ffce20 80%);
   background-color: #ffce20;
 }
 
@@ -272,10 +243,7 @@ h6 {
 .damage-overlay {
   position: absolute;
   inset: 0;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20 20 L40 50 L10 60 Z" fill="black"/></svg>');
-  background-size: 60%;
-  opacity: 0;
-  pointer-events: none;
+  background-color: rgba(0, 0, 0, 0);
   transition: opacity 0.2s;
 }
 
@@ -299,4 +267,80 @@ h6 {
 
 .flash-red .face-pinata {
   filter: sepia(1) hue-rotate(-50deg) saturate(5) brightness(0.8);
+}
+
+/* --- NEW ANIMATIONS & TEXTURES (User Request V9) --- */
+
+/* CREEPER WALK SPRITE ANIMATION */
+@keyframes creeper-walk-anim {
+  0% {
+    transform: translateX(-20vw) scaleX(1);
+  }
+
+  49% {
+    transform: translateX(120vw) scaleX(1);
+  }
+
+  50% {
+    transform: translateX(120vw) scaleX(-1);
+  }
+
+  /* Flip to walk back */
+  100% {
+    transform: translateX(-20vw) scaleX(-1);
+  }
+}
+
+.creeper-walker {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  width: 64px;
+  height: 64px;
+  /* Pixel art Creeper face SVG background */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8"><rect width="8" height="8" fill="%2363a355"/><path fill="%23000" d="M1 1h2v1h1v1h-1v1h-1v-1h-1zM5 1h2v1h-2zM2 3h1v1h2v-1h1v2h-1v1h-1v-1h-2v1h-1v-1h-1v-2z" fill-rule="evenodd"/></svg>');
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 5;
+  pointer-events: none;
+  image-rendering: pixelated;
+  opacity: 0.8;
+  animation: creeper-walk-anim 25s linear infinite;
+}
+
+/* WOODEN PLANKS TEXTURE (Dark Oak) */
+.tex-wood-dark {
+  background-color: #3e2723;
+  background-image:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.2) 1px, transparent 1px),
+    linear-gradient(rgba(0, 0, 0, 0.2) 1px, transparent 1px);
+  background-size: 32px 32px;
+  /* Planks size */
+  position: relative;
+  border-top: 6px solid #271c19;
+}
+
+/* Steve Dance Animation */
+@keyframes steve-dance {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  25% {
+    transform: translateY(-8px) rotate(-6deg);
+  }
+
+  50% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  75% {
+    transform: translateY(-8px) rotate(6deg);
+  }
+}
+
+.steve-dancer {
+  animation: steve-dance 0.8s infinite ease-in-out;
 }

@@ -26,7 +26,6 @@ const DB: Record<string, PartyConfig> = {
         locationName: "Salón 'El Bloque'", locationAddress: 'Av. Siempre Viva 742',
         mapUrl: 'https://maps.google.com',
         musicUrl: 'https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg',
-        // UPDATED YEAR TO 2026 (Future)
         targetDate: '2026-10-25T16:00:00',
         whatsappPhone: '5555555555'
     },
@@ -94,6 +93,9 @@ export default function InvitationPage() {
                     <MapSection mapUrl={config.mapUrl} />
                     <RSVPSection phone={config.whatsappPhone} name={config.name} />
                     <Footer />
+
+                    {/* CREEPER WALKER SPRITE - SCROLL ANIMATION */}
+                    <div className="creeper-walker"></div>
                 </div>
             )}
         </main>
@@ -218,7 +220,7 @@ function HeroSection({ config }: { config: PartyConfig }) {
                 <motion.div
                     initial={{ scale: 0, rotate: -180 }}
                     animate={{ scale: 1, rotate: 0 }}
-                    className="mb-8 inline-block"
+                    className="mb-8 inline-block steve-dancer"
                 >
                     <div className="w-24 h-24 bg-[#5fb346] border-4 border-black box-content relative shadow-2xl">
                         <div className="w-full h-full bg-[#eebb88] relative">
@@ -284,7 +286,7 @@ function CountdownSection({ targetDate }: { targetDate: string }) {
                 viewport={{ once: true }}
                 className="mc-panel p-2 mb-8 z-10 bg-[#333] border-2 border-[#555]"
             >
-                <p className="text-[#a7a7a7] px-4 py-1 text-sm border-2 border-[#111] bg-[#222]" style={{ fontFamily: 'var(--font-press-start)' }}>TIEMPO PARA EL RESPAWN</p>
+                <p className="text-[#a7a7a7] px-4 py-1 text-sm border-2 border-[#111] bg-[#222]" style={{ fontFamily: 'var(--font-press-start)' }}>TIEMPO FALTANTE PARA LA FIESTA</p>
             </motion.div>
 
             <div className="flex flex-wrap justify-center gap-4 md:gap-8 px-4 z-10 text-white">
@@ -441,7 +443,7 @@ function RSVPSection({ phone, name }: { phone: string, name: string }) {
     };
 
     return (
-        <section className="bg-[#5d4037] py-20 border-t-[8px] border-[#3e2723] text-center shadow-inner relative overflow-hidden">
+        <section className="tex-wood-dark py-20 text-center shadow-inner relative overflow-hidden">
             <div className="absolute inset-0 opacity-20 bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhQwWgwYgKE0kE0bDgAAwAA//8wI58KAAAAAElFTkSuQmCC')]"></div>
 
             <div className="relative z-10 max-w-2xl mx-auto px-4">
@@ -487,7 +489,7 @@ function FooterButton({ label, onClick, color }: any) {
 
 function Footer() {
     return (
-        <footer className="bg-[#111] py-8 text-center border-t-4 border-[#333]" >
+        <footer className="tex-wood-dark py-8 text-center border-t-4 border-[#271c19]" >
             <div className="flex items-center justify-center gap-2 mb-2">
                 <div className="w-4 h-4 bg-[#5fb346] animate-bounce"></div>
                 <span className="text-[#555] text-[10px]" style={{ fontFamily: 'var(--font-press-start)' }}>MINECRAFT PARTY INVITATION</span>
