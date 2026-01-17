@@ -244,7 +244,7 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
     return (
         <div className="text-center w-full h-full flex flex-col items-center justify-center relative overflow-hidden backdrop-blur-sm cursor-none">
             <div
-                className={`sword-cursor ${isSwinging ? 'sword-swing' : ''}`}
+                className={`sword-cursor-custom ${isSwinging ? 'sword-swing' : ''}`}
                 style={{ left: cursorPos.x, top: cursorPos.y, display: cursorPos.x < 0 ? 'none' : 'block' }}
             />
 

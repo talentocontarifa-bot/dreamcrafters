@@ -98,162 +98,95 @@ h6 {
   width: 40px;
   height: 40px;
   image-rendering: pixelated;
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAKklEQVQY02NkYGD4zwABjAyMQAySYwQRiIoTWEBKwIJQwX8GBgYHBgYGAIGbBB5d0FwOAAAAAElFTkSuQmCC");
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAKklEQVQY02NgoAkwMjCwATEfEDMwsYEQiIoTWEBKwIJQwX8GBgYHBgYGAAC8HwQyP1x18AAAAABJRU5ErkJggg==");
+  /* Just filled black for empty heart? Or gray? */
   background-size: contain;
   background-repeat: no-repeat;
-  opacity: 0.6;
+  filter: grayscale(100%) brightness(50%);
 }
 
-/* Base red heart 8x8 scaled up */
-/* Red Heart Pattern:
-   .XX.XX.
-   XXXXXXX
-   XXXXXXX
-   .XXXXX.
-   ..XXX..
-   ...X...
-*/
 
-
-/* Minecraft Button Bevel */
-.mc-btn {
-  box-shadow: inset 2px 2px 0px 0px rgba(255, 255, 255, 0.4), inset -2px -2px 0px 0px rgba(0, 0, 0, 0.6);
-  transition: all 0.05s;
-}
-
-.mc-btn:active {
-  box-shadow: inset 2px 2px 0px 0px rgba(0, 0, 0, 0.6), inset -2px -2px 0px 0px rgba(255, 255, 255, 0.4);
-  transform: translateY(2px);
-}
-
-.mc-panel {
-  box-shadow: inset 2px 2px 0px 0px #c6c6c6, inset -2px -2px 0px 0px #555555, inset 4px 4px 0px 0px #ffffff, inset -4px -4px 0px 0px #222222;
-  background-color: #8b8b8b;
-}
-
-/* --- 3D PIÑATA WITH SEPARATE TEXTURES --- */
+/* --- CSS 3D CUBE ANIMATION (PINATA) --- */
 .scene {
   width: 200px;
   height: 200px;
-  perspective: 800px;
-  z-index: 10;
-  cursor: none;
+  perspective: 600px;
+  margin-top: -60px;
+  /* Move it up a bit */
+  position: relative;
+  z-index: 20;
 }
 
 .pivot-group {
   width: 100%;
   height: 100%;
+  position: relative;
   transform-style: preserve-3d;
-  transform-origin: 50% -200px;
-  animation: dramatic-sway 4s ease-in-out infinite alternate;
+  animation: swing 3s infinite ease-in-out;
+  transform-origin: top center;
 }
 
-@keyframes dramatic-sway {
-  0% {
-    transform: rotateZ(-25deg) rotateY(35deg) translateY(-10px);
-  }
-
-  50% {
-    transform: rotateZ(0deg) rotateY(0deg) translateY(10px);
-  }
-
-  100% {
-    transform: rotateZ(25deg) rotateY(-35deg) translateY(-10px);
-  }
+/* Rope */
+.rope {
+  position: absolute;
+  top: -200px;
+  /* Hang from way up */
+  left: 50%;
+  width: 4px;
+  height: 280px;
+  background: #d4a017;
+  /* Rope color */
+  transform: translateX(-50%);
+  z-index: 10;
 }
 
 .cube-pinata {
-  width: 100%;
-  height: 100%;
-  position: relative;
+  width: 128px;
+  height: 128px;
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  margin-left: -64px;
   transform-style: preserve-3d;
-  cursor: none;
+  cursor: url('/sprites/diamond-sword.png'), auto;
+  transform: rotateX(-10deg) rotateY(20deg);
+  /* Initial angle */
+  transition: transform 0.1s;
 }
 
+/* Faces */
 .face-pinata {
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: 128px;
+  height: 128px;
   background-size: cover;
   image-rendering: pixelated;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.25);
-  backface-visibility: hidden;
-  background-color: #ffce20;
-  /* Fallback color */
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+  /* Inner shadow depth */
 }
 
-/* Individual Face Textures - Using separate files in /sprites/ with unique names */
-/* Added !important and cache busting query to ensure update */
-.texture-bee-face {
-  background-image: url('/sprites/bee-front.jpg?v=2') !important;
-}
-
-.texture-bee-side {
-  background-image: url('/sprites/bee-side.jpg?v=2') !important;
-}
-
-.texture-bee-top {
-  background-image: url('/sprites/bee-side.jpg?v=2') !important;
-}
-
-.texture-bee-bottom {
-  background-image: url('/sprites/bee-bottom.jpg?v=2') !important;
-}
-
-.texture-bee-back {
-  background-image: url('/sprites/bee-back.png?v=2') !important;
-}
-
-/* Cube Faces Transforms & specific assignments */
-.face-pinata.front {
-  transform: rotateY(0deg) translateZ(100px);
-}
-
-.face-pinata.back {
-  transform: rotateY(180deg) translateZ(100px);
-}
-
-.face-pinata.right {
-  transform: rotateY(90deg) translateZ(100px);
-}
-
-.face-pinata.left {
-  transform: rotateY(-90deg) translateZ(100px);
-}
-
-.face-pinata.top {
-  transform: rotateX(90deg) translateZ(100px);
-}
-
-.face-pinata.bottom {
-  transform: rotateX(-90deg) translateZ(100px);
-}
-
-/* Wings & Extras */
+/* Wing flappers */
 .wing {
   position: absolute;
-  width: 80px;
-  height: 50px;
+  width: 40px;
+  height: 30px;
   background: rgba(255, 255, 255, 0.8);
-  border: 2px solid #ddd;
   top: -20px;
-  transform-origin: bottom left;
-  animation: flutter 0.2s infinite alternate;
+  transform-origin: bottom center;
+  animation: flap 0.1s infinite alternate;
 }
 
 .wing-left {
-  left: 20px;
-  transform: rotateY(-20deg);
+  left: 10px;
+  transform: rotateY(-30deg);
 }
 
 .wing-right {
-  right: 20px;
-  transform: rotateY(20deg) scaleX(-1);
-  transform-origin: bottom right;
+  right: 10px;
+  transform: rotateY(30deg);
 }
 
-@keyframes flutter {
+@keyframes flap {
   from {
     transform: rotateX(0deg);
   }
@@ -263,203 +196,283 @@ h6 {
   }
 }
 
-.rope {
-  position: absolute;
-  width: 4px;
-  height: 1000px;
-  background: #8d6e63;
-  bottom: 200px;
-  left: 98px;
-  transform: translateZ(0);
-  pointer-events: none;
+.front {
+  transform: translateZ(64px);
 }
 
+.back {
+  transform: rotateY(180deg) translateZ(64px);
+}
+
+.right {
+  transform: rotateY(90deg) translateZ(64px);
+}
+
+.left {
+  transform: rotateY(-90deg) translateZ(64px);
+}
+
+.top {
+  transform: rotateX(90deg) translateZ(64px);
+}
+
+.bottom {
+  transform: rotateX(-90deg) translateZ(64px);
+}
+
+/* BEE TEXTURES (Placeholders - we will map real ones) */
+.texture-bee-face {
+  background-color: #ffd700;
+  background-image: url('/textures/bee/front.jpg');
+}
+
+.texture-bee-side {
+  background-color: #ffcc00;
+  background-image: url('/textures/bee/top_sides.jpg');
+}
+
+.texture-bee-top {
+  background-color: #e6b800;
+  background-image: url('/textures/bee/top_sides.jpg');
+}
+
+.texture-bee-bottom {
+  background-color: #333;
+  /* Bee belly */
+  background-image: url('/textures/bee/down_back.jpg');
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Fringes for Pinata Effect on bottom */
 .fringe {
-  position: absolute;
-  bottom: -40px;
-  width: 20px;
-  height: 60px;
-  transform-origin: top;
-  animation: loose-paper 2s ease-in-out infinite alternate;
+  width: 100%;
+  height: 25%;
+  border-bottom: 4px dashed #000;
 }
 
-.f1 {
-  left: 20px;
-  background: #ffce20;
-}
 
-.f2 {
-  left: 60px;
-  background: #111;
-  animation-delay: 0.2s;
-}
+/* Animations */
+@keyframes swing {
 
-.f3 {
-  left: 100px;
-  background: #ffce20;
-  animation-delay: 0.4s;
-}
-
-.f4 {
-  left: 140px;
-  background: #111;
-  animation-delay: 0.1s;
-}
-
-@keyframes loose-paper {
-  from {
-    transform: rotate(15deg);
-  }
-
-  to {
-    transform: rotate(-15deg);
-  }
-}
-
-.damage-overlay {
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0);
-  transition: opacity 0.2s;
-}
-
-.hit-anim {
-  animation: shake 0.2s ease-in-out;
-}
-
-@keyframes shake {
-  0% {
-    transform: scale(1);
+  0%,
+  100% {
+    transform: rotateZ(-5deg);
   }
 
   50% {
-    transform: scale(0.9);
+    transform: rotateZ(5deg);
+  }
+}
+
+.hit-anim {
+  animation: hitShake 0.1s;
+}
+
+@keyframes hitShake {
+  0% {
+    transform: translate(0, 0) rotateX(-10deg) rotateY(20deg);
+  }
+
+  25% {
+    transform: translate(5px, 5px) rotateX(-10deg) rotateY(20deg);
+  }
+
+  50% {
+    transform: translate(-5px, -5px) rotateX(-10deg) rotateY(20deg);
+  }
+
+  75% {
+    transform: translate(5px, -5px) rotateX(-10deg) rotateY(20deg);
   }
 
   100% {
-    transform: scale(1);
+    transform: translate(0, 0) rotateX(-10deg) rotateY(20deg);
   }
 }
 
 .flash-red .face-pinata {
-  filter: sepia(1) hue-rotate(-50deg) saturate(5) brightness(0.8);
+  filter: sepia(100%) saturate(1000%) hue-rotate(-50deg) contrast(200%);
+  /* Red Flash Effect */
 }
 
-
-/* --- SPRITES & SIZES --- */
-
-/* SWORD CURSOR (Initial 140px -> +30% -> ~180px) */
-.sword-cursor {
-  position: fixed;
-  width: 180px;
-  height: 180px;
+/* Damage Overlay (cracks) */
+.damage-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://static.wikia.nocookie.net/minecraft_gamepedia/images/0/08/Destroy_Stage_5.png');
+  /* Mock crack */
+  background-size: cover;
+  opacity: 0;
+  mix-blend-mode: multiply;
   pointer-events: none;
-  z-index: 9999;
-  background-image: url('/sprites/sword-custom.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  transform-origin: bottom left;
-  margin-top: -140px;
-  margin-left: -40px;
-  filter: drop-shadow(6px 6px 0 rgba(0, 0, 0, 0.5));
-  transition: transform 0.05s;
-}
-
-.sword-swing {
-  animation: swing-sword-dynamic 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@keyframes swing-sword-dynamic {
-  0% {
-    transform: rotate(0deg) scale(1);
-  }
-
-  50% {
-    transform: rotate(-100deg) translate(-30px, 30px) scale(1.1);
-  }
-
-  100% {
-    transform: rotate(0deg) scale(1);
-  }
-}
-
-/* CREEPER WALKER (200px -> +20% -> 240px) */
-@keyframes creeper-screen-move {
-  0% {
-    left: -300px;
-    transform: scaleX(1);
-  }
-
-  49% {
-    left: 100vw;
-    transform: scaleX(1);
-  }
-
-  50% {
-    left: 100vw;
-    transform: scaleX(-1);
-  }
-
-  100% {
-    left: -300px;
-    transform: scaleX(-1);
-  }
-}
-
-@keyframes gentle-bounce {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-/* Base class for JS interaction */
-.creeper-interactive {
-  position: fixed;
-  bottom: 0px;
-  left: -300px;
-  /* Start offscreen */
-  width: 240px;
-  height: 240px;
-  z-index: 50;
-  cursor: url('/sprites/sword-custom.png'), auto;
-  /* Custom cursor over creeper too */
-  background-image: url('/sprites/creeper-3d.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  animation: creeper-screen-move 30s linear infinite, gentle-bounce 1s infinite alternate;
-}
-
-.creeper-hit {
-  filter: sepia(1) hue-rotate(-50deg) saturate(5) brightness(0.8);
-  transform: scale(0.95);
+  transition: opacity 0.2s;
 }
 
 
-/* STEVE DANCER (240px -> +20% -> ~290px) */
+/* --- STEVE DANCER CSS --- */
 .steve-dancer {
-  width: 290px;
-  height: 340px;
-  display: inline-block;
-  position: relative;
+  width: 120px;
+  height: 220px;
   background-image: url('/sprites/steve-3d.png');
   background-size: contain;
   background-repeat: no-repeat;
-  animation: gentle-bounce 2s infinite ease-in-out;
-  margin-bottom: 1rem;
-  filter: drop-shadow(0 15px 5px rgba(0, 0, 0, 0.3));
+  background-position: center bottom;
+  /* animation: danceBounce 0.8s infinite alternate ease-in-out; */
+  /* Replaced with frame animation below if we had a spritesheet, 
+     but for single image, let's just bounce/squash */
+  image-rendering: pixelated;
+  filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.5));
 }
 
-/* WOODEN PLANKS TEXTURE */
-.tex-wood-dark {
-  background-color: #3e2723;
-  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.2) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, 0.2) 1px, transparent 1px);
-  background-size: 32px 32px;
-  position: relative;
-  border-top: 6px solid #271c19;
+@keyframes danceBounce {
+  0% {
+    transform: scaleY(1) translateY(0);
+  }
+
+  50% {
+    transform: scaleY(0.95) translateY(5px);
+  }
+
+  100% {
+    transform: scaleY(1.05) translateY(-5px);
+  }
+}
+
+
+/* --- CREEPER WALKER CSS --- */
+.creeper-walker {
+  position: absolute;
+  bottom: 0;
+  left: -100px;
+  width: 60px;
+  height: 100px;
+  background-image: url('/sprites/creeper-3d.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  animation: walkAcross 20s linear infinite;
+  z-index: 5;
+  cursor: pointer;
+  transition: filter 0.1s;
+}
+
+.creeper-hit {
+  filter: brightness(200%) sepia(100%) hue-rotate(-50deg) saturate(500%);
+}
+
+@keyframes walkAcross {
+  0% {
+    left: -100px;
+    transform: scaleX(1);
+  }
+
+  45% {
+    left: 45%;
+    transform: scaleX(1);
+  }
+
+  50% {
+    left: 50%;
+    transform: scaleX(1);
+  }
+
+  55% {
+    left: 45%;
+    transform: scaleX(-1);
+  }
+
+  /* Turn around */
+  90% {
+    left: -100px;
+    transform: scaleX(-1);
+  }
+
+  100% {
+    left: -100px;
+    transform: scaleX(1);
+  }
+}
+
+
+/* --- CURSOR SWORD --- */
+/* Fallback if JS custom cursor fails */
+/* 
+body {
+    cursor: url('/sprites/diamond-sword.png'), auto;
+} 
+*/
+
+.sword-cursor {
+  position: fixed;
+  width: 64px;
+  height: 64px;
+  background-image: url('/sprites/diamond-sword.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 9999;
+  transform-origin: bottom left;
+  image-rendering: pixelated;
+  /* Start offset so top-left of image isn't the click point if image is centered sword */
+  /* Actually standard sword sprite usually has handle bottom-left */
+  margin-left: -10px;
+  margin-top: -10px;
+}
+
+.sword-swing {
+  animation: swordSwing 0.2s linear;
+}
+
+@keyframes swordSwing {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(-45deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* --- CUSTOM CURSOR --- */
+.sword-cursor-custom {
+  position: fixed;
+  width: 64px;
+  height: 64px;
+  background-image: url('/sprites/sword-custom.webp');
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 9999;
+  transform-origin: bottom left;
+  image-rendering: pixelated;
+  /* Start offset so top-left of image isn't the click point if image is centered sword */
+  /* Actually standard sword sprite usually has handle bottom-left */
+  margin-left: -10px;
+  margin-top: -50px;
+}
+
+.sword-cursor-custom.swing {
+  animation: swordSwing 0.2s linear;
+}
+
+@keyframes swordSwing {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(-45deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
 }
