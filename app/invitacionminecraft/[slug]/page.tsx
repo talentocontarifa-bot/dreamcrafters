@@ -413,7 +413,16 @@ function CountdownSection({ targetDate }: { targetDate: string }) {
                     src="/sprites/item-clock.png"
                     alt="Reloj Minecraft"
                     className="w-24 md:w-32 drop-shadow-xl image-pixelated block mx-auto"
+                    onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        // Show fallback text
+                        const fb = document.getElementById('clock-fallback');
+                        if (fb) fb.style.display = 'block';
+                    }}
                 />
+                <div id="clock-fallback" className="hidden bg-[#222] border-4 border-[#fff] text-white p-2 font-vt323 text-xl">
+                    ⏱️
+                </div>
             </motion.div>
 
             <div className="flex flex-wrap justify-center gap-6 md:gap-8 px-4 z-10 text-white">
@@ -587,7 +596,16 @@ function MapSection({ mapUrl }: { mapUrl: string }) {
                         src="/sprites/item-map.png"
                         alt="Mapa 3D"
                         className="w-64 md:w-80 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] image-pixelated hover:brightness-110 transition-all block mx-auto"
+                        onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                            const fb = document.getElementById('map-fallback-v2');
+                            if (fb) fb.style.display = 'block';
+                        }}
                     />
+                    <div id="map-fallback-v2" className="hidden w-64 h-64 mx-auto bg-[#f0e68c] border-8 border-[#8b4513] relative shadow-xl flex items-center justify-center">
+                        <span className="text-[#8b4513] text-6xl transform rotate-45">❌</span>
+                        <span className="absolute bottom-2 text-[#8b4513] font-bold text-xs" style={{ fontFamily: 'var(--font-press-start)' }}>MAPA</span>
+                    </div>
                 </motion.div>
 
                 <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-[#5d4037] text-white px-4 py-2 text-xs md:text-sm border-2 border-[#3e2723] shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" style={{ fontFamily: 'var(--font-press-start)' }}>
