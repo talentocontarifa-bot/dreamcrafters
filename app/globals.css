@@ -68,6 +68,7 @@ h6 {
   height: 200px;
   perspective: 800px;
   z-index: 10;
+  cursor: none;
 }
 
 .pivot-group {
@@ -97,7 +98,7 @@ h6 {
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  cursor: pointer;
+  cursor: none;
 }
 
 .face-pinata {
@@ -269,78 +270,115 @@ h6 {
   filter: sepia(1) hue-rotate(-50deg) saturate(5) brightness(0.8);
 }
 
-/* --- NEW ANIMATIONS & TEXTURES (User Request V9) --- */
+/* --- SPRITE ANIMATIONS --- */
 
-/* CREEPER WALK SPRITE ANIMATION */
+@keyframes sprite-walk {
+  from {
+    background-position-x: 0;
+  }
+
+  to {
+    background-position-x: 100%;
+  }
+}
+
 @keyframes creeper-walk-anim {
   0% {
-    transform: translateX(-20vw) scaleX(1);
+    left: -100px;
+    transform: scaleX(1);
   }
 
   49% {
-    transform: translateX(120vw) scaleX(1);
+    left: 100vw;
+    transform: scaleX(1);
   }
 
   50% {
-    transform: translateX(120vw) scaleX(-1);
+    left: 100vw;
+    transform: scaleX(-1);
   }
 
-  /* Flip to walk back */
   100% {
-    transform: translateX(-20vw) scaleX(-1);
+    left: -100px;
+    transform: scaleX(-1);
   }
 }
 
 .creeper-walker {
   position: fixed;
-  bottom: 20px;
+  bottom: 0px;
   left: 0;
   width: 64px;
   height: 64px;
-  /* Pixel art Creeper face SVG background */
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8"><rect width="8" height="8" fill="%2363a355"/><path fill="%23000" d="M1 1h2v1h1v1h-1v1h-1v-1h-1zM5 1h2v1h-2zM2 3h1v1h2v-1h1v2h-1v1h-1v-1h-2v1h-1v-1h-1v-2z" fill-rule="evenodd"/></svg>');
-  background-size: contain;
-  background-repeat: no-repeat;
+  background-image: url('/sprites/creeper-sheet.jpg');
+  /* Sheet has 6 cols, 4 rows. We want 1st row. */
+  background-size: 600% 400%;
+  background-position: 0 0;
+  image-rendering: pixelated;
+  opacity: 1;
+  animation:
+    sprite-walk 0.8s steps(6) infinite,
+    creeper-walk-anim 20s linear infinite;
   z-index: 5;
   pointer-events: none;
-  image-rendering: pixelated;
-  opacity: 0.8;
-  animation: creeper-walk-anim 25s linear infinite;
 }
 
-/* WOODEN PLANKS TEXTURE (Dark Oak) */
+.steve-dancer {
+  width: 80px;
+  height: 140px;
+  background-image: url('/sprites/steve-sheet.jpg');
+  /* Sheet has 6 cols. We use top row. */
+  background-size: 600% 200%;
+  background-position: 0 0;
+  image-rendering: pixelated;
+  animation: sprite-walk 1s steps(6) infinite;
+  display: inline-block;
+  margin-bottom: 2rem;
+}
+
+/* WOODEN PLANKS TEXTURE */
 .tex-wood-dark {
   background-color: #3e2723;
   background-image:
     linear-gradient(90deg, rgba(0, 0, 0, 0.2) 1px, transparent 1px),
     linear-gradient(rgba(0, 0, 0, 0.2) 1px, transparent 1px);
   background-size: 32px 32px;
-  /* Planks size */
   position: relative;
   border-top: 6px solid #271c19;
 }
 
-/* Steve Dance Animation */
-@keyframes steve-dance {
+/* SWORD CURSOR */
+.sword-cursor {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url('/sprites/diamond-sword.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform-origin: bottom right;
+  transition: transform 0.05s;
+  /* Center handle on cursor roughly */
+  margin-top: -50px;
+  margin-left: -50px;
+  filter: drop-shadow(4px 4px 0 rgba(0, 0, 0, 0.5));
+}
 
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
+.sword-swing {
+  animation: swing-sword 0.15s ease-out;
+}
 
-  25% {
-    transform: translateY(-8px) rotate(-6deg);
+@keyframes swing-sword {
+  0% {
+    transform: rotate(0deg);
   }
 
   50% {
-    transform: translateY(0) rotate(0deg);
+    transform: rotate(-60deg) translate(-20px, 20px);
   }
 
-  75% {
-    transform: translateY(-8px) rotate(6deg);
+  100% {
+    transform: rotate(0deg);
   }
-}
-
-.steve-dancer {
-  animation: steve-dance 0.8s infinite ease-in-out;
 }

@@ -19,10 +19,10 @@ type PartyConfig = {
     whatsappPhone: string;
 };
 
-// --- MOCK DATABASE (Spanish defaults) ---
+// --- MOCK DATABASE ---
 const DB: Record<string, PartyConfig> = {
     'ian-level8': {
-        name: 'IAN', age: 8, date: '25 OCT', time: '4:00 PM',
+        name: 'IAN', age: 9, date: '25 OCT', time: '4:00 PM',
         locationName: "Salón 'El Bloque'", locationAddress: 'Av. Siempre Viva 742',
         mapUrl: 'https://maps.google.com',
         musicUrl: 'https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg',
@@ -30,7 +30,7 @@ const DB: Record<string, PartyConfig> = {
         whatsappPhone: '5555555555'
     },
     'juanito8': {
-        name: 'JUANITO', age: 8, date: '12 OCT', time: '5:00 PM',
+        name: 'JUANITO', age: 9, date: '12 OCT', time: '5:00 PM',
         locationName: 'Jardín Real', locationAddress: 'Calle Falsa 123',
         mapUrl: 'https://maps.google.com',
         musicUrl: 'https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg',
@@ -107,6 +107,29 @@ export default function InvitationPage() {
 function LockScreen({ onUnlock }: { onUnlock: () => void }) {
     const [hp, setHp] = useState(10);
     const [hitAnim, setHitAnim] = useState(false);
+    const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
+    const [isSwinging, setIsSwinging] = useState(false);
+
+    // Track mouse/touch for sword
+    useEffect(() => {
+        const move = (e: MouseEvent | TouchEvent) => {
+            let cx, cy;
+            if ('touches' in e) {
+                cx = e.touches[0].clientX;
+                cy = e.touches[0].clientY;
+            } else {
+                cx = (e as MouseEvent).clientX;
+                cy = (e as MouseEvent).clientY;
+            }
+            setCursorPos({ x: cx, y: cy });
+        };
+        window.addEventListener('mousemove', move);
+        window.addEventListener('touchmove', move);
+        return () => {
+            window.removeEventListener('mousemove', move);
+            window.removeEventListener('touchmove', move);
+        };
+    }, []);
 
     const playHitSound = () => {
         const audio = new Audio('https://www.myinstants.com/media/sounds/classic_hurt.mp3');
@@ -137,6 +160,11 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
     };
 
     const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
+        // Trigger sword swing
+        setIsSwinging(true);
+        setTimeout(() => setIsSwinging(false), 200);
+
+        // Get coords
         let clientX, clientY;
         if ('touches' in e) {
             clientX = e.touches[0].clientX;
@@ -165,7 +193,13 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
     };
 
     return (
-        <div className="text-center w-full h-full flex flex-col items-center justify-center relative overflow-hidden backdrop-blur-sm">
+        <div className="text-center w-full h-full flex flex-col items-center justify-center relative overflow-hidden backdrop-blur-sm cursor-none">
+            {/* SWORD CURSOR */}
+            <div
+                className={`sword-cursor ${isSwinging ? 'sword-swing' : ''}`}
+                style={{ left: cursorPos.x, top: cursorPos.y, display: cursorPos.x < 0 ? 'none' : 'block' }}
+            />
+
             <div className="fixed top-0 left-0 w-full text-center pt-8 pointer-events-none z-40">
                 <h1 className="text-4xl text-yellow-400 drop-shadow-[4px_4px_0_#000] font-vt323 stroke-black">¡FIESTA MINECRAFT!</h1>
             </div>
@@ -202,7 +236,7 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
             <div className="fixed bottom-12 z-40 animate-pulse w-full px-4">
                 <button
                     onClick={(e) => handleClick(e as any)}
-                    className="bg-[#8d6e63] text-white font-vt323 text-xl px-6 py-4 border-b-[6px] border-[#3e2723] rounded-sm active:border-b-0 active:translate-y-2 transition-all shadow-xl w-full max-w-xs"
+                    className="bg-[#8d6e63] text-white font-vt323 text-xl px-6 py-4 border-b-[6px] border-[#3e2723] rounded-sm active:border-b-0 active:translate-y-2 transition-all shadow-xl w-full max-w-xs cursor-none"
                 >
                     ¡GOLPEA LA PIÑATA!
                 </button>
@@ -217,20 +251,8 @@ function HeroSection({ config }: { config: PartyConfig }) {
             <div className="absolute inset-0 bg-[url('/backgrounds/minecraft-day.jpg')] bg-cover bg-center"></div>
 
             <div className="relative z-10 p-4 pt-10">
-                <motion.div
-                    initial={{ scale: 0, rotate: -180 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    className="mb-8 inline-block steve-dancer"
-                >
-                    <div className="w-24 h-24 bg-[#5fb346] border-4 border-black box-content relative shadow-2xl">
-                        <div className="w-full h-full bg-[#eebb88] relative">
-                            <div className="absolute top-[20%] w-full h-[20%] bg-[#402010]"></div>
-                            <div className="absolute top-[45%] left-[20%] w-[15%] h-[15%] bg-white"><div className="w-[50%] h-[50%] bg-[#4a396d] ml-[50%] mt-[50%]"></div></div>
-                            <div className="absolute top-[45%] right-[20%] w-[15%] h-[15%] bg-white"><div className="w-[50%] h-[50%] bg-[#4a396d] mt-[50%]"></div></div>
-                            <div className="absolute top-[70%] left-[35%] w-[30%] h-[10%] bg-[#814f36]"></div>
-                        </div>
-                    </div>
-                </motion.div>
+                {/* STEVE SPRITE - ANIMATED VIA CSS STEPS */}
+                <div className="steve-dancer"></div>
 
                 <motion.h1
                     initial={{ y: 20, opacity: 0 }}
