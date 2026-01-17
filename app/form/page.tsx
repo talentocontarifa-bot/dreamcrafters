@@ -16,9 +16,7 @@ export default function OrderForm() {
         whatsappNumber: ''
     });
 
-    const [isPaid, setIsPaid] = useState(false);
-
-    // Placeholder for when PayPal is ready
+    // Placeholder for payment link logic if needed
     const PAYPAL_LINK = "#";
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +43,7 @@ export default function OrderForm() {
 
     const handleWhatsApp = () => {
         if (!isFormValid()) {
-            alert("Por favor completa todos los campos obligatorios antes de enviar (Nombre, Fecha, Lugar, Tu WhatsApp).");
+            alert("Por favor completa los campos obligatorios: Nombre, Fecha, Lugar y Tu WhatsApp.");
             return;
         }
         const text = generateMessage();
@@ -54,7 +52,7 @@ export default function OrderForm() {
 
     const handleEmail = () => {
         if (!isFormValid()) {
-            alert("Por favor completa todos los campos antes de enviar.");
+            alert("Por favor completa los campos obligatorios antes de enviar.");
             return;
         }
         const subject = `Nuevo Pedido DreamCrafters: ${formData.name}`;
@@ -63,14 +61,25 @@ export default function OrderForm() {
     };
 
     return (
-        <main className="min-h-screen bg-[#0f0c29] bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] text-white p-4 md:p-8 font-outfit">
+        <main className="min-h-screen relative text-white p-4 md:p-8 font-outfit overflow-x-hidden">
+            {/* Background Image & Overlay */}
+            <div className="fixed inset-0 z-0">
+                <div className="absolute inset-0 bg-[url('/backgrounds/minecraft-day.jpg')] bg-cover bg-center"></div>
+                {/* Dark overlay for form readability */}
+                <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"></div>
+            </div>
 
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-2xl mx-auto relative z-10">
                 <header className="text-center mb-10 pt-10">
-                    <div className="w-20 h-20 bg-gradient-to-tr from-[#5fb346] to-purple-600 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-[0_0_30px_rgba(95,179,70,0.5)] transform rotate-3">
-                        <span className="text-4xl">🚀</span>
+                    <div className="mb-6 flex justify-center transform hover:scale-105 transition-transform duration-300">
+                        {/* Fiesta Minecraft Logo */}
+                        <img
+                            src="/sprites/title-fiesta.png"
+                            alt="Fiesta Minecraft"
+                            className="h-28 md:h-36 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] image-pixelated user-select-none"
+                        />
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-green-400" style={{ fontFamily: 'var(--font-bebas)' }}>
+                    <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-yellow-400" style={{ fontFamily: 'var(--font-bebas)' }}>
                         CONFIGURA TU INVITACIÓN
                     </h1>
                     <p className="text-gray-300 text-lg">
@@ -81,7 +90,7 @@ export default function OrderForm() {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden"
+                    className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden"
                 >
                     {/* Background decoration */}
                     <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
@@ -100,7 +109,7 @@ export default function OrderForm() {
                                         type="text"
                                         name="name"
                                         placeholder="Escribe el nombre aquí..."
-                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/50 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -110,7 +119,7 @@ export default function OrderForm() {
                                         type="number"
                                         name="age"
                                         placeholder="#"
-                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/50 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -128,7 +137,7 @@ export default function OrderForm() {
                                     type="tel"
                                     name="whatsappNumber"
                                     placeholder="Ej: 55 1234 5678"
-                                    className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-pink-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                    className="w-full bg-black/50 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-pink-500 focus:outline-none transition-all placeholder:text-gray-500"
                                     onChange={handleChange}
                                 />
                             </div>
@@ -145,7 +154,7 @@ export default function OrderForm() {
                                     <input
                                         type="date"
                                         name="date"
-                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all text-white scheme-dark"
+                                        className="w-full bg-black/50 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all text-white scheme-dark"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -154,7 +163,7 @@ export default function OrderForm() {
                                     <input
                                         type="time"
                                         name="time"
-                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all text-white scheme-dark"
+                                        className="w-full bg-black/50 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all text-white scheme-dark"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -173,7 +182,7 @@ export default function OrderForm() {
                                         type="text"
                                         name="locationName"
                                         placeholder="Ej: Salón 'El Castillo'"
-                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/50 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -183,7 +192,7 @@ export default function OrderForm() {
                                         type="text"
                                         name="locationAddress"
                                         placeholder="Calle, Número, Colonia, Ciudad"
-                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
+                                        className="w-full bg-black/50 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -199,7 +208,7 @@ export default function OrderForm() {
                                         type="text"
                                         name="mapUrl"
                                         placeholder="Pega aquí el link (https://maps.app.goo.gl/...)"
-                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500 text-sm"
+                                        className="w-full bg-black/50 border border-white/10 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-500 text-sm"
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -259,9 +268,21 @@ export default function OrderForm() {
                     </div>
                 </motion.div>
 
-                <p className="text-center text-gray-500 mt-8 text-sm">
-                    DreamCrafters © 2026. Todos los derechos reservados.
-                </p>
+                {/* Disclaimer/Footer */}
+                <div className="mt-12 mb-8 text-center px-4">
+                    <p className="text-[10px] text-gray-500 leading-relaxed uppercase tracking-widest mb-2 font-bold">
+                        Términos y Condiciones del Servicio
+                    </p>
+                    <p className="text-[10px] text-gray-600 leading-relaxed max-w-xl mx-auto border-t border-white/5 pt-4">
+                        La invitación estará disponible desde el momento en que se libere (o que se termine), limitado a 60 días antes del evento, hasta 15 días después del evento.
+                        El diseño está exclusivamente limitado a la plantilla de ejemplo que se ha mostrado, así como las secciones y funciones que se despliegan en la invitación de ejemplo.
+                        DreamCrafters no se hace responsable de fallas en la invitación ajenas a nuestra operación; esto incluye el servicio de internet, limitaciones de compatibilidad entre diferentes dispositivos y navegadores,
+                        o servicios de terceros como Facebook, WhatsApp, Google Maps, etc.
+                    </p>
+                    <p className="text-gray-700 mt-4 text-xs font-bold">
+                        DreamCrafters © 2026. Todos los derechos reservados.
+                    </p>
+                </div>
             </div>
         </main>
     );
