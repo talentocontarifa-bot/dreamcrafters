@@ -399,13 +399,17 @@ function CountdownSection({ targetDate }: { targetDate: string }) {
                 <p className="text-[#eee] px-4 py-2 text-lg md:text-xl border-2 border-[#111] bg-[#222] tracking-wider" style={{ fontFamily: 'var(--font-press-start)' }}>TIEMPO FALTANTE PARA LA FIESTA</p>
             </motion.div>
 
-            {/* 3D Clock Decoration */}
+            {/* 3D Clock Decoration - No initial hidden state to ensure visibility */}
             <motion.div
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 className="mb-8"
             >
-                <img src="/sprites/clock-icon-3d.png" alt="Reloj Minecraft" className="w-24 md:w-32 drop-shadow-xl image-pixelated" />
+                <img
+                    src="/sprites/clock-icon-3d.png"
+                    alt="Reloj Minecraft"
+                    className="w-24 md:w-32 drop-shadow-xl image-pixelated block mx-auto"
+                />
             </motion.div>
 
             <div className="flex flex-wrap justify-center gap-6 md:gap-8 px-4 z-10 text-white">
@@ -567,9 +571,6 @@ function MapSection({ mapUrl }: { mapUrl: string }) {
             </motion.h3>
 
             <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ once: true }}
                 className="inline-block relative group cursor-pointer"
                 onClick={() => setIsOpen(true)}
             >
@@ -578,7 +579,7 @@ function MapSection({ mapUrl }: { mapUrl: string }) {
                     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                     src="/sprites/map-icon-3d.png"
                     alt="Mapa 3D"
-                    className="w-64 md:w-80 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] image-pixelated hover:brightness-110 transition-all"
+                    className="w-64 md:w-80 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] image-pixelated hover:brightness-110 transition-all block mx-auto"
                 />
                 <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-[#5d4037] text-white px-4 py-2 text-xs md:text-sm border-2 border-[#3e2723] shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" style={{ fontFamily: 'var(--font-press-start)' }}>
                     CLICK PARA VER EL MAPA
