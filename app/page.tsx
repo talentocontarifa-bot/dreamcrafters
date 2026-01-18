@@ -48,8 +48,8 @@ const Sparks = () => {
 // Efecto de Suelo Digital (Grid Wireframe)
 const GridFloor = () => {
   return (
-    <div className="absolute inset-0 z-0 flex items-end justify-center overflow-hidden opacity-30 pointer-events-none">
-      <div className="w-[200vw] h-[50vh] bg-transparent border-t border-fuchsia-500/30 relative perspective-grid">
+    <div className="absolute inset-0 z-0 flex items-end justify-center overflow-hidden opacity-60 pointer-events-none">
+      <div className="w-[200vw] h-[50vh] bg-transparent border-t border-fuchsia-500/50 relative perspective-grid">
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_0%,#000000_100%)] z-10"></div>
       </div>
     </div>
@@ -59,13 +59,13 @@ const GridFloor = () => {
 // Efecto de Anillos Holograficos detras del robot
 const HoloRings = () => {
   return (
-    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] -z-10 pointer-events-none opacity-40">
-      {/* Ring 1 - Dashed Slow */}
-      <div className="absolute inset-0 border border-dashed border-cyan-500/50 rounded-full animate-spin-slow"></div>
+    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] -z-10 pointer-events-none opacity-80">
+      {/* Ring 1 - Dashed Slow (Thicker & Brighter) */}
+      <div className="absolute inset-0 border-2 border-dashed border-cyan-400 rounded-full animate-spin-slow shadow-[0_0_15px_rgba(34,211,238,0.3)]"></div>
       {/* Ring 2 - Solid Reverse */}
-      <div className="absolute inset-4 border border-fuchsia-500/30 rounded-full animate-spin-reverse-slower"></div>
+      <div className="absolute inset-4 border-2 border-fuchsia-500 rounded-full animate-spin-reverse-slower opacity-70"></div>
       {/* Ring 3 - Tech Ticks */}
-      <div className="absolute inset-[-20px] border-2 border-dotted border-white/10 rounded-full animate-pulse-slow"></div>
+      <div className="absolute inset-[-20px] border-2 border-dotted border-white/30 rounded-full animate-pulse-slow"></div>
     </div>
   );
 };
