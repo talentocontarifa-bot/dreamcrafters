@@ -1,17 +1,25 @@
+"use client";
+
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 // Componente para las chispas/estrellas flotantes
 const Sparks = () => {
-  // Generamos particulas aleatorias
-  const particles = Array.from({ length: 40 }).map((_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}%`,
-    top: `${Math.random() * 100}%`,
-    animationDuration: `${Math.random() * 5 + 8}s`, // Flotan lento entre 8 y 13 seg
-    animationDelay: `${Math.random() * 5}s`,
-    opacity: Math.random() * 0.6 + 0.2,
-    size: Math.random() * 3 + 1, // Tamaño variable
-  }));
+  const [particles, setParticles] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Generamos particulas aleatorias SOLO en el cliente para evitar error de hidratacion
+    const newParticles = Array.from({ length: 40 }).map((_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      animationDuration: `${Math.random() * 5 + 8}s`, // Flotan lento entre 8 y 13 seg
+      animationDelay: `${Math.random() * 5}s`,
+      opacity: Math.random() * 0.6 + 0.2,
+      size: Math.random() * 3 + 1, // Tamaño variable
+    }));
+    setParticles(newParticles);
+  }, []);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
