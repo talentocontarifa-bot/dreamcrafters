@@ -71,6 +71,36 @@ const HoloRings = () => {
 };
 
 
+// Componente Logo con Glitch
+const GlitchLogo = () => {
+  return (
+    <div className="relative w-full h-auto group">
+
+      {/* Capa 1: Fantasma Rojo/Cian */}
+      <img
+        src="/landing/logo-text.png"
+        alt="Glitch Layer 1"
+        className="absolute inset-0 w-full h-auto filter brightness-0 invert opacity-70 animate-glitch-1 mix-blend-hard-light"
+        style={{ clipPath: 'inset(10% 0 80% 0)' }}
+      />
+
+      {/* Capa 2: Fantasma Azul/Magenta */}
+      <img
+        src="/landing/logo-text.png"
+        alt="Glitch Layer 2"
+        className="absolute inset-0 w-full h-auto filter brightness-0 invert opacity-70 animate-glitch-2 mix-blend-hard-light"
+        style={{ clipPath: 'inset(80% 0 5% 0)' }}
+      />
+
+      {/* Capa Base: Logo Principal */}
+      <img
+        src="/landing/logo-text.png"
+        alt="Artificialmente hechos a mano"
+        className="relative w-full h-auto filter brightness-0 invert drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)]"
+      />
+    </div>
+  );
+};
 
 export default function Home() {
   return (
@@ -85,8 +115,6 @@ export default function Home() {
 
       {/* 3. EFECTO: Chispas flotando */}
       <Sparks />
-
-
 
       {/* Navbar */}
       <nav className="w-full py-6 flex justify-between items-center z-50 max-w-7xl mx-auto">
@@ -126,20 +154,14 @@ export default function Home() {
           />
         </div>
 
-        {/* LOGO CENTRAL */}
+        {/* LOGO CENTRAL CON GLITCH */}
         <div className="relative w-full max-w-[500px] md:max-w-[600px] -mt-16 md:-mt-24 z-30 mb-8 flex flex-col items-center">
-          <img
-            src="/landing/logo-text.png"
-            alt="Artificialmente hechos a mano"
-            className="w-full h-auto filter brightness-0 invert drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)]"
-          />
 
-          {/* TEXTO CON EFECTO GLITCH (NUEVO) */}
+          <GlitchLogo />
+
+          {/* TEXTO NORMAL (Sin glitch) */}
           <div className="relative mt-4">
-            <p
-              className="text-center text-gray-300 tracking-[0.3em] text-[10px] md:text-sm uppercase opacity-80 font-light glitch-text"
-              data-text="¡Artificialmente... hechos a mano!"
-            >
+            <p className="text-center text-gray-300 tracking-[0.3em] text-[10px] md:text-sm uppercase opacity-80 font-light">
               ¡Artificialmente... hechos a mano!
             </p>
           </div>
@@ -167,92 +189,82 @@ export default function Home() {
 
       {/* Estilos Globales para animacion */}
       <style jsx global>{`
-
-
-        /* Glitch Animation */
-        .glitch-text {
-            position: relative;
-        }
-        .glitch-text::before,
-        .glitch-text::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        .glitch-text::before {
-            left: 2px;
-            text-shadow: -1px 0 #ff00c1;
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim 5s infinite linear alternate-reverse;
-        }
-        .glitch-text::after {
-            left: -2px;
-            text-shadow: -1px 0 #00fff9;
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim2 5s infinite linear alternate-reverse;
-        }
-        
-        @keyframes glitch-anim {
-            0% { clip: rect(3px, 9999px, 34px, 0); }
-            5% { clip: rect(78px, 9999px, 93px, 0); }
-            10% { clip: rect(13px, 9999px, 8px, 0); }
-            15% { clip: rect(98px, 9999px, 5px, 0); }
-            20% { clip: rect(32px, 9999px, 66px, 0); }
-            100% { clip: rect(11px, 9999px, 91px, 0); }
-        }
-        @keyframes glitch-anim2 {
-            0% { clip: rect(54px, 9999px, 12px, 0); }
-            5% { clip: rect(1px, 9999px, 66px, 0); }
-            10% { clip: rect(44px, 9999px, 23px, 0); }
-            15% { clip: rect(87px, 9999px, 96px, 0); }
-            20% { clip: rect(2px, 9999px, 1px, 0); }
-            100% { clip: rect(33px, 9999px, 44px, 0); }
-        }
-
-        /* Animaciones para Sparks */
-        @keyframes floatUp {
-            0% { transform: translateY(110vh) translateX(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-20px) translateX(20px); opacity: 0; }
-        }
-        .animate-float-up {
-            will-change: transform, opacity;
-        }
-        
-        /* Animacion Robot */
-        @keyframes subtleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-        .animate-float-slow {
-            animation: subtleFloat 6s ease-in-out infinite;
-        }
-
-        /* Animaciones Holo Rings */
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes spinReverse { 100% { transform: rotate(-360deg); } }
-        
-        .animate-spin-slow { animation: spin 10s linear infinite; }
-        .animate-spin-reverse-slower { animation: spinReverse 15s linear infinite; }
-        .animate-pulse-slow { animation: pulse 4s ease-in-out infinite; }
-
-        /* Grid Floor Perspective */
-        .perspective-grid {
-            transform: perspective(500px) rotateX(60deg);
-            background-image: linear-gradient(to right, rgba(213, 0, 249, 0.2) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(213, 0, 249, 0.2) 1px, transparent 1px);
-            background-size: 40px 40px;
-            animation: gridMove 20s linear infinite;
-        }
-        @keyframes gridMove {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 400px; }
-        }
-      `}</style>
+          /* GLITCH LOGO ANIMATIONS */
+          @keyframes glitch-anim-1 {
+              0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
+              20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+              40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); }
+              60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
+              80% { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 1px); }
+              100% { clip-path: inset(30% 0 50% 0); transform: translate(1px, -1px); }
+          }
+          @keyframes glitch-anim-2 {
+              0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, -1px); }
+              20% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 2px); }
+              40% { clip-path: inset(30% 0 20% 0); transform: translate(2px, 1px); }
+              60% { clip-path: inset(10% 0 80% 0); transform: translate(-1px, -2px); }
+              80% { clip-path: inset(50% 0 30% 0); transform: translate(1px, 2px); }
+              100% { clip-path: inset(20% 0 70% 0); transform: translate(-2px, 1px); }
+          }
+          
+          /* Activamos la animacion solo cada cierto tiempo para no marear */
+          /* TRUCO: Solo mostramos el glitch en intervalos usando css animation steps o keyframes de opacidad */
+          /* O mas simple: Usamos una animacion que alterne display/opacity */
+          @keyframes flicker {
+              0%, 95% { opacity: 0; }
+              96%, 100% { opacity: 0.7; }
+          }
+          
+          .animate-glitch-1, .animate-glitch-2 {
+              display: block;
+              animation: glitch-anim-1 0.3s cubic-bezier(.25, .46, .45, .94) both infinite, flicker 4s infinite;
+          }
+           .animate-glitch-2 {
+              animation: glitch-anim-2 0.3s cubic-bezier(.25, .46, .45, .94) both infinite, flicker 4s infinite;
+              animation-delay: 0.2s; /* Desfase */
+          }
+  
+          
+          /* OTRAS ANIMACIONES PREVIAS */
+          @keyframes floatUp {
+              0% { transform: translateY(110vh) translateX(0); opacity: 0; }
+              10% { opacity: 1; }
+              90% { opacity: 1; }
+              100% { transform: translateY(-20px) translateX(20px); opacity: 0; }
+          }
+          .animate-float-up {
+              will-change: transform, opacity;
+          }
+  
+          @keyframes subtleFloat {
+              0%, 100% { transform: translateY(0); }
+              50% { transform: translateY(-15px); }
+          }
+          .animate-float-slow {
+              animation: subtleFloat 6s ease-in-out infinite;
+          }
+  
+          /* Animaciones Holo Rings */
+          @keyframes spin { 100% { transform: rotate(360deg); } }
+          @keyframes spinReverse { 100% { transform: rotate(-360deg); } }
+          
+          .animate-spin-slow { animation: spin 10s linear infinite; }
+          .animate-spin-reverse-slower { animation: spinReverse 15s linear infinite; }
+          .animate-pulse-slow { animation: pulse 4s ease-in-out infinite; }
+  
+          /* Grid Floor Perspective */
+          .perspective-grid {
+              transform: perspective(500px) rotateX(60deg);
+              background-image: linear-gradient(to right, rgba(213, 0, 249, 0.2) 1px, transparent 1px),
+                                linear-gradient(to bottom, rgba(213, 0, 249, 0.2) 1px, transparent 1px);
+              background-size: 40px 40px;
+              animation: gridMove 20s linear infinite;
+          }
+          @keyframes gridMove {
+              0% { background-position: 0 0; }
+              100% { background-position: 0 400px; }
+          }
+        `}</style>
 
     </div>
   );
