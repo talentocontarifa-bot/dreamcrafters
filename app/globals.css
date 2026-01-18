@@ -444,15 +444,22 @@ h6 {
 /* STEVE DANCER (240px -> +20% -> ~290px) */
 /* --- STEVE DANCER CSS --- */
 .steve-dancer {
-  width: 140px;
-  height: 200px;
+  /* Mobile: 20% smaller approx */
+  width: 112px;
+  height: 160px;
   background-image: url('/sprites/steve-3d.webp');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center bottom;
-  /* animation: danceBounce 0.8s infinite alternate ease-in-out; */
   image-rendering: pixelated;
-  filter: drop_shadow(0 10px 10px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.5));
+}
+
+@media (min-width: 768px) {
+  .steve-dancer {
+    width: 140px;
+    height: 200px;
+  }
 }
 
 /* WOODEN PLANKS TEXTURE */
