@@ -333,36 +333,36 @@ function CreeperComponent() {
 
 function HeroSection({ config }: { config: PartyConfig }) {
     return (
-        <section className="h-[85vh] relative flex flex-col items-center justify-center border-b-8 border-[#3e2723] text-center overflow-hidden">
+        <section className="min-h-[85vh] h-auto py-20 relative flex flex-col items-center justify-center border-b-8 border-[#3e2723] text-center overflow-visible">
             <div className="absolute inset-0 bg-[url('/backgrounds/minecraft-day.jpg')] bg-cover bg-center"></div>
 
-            <div className="relative z-10 p-4 pt-10 flex flex-col items-center">
+            <div className="relative z-10 p-4 flex flex-col items-center w-full">
 
                 {/* 1. Steve (Reduced bottom margin via negative margin on next element or CSS) */}
                 <div className="steve-dancer mb-0"></div>
 
-                {/* 2. Name (Pulled up closer to Steve) */}
+                {/* 2. Name (Increased size by ~20%) */}
                 <motion.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.3 }}
-                    className="-mt-8 mb-6"
+                    className="-mt-8 mb-8 w-full px-4"
                 >
                     <img
                         src="/sprites/name-lucas.webp?v=1"
                         alt={config.name}
-                        className="w-full max-w-[280px] md:max-w-xl mx-auto image-pixelated drop-shadow-[8px_8px_0_rgba(0,0,0,0.5)]"
+                        className="w-full max-w-[340px] md:max-w-2xl mx-auto image-pixelated drop-shadow-[8px_8px_0_rgba(0,0,0,0.5)]"
                     />
                 </motion.div>
 
-                {/* 3. Age Label (Ensured high visibility) */}
+                {/* 3. Age Label (Ensured high visibility and no clipping) */}
                 <motion.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.5 }}
-                    className="inline-block bg-[#000]/70 backdrop-blur-md px-12 py-10 border-4 border-white transform -skew-x-12 z-20 shadow-[0_0_20px_rgba(95,179,70,0.8)] min-w-[320px] min-h-[120px] flex items-center justify-center"
+                    className="inline-block bg-[#000]/70 backdrop-blur-md px-8 py-6 md:px-12 md:py-10 border-4 border-white transform -skew-x-12 z-20 shadow-[0_0_20px_rgba(95,179,70,0.8)] min-w-[300px] flex items-center justify-center"
                 >
-                    <h2 className="text-5xl md:text-7xl text-[#5fb346] drop-shadow-[4px_4px_0_#000] stroke-black transform skew-x-12 font-bold tracking-widest leading-none mt-2" style={{ fontFamily: 'var(--font-press-start)' }}>
+                    <h2 className="text-4xl md:text-7xl text-[#5fb346] drop-shadow-[4px_4px_0_#000] stroke-black transform skew-x-12 font-bold tracking-widest leading-none mt-2 whitespace-nowrap" style={{ fontFamily: 'var(--font-press-start)' }}>
                         CUMPLE {config.age}
                     </h2>
                 </motion.div>
