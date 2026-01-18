@@ -1,68 +1,139 @@
 import Link from "next/link";
 
+// Simple Sparks/Stars Component
+const Sparks = () => {
+  // Generate distinct particles with random styles
+  const particles = Array.from({ length: 40 }).map((_, i) => ({
+    id: i,
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`,
+    animationDuration: `${Math.random() * 5 + 8}s`, // Slow float 8-13s
+    animationDelay: `${Math.random() * 5}s`,
+    opacity: Math.random() * 0.6 + 0.2,
+    size: Math.random() * 3 + 1, // 1-4px
+  }));
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className="absolute bg-white rounded-full animate-float-up"
+          style={{
+            left: p.left,
+            top: p.top,
+            width: `${p.size}px`,
+            height: `${p.size}px`,
+            opacity: p.opacity,
+            animation: `floatUp ${p.animationDuration} linear infinite`,
+            animationDelay: p.animationDelay,
+            boxShadow: `0 0 ${p.size * 2}px rgba(255, 255, 255, 0.8)`
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-between relative overflow-hidden bg-black text-white px-4">
+    <div className="min-h-screen flex flex-col items-center relative overflow-hidden text-white px-4 selection:bg-cyan-500 selection:text-black font-sans">
 
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="/landing/background-space.jpg"
-          alt="Space Background"
-          className="w-full h-full object-cover opacity-90"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30"></div>
-      </div>
+      {/* 1. Deep Space Gradient Background (Replicating the reference vibe) */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#2d1b4e] via-[#050510] to-[#000000] z-0"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-[#02005e]/40 to-transparent z-0"></div>
 
-      {/* Navbar (Minimal) */}
-      <nav className="w-full py-6 flex justify-between items-center z-50 max-w-7xl mx-auto px-4">
-        {/* Placeholder for small logo if needed, sticking to minimal text for now */}
-        <div className="font-bebas text-2xl tracking-widest opacity-80">DREAMCRAFTERS</div>
+      {/* 2. Floating Sparks/Stars */}
+      <Sparks />
+
+      {/* Navbar */}
+      <nav className="w-full py-6 flex justify-between items-center z-50 max-w-7xl mx-auto">
+        {/* Logo in Corner (White Filter applied to PNG) */}
+        <div className="h-8 md:h-10 w-auto opacity-90 hover:opacity-100 transition-opacity cursor-pointer">
+          <img
+            src="/landing/logo-text.png"
+            alt="Dreamcrafters Logo"
+            className="h-full w-auto filter brightness-0 invert"
+          />
+        </div>
+
         <Link
           href="/form"
-          className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white font-bold py-2 px-6 rounded-full transition-all font-outfit text-sm"
+          className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white font-bold py-2 px-6 rounded-full transition-all text-xs md:text-sm tracking-wider uppercase"
         >
-          CONTACTER
+          Contacto
         </Link>
       </nav>
 
-      {/* Main Content Area */}
-      <main className="relative z-10 flex flex-col items-center justify-center flex-grow w-full max-w-5xl -mt-10">
+      {/* Main Content */}
+      <main className="relative z-10 flex flex-col items-center justify-center flex-grow w-full max-w-6xl mt-4 md:mt-8">
 
-        {/* Robot Hero Image */}
-        <div className="relative w-full max-w-[600px] aspect-square flex items-center justify-center animate-float-slow">
+        {/* ROBOT HERO (In Front) */}
+        <div className="relative w-full max-w-[400px] md:max-w-[500px] aspect-square flex items-center justify-center animate-float-slow z-20">
+          {/* Glow Effect behind robot to make it pop */}
+          <div className="absolute w-[70%] h-[70%] bg-purple-600/20 rounded-full blur-[60px] -z-10 animate-pulse"></div>
+
           <img
             src="/landing/robot-hero.png"
             alt="Dreamcrafters Robot"
-            className="w-full h-auto drop-shadow-[0_0_50px_rgba(100,200,255,0.4)]"
+            className="w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] object-contain"
           />
         </div>
 
-        {/* Logo Text Image - Slightly overlapping the robot or just below */}
-        <div className="relative w-full max-w-[800px] -mt-20 md:-mt-32">
+        {/* MAIN TEXT / LOGO (Centered, White, slightly overlapped) */}
+        <div className="relative w-full max-w-[500px] md:max-w-[600px] -mt-12 md:-mt-20 z-30 mb-12 flex flex-col items-center">
           <img
             src="/landing/logo-text.png"
             alt="Artificialmente hechos a mano"
-            className="w-full h-auto drop-shadow-lg filter brightness-110 contrast-125"
+            className="w-full h-auto filter brightness-0 invert drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)]"
           />
+          <p className="text-center text-gray-300 tracking-[0.3em] text-[10px] md:text-sm mt-4 uppercase opacity-70 font-light">
+            ¡Artificialmente... hechos a mano!
+          </p>
         </div>
 
-        {/* Call to Action */}
-        <div className="mt-12 flex gap-6">
+        {/* CTA Button */}
+        <div className="z-30 mb-16">
           <Link
             href="/form"
-            className="bg-brand-cyan text-brand-blue font-bold text-xl py-4 px-12 rounded-full hover:scale-105 transition-transform shadow-[0_0_20px_rgba(0,188,212,0.6)] font-outfit"
+            className="group relative inline-flex items-center justify-center overflow-hidden rounded-full py-4 px-10 transition-all hover:scale-105 duration-300 shadow-[0_0_30px_rgba(124,58,237,0.3)] hover:shadow-[0_0_50px_rgba(124,58,237,0.6)]"
           >
-            CREAR INVITACIÓN
+            {/* Button Background Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-90 group-hover:opacity-100 transition-opacity"></div>
+
+            {/* Text */}
+            <span className="relative font-bold text-lg tracking-widest uppercase drop-shadow-md">
+              Crear Invitación
+            </span>
           </Link>
         </div>
 
       </main>
 
-      {/* Simple Footer */}
-      <footer className="relative z-10 py-6 text-center text-xs text-gray-400 font-outfit opacity-60">
+      {/* Footer */}
+      <footer className="relative z-10 py-6 text-center text-[10px] text-white/20 tracking-widest uppercase">
         © 2026 DreamCrafters Inc.
       </footer>
+
+      {/* Global Animation Styles */}
+      <style jsx global>{`
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-20px) translateX(20px); opacity: 0; }
+        }
+        .animate-float-up {
+            will-change: transform, opacity;
+        }
+        @keyframes subtleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .animate-float-slow {
+            animation: subtleFloat 6s ease-in-out infinite;
+        }
+      `}</style>
 
     </div>
   );
