@@ -338,29 +338,33 @@ function HeroSection({ config }: { config: PartyConfig }) {
 
             <div className="relative z-10 p-4 flex flex-col items-center w-full">
 
-                {/* 1. Name (Moved Above Steve) */}
-                <motion.div
-                    initial={{ y: -20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                    className="mb-4 w-full px-4 relative z-20"
-                >
-                    <img
-                        src="/sprites/name-lucas.webp?v=1"
-                        alt={config.name}
-                        className="w-full max-w-[340px] md:max-w-2xl mx-auto image-pixelated drop-shadow-[8px_8px_0_rgba(0,0,0,0.5)]"
-                    />
-                </motion.div>
+                {/* CONTAINER FOR STEVE & NAME OVERLAP */}
+                <div className="relative w-full flex flex-col items-center justify-center pt-24 mb-6">
 
-                {/* 2. Steve (Now below Name) */}
-                <div className="steve-dancer mb-2 -mt-4 relative z-10"></div>
+                    {/* 1. Steve (Background Layer - Behind Name) */}
+                    <div className="steve-dancer absolute top-0 z-0 opacity-90 scale-110 origin-bottom"></div>
+
+                    {/* 2. Name (Foreground Layer - On top of Steve) */}
+                    <motion.div
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.3 }}
+                        className="relative z-10 w-full px-4 mt-16"
+                    >
+                        <img
+                            src="/sprites/name-lucas.webp?v=1"
+                            alt={config.name}
+                            className="w-full max-w-[340px] md:max-w-2xl mx-auto image-pixelated drop-shadow-[8px_8px_0_rgba(0,0,0,0.8)]"
+                        />
+                    </motion.div>
+                </div>
 
                 {/* 3. Age Label */}
                 <motion.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.5 }}
-                    className="inline-block bg-[#000]/70 backdrop-blur-md px-8 py-6 md:px-12 md:py-10 border-4 border-white transform -skew-x-12 z-20 shadow-[0_0_20px_rgba(95,179,70,0.8)] min-w-[300px] flex items-center justify-center -mt-8"
+                    className="inline-block bg-[#000]/70 backdrop-blur-md px-8 py-6 md:px-12 md:py-10 border-4 border-white transform -skew-x-12 z-20 shadow-[0_0_20px_rgba(95,179,70,0.8)] min-w-[300px] flex items-center justify-center -mt-4"
                 >
                     <h2 className="text-4xl md:text-7xl text-[#5fb346] drop-shadow-[4px_4px_0_#000] stroke-black transform skew-x-12 font-bold tracking-widest leading-none mt-2 whitespace-nowrap" style={{ fontFamily: 'var(--font-press-start)' }}>
                         CUMPLE {config.age}
