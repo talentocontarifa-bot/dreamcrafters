@@ -41,6 +41,19 @@ const DB: Record<string, PartyConfig> = {
         musicUrl: 'https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg',
         targetDate: '2026-10-12T17:00:00',
         whatsappPhone: '5555555555'
+    },
+    'alejandro-level8': {
+        name: 'ALEJANDRO',
+        age: 8,
+        date: '13 MAR',
+        fullDate: '2026-03-13',
+        time: '4:30 PM',
+        locationName: 'Salón mariposas azules',
+        locationAddress: 'Calle campanita y magia',
+        mapUrl: 'https://maps.app.goo.gl/myiYuJ1TMhkzgReS8',
+        musicUrl: 'https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg',
+        targetDate: '2026-03-13T16:30:00',
+        whatsappPhone: '9983407244'
     }
 };
 
