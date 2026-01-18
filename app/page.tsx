@@ -70,6 +70,8 @@ const HoloRings = () => {
   );
 };
 
+
+
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center relative overflow-hidden text-white px-4 selection:bg-fuchsia-500 selection:text-white font-sans">
@@ -83,6 +85,8 @@ export default function Home() {
 
       {/* 3. EFECTO: Chispas flotando */}
       <Sparks />
+
+
 
       {/* Navbar */}
       <nav className="w-full py-6 flex justify-between items-center z-50 max-w-7xl mx-auto">
@@ -129,6 +133,16 @@ export default function Home() {
             alt="Artificialmente hechos a mano"
             className="w-full h-auto filter brightness-0 invert drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)]"
           />
+
+          {/* TEXTO CON EFECTO GLITCH (NUEVO) */}
+          <div className="relative mt-4">
+            <p
+              className="text-center text-gray-300 tracking-[0.3em] text-[10px] md:text-sm uppercase opacity-80 font-light glitch-text"
+              data-text="¡Artificialmente... hechos a mano!"
+            >
+              ¡Artificialmente... hechos a mano!
+            </p>
+          </div>
         </div>
 
         {/* Boton CTA */}
@@ -153,6 +167,51 @@ export default function Home() {
 
       {/* Estilos Globales para animacion */}
       <style jsx global>{`
+
+
+        /* Glitch Animation */
+        .glitch-text {
+            position: relative;
+        }
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -1px 0 #ff00c1;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -1px 0 #00fff9;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitch-anim {
+            0% { clip: rect(3px, 9999px, 34px, 0); }
+            5% { clip: rect(78px, 9999px, 93px, 0); }
+            10% { clip: rect(13px, 9999px, 8px, 0); }
+            15% { clip: rect(98px, 9999px, 5px, 0); }
+            20% { clip: rect(32px, 9999px, 66px, 0); }
+            100% { clip: rect(11px, 9999px, 91px, 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(54px, 9999px, 12px, 0); }
+            5% { clip: rect(1px, 9999px, 66px, 0); }
+            10% { clip: rect(44px, 9999px, 23px, 0); }
+            15% { clip: rect(87px, 9999px, 96px, 0); }
+            20% { clip: rect(2px, 9999px, 1px, 0); }
+            100% { clip: rect(33px, 9999px, 44px, 0); }
+        }
+
         /* Animaciones para Sparks */
         @keyframes floatUp {
             0% { transform: translateY(110vh) translateX(0); opacity: 0; }
