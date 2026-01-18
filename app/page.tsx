@@ -79,7 +79,7 @@ export default function Home() {
       <main className="relative z-10 flex flex-col items-center justify-center flex-grow w-full max-w-6xl mt-4 md:mt-8">
 
         {/* ROBOT HERO (Al Frente) */}
-        <div className="relative w-full max-w-[400px] md:max-w-[500px] aspect-square flex items-center justify-center animate-float-slow z-20">
+        <div className="relative w-full max-w-[320px] md:max-w-[400px] aspect-square flex items-center justify-center animate-float-slow z-20">
           {/* Un brillo detras del robot para que resalte del fondo oscuro */}
           <div className="absolute w-[60%] h-[60%] bg-purple-600/30 rounded-full blur-[60px] -z-10 animate-pulse"></div>
 
