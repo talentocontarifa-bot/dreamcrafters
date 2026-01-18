@@ -176,8 +176,8 @@ export default function Home() {
         </div>
 
         {/* REDES SOCIALES (NUEVO) */}
-        <div className="flex gap-6 z-30 mb-12 opacity-80">
-          {/* Facebook */}
+        <div className="flex gap-8 z-30 mb-12 opacity-80 items-center">
+          {/* Facebook - Visualmente adjusted */}
           <a
             href="https://www.facebook.com/dreamcrafters.ia/"
             target="_blank"
@@ -185,12 +185,12 @@ export default function Home() {
             className="text-white hover:text-[#1877F2] transition-colors duration-300 transform hover:scale-110"
             aria-label="Facebook"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="drop-shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="drop-shadow-md w-6 h-6">
               <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
             </svg>
           </a>
 
-          {/* WhatsApp */}
+          {/* WhatsApp - Visualmente adjusted (Slightly larger to match visual weight) */}
           <a
             href="https://wa.me/529845828658"
             target="_blank"
@@ -198,7 +198,7 @@ export default function Home() {
             className="text-white hover:text-[#25D366] transition-colors duration-300 transform hover:scale-110"
             aria-label="WhatsApp"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="drop-shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="drop-shadow-md w-[28px] h-[28px]">
               <path fillRule="evenodd" clipRule="evenodd" d="M18.403 5.633A8.919 8.919 0 0 0 12.053 3c-4.948 0-8.976 4.027-8.978 8.977 0 1.582.413 3.126 1.198 4.488L3 21.116l4.759-1.249a8.981 8.981 0 0 0 4.29 1.093h.004c4.947 0 8.975-4.027 8.977-8.977a8.926 8.926 0 0 0-2.627-6.35m-6.35 13.812h-.003a7.446 7.446 0 0 1-3.798-1.041l-.272-.162-2.824.741.753-2.753-.177-.282a7.448 7.448 0 0 1-1.141-3.971c.002-4.114 3.349-7.461 7.465-7.461 1.993 0 3.866.778 5.275 2.188a7.432 7.432 0 0 1 2.183 5.279c-.002 4.114-3.349 7.462-7.461 7.462m4.093-5.589c-.225-.113-1.327-.655-1.533-.73-.205-.075-.354-.112-.504.112-.149.224-.579.73-.709.88-.131.149-.261.169-.486.056-.224-.113-.953-.351-1.815-1.12-.669-.595-1.12-1.329-1.252-1.554-.131-.225-.014-.346.099-.458.101-.1.224-.261.336-.393.112-.131.149-.224.224-.374.075-.149.037-.28-.019-.393-.056-.113-.504-1.214-.69-1.663-.181-.435-.366-.377-.504-.383-.131-.006-.28-.006-.429-.006-.149 0-.393.056-.599.28-.206.225-.785.767-.785 1.871s.804 2.171.916 2.32c.112.15 1.582 2.415 3.832 3.387.536.231.954.369 1.279.473.537.171 1.026.146 1.413.089.431-.064 1.327-.542 1.514-1.066.187-.524.187-.973.131-1.067-.056-.094-.206-.15-.43-.262" />
             </svg>
           </a>
