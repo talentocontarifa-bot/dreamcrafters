@@ -154,17 +154,12 @@ export default function Home() {
           />
         </div>
 
+
         {/* LOGO CENTRAL CON GLITCH */}
         <div className="relative w-full max-w-[500px] md:max-w-[600px] -mt-16 md:-mt-24 z-30 mb-8 flex flex-col items-center">
 
           <GlitchLogo />
 
-          {/* TEXTO NORMAL (Sin glitch) */}
-          <div className="relative mt-4">
-            <p className="text-center text-gray-300 tracking-[0.3em] text-[10px] md:text-sm uppercase opacity-80 font-light">
-              ¡Artificialmente... hechos a mano!
-            </p>
-          </div>
         </div>
 
         {/* Boton CTA */}
@@ -189,43 +184,43 @@ export default function Home() {
 
       {/* Estilos Globales para animacion */}
       <style jsx global>{`
-          /* GLITCH LOGO ANIMATIONS */
-          @keyframes glitch-anim-1 {
-              0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
-              20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
-              40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); }
-              60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
-              80% { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 1px); }
-              100% { clip-path: inset(30% 0 50% 0); transform: translate(1px, -1px); }
-          }
-          @keyframes glitch-anim-2 {
-              0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, -1px); }
-              20% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 2px); }
-              40% { clip-path: inset(30% 0 20% 0); transform: translate(2px, 1px); }
-              60% { clip-path: inset(10% 0 80% 0); transform: translate(-1px, -2px); }
-              80% { clip-path: inset(50% 0 30% 0); transform: translate(1px, 2px); }
-              100% { clip-path: inset(20% 0 70% 0); transform: translate(-2px, 1px); }
-          }
-          
-          /* Activamos la animacion solo cada cierto tiempo para no marear */
-          /* TRUCO: Solo mostramos el glitch en intervalos usando css animation steps o keyframes de opacidad */
-          /* O mas simple: Usamos una animacion que alterne display/opacity */
-          @keyframes flicker {
-              0%, 95% { opacity: 0; }
-              96%, 100% { opacity: 0.7; }
-          }
-          
-          .animate-glitch-1, .animate-glitch-2 {
-              display: block;
-              animation: glitch-anim-1 0.3s cubic-bezier(.25, .46, .45, .94) both infinite, flicker 4s infinite;
-          }
-           .animate-glitch-2 {
-              animation: glitch-anim-2 0.3s cubic-bezier(.25, .46, .45, .94) both infinite, flicker 4s infinite;
-              animation-delay: 0.2s; /* Desfase */
-          }
-  
-          
-          /* OTRAS ANIMACIONES PREVIAS */
+        /* GLITCH LOGO ANIMATIONS - INTENSIFIED */
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); transform: translate(-10px, 5px) skew(5deg); }
+            20% { clip-path: inset(60% 0 10% 0); transform: translate(10px, -5px) skew(-5deg); }
+            40% { clip-path: inset(40% 0 50% 0); transform: translate(-10px, 10px) skew(10deg); }
+            60% { clip-path: inset(80% 0 5% 0); transform: translate(10px, -10px) skew(-10deg); }
+            80% { clip-path: inset(10% 0 70% 0); transform: translate(-5px, 5px) skew(5deg); }
+            100% { clip-path: inset(30% 0 50% 0); transform: translate(5px, -5px) skew(-5deg); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(10% 0 60% 0); transform: translate(10px, -5px) skew(-5deg); }
+            20% { clip-path: inset(80% 0 5% 0); transform: translate(-10px, 10px) skew(5deg); }
+            40% { clip-path: inset(30% 0 20% 0); transform: translate(10px, 5px) skew(-10deg); }
+            60% { clip-path: inset(10% 0 80% 0); transform: translate(-5px, -10px) skew(10deg); }
+            80% { clip-path: inset(50% 0 30% 0); transform: translate(5px, 10px) skew(-5deg); }
+            100% { clip-path: inset(20% 0 70% 0); transform: translate(-10px, 5px) skew(5deg); }
+        }
+        
+        /* FREQUENCY increased */
+        @keyframes flicker {
+            0%, 90% { opacity: 0; }
+            91%, 92% { opacity: 1; transform: scale(1.02); }
+            93%, 94% { opacity: 0; }
+            95%, 100% { opacity: 1; transform: scale(1.05) translateX(5px); }
+        }
+        
+        .animate-glitch-1, .animate-glitch-2 {
+            display: block;
+            animation: glitch-anim-1 0.4s cubic-bezier(.25, .46, .45, .94) both infinite, flicker 2.5s infinite;
+        }
+         .animate-glitch-2 {
+            animation: glitch-anim-2 0.4s cubic-bezier(.25, .46, .45, .94) both infinite, flicker 2.5s infinite;
+            animation-delay: 0.1s; /* Slight Phase shift */
+        }
+
+        
+        /* OTRAS ANIMACIONES PREVIAS */
           @keyframes floatUp {
               0% { transform: translateY(110vh) translateX(0); opacity: 0; }
               10% { opacity: 1; }
