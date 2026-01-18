@@ -45,20 +45,48 @@ const Sparks = () => {
   );
 };
 
+// Efecto de Suelo Digital (Grid Wireframe)
+const GridFloor = () => {
+  return (
+    <div className="absolute inset-0 z-0 flex items-end justify-center overflow-hidden opacity-30 pointer-events-none">
+      <div className="w-[200vw] h-[50vh] bg-transparent border-t border-fuchsia-500/30 relative perspective-grid">
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_0%,#000000_100%)] z-10"></div>
+      </div>
+    </div>
+  );
+};
+
+// Efecto de Anillos Holograficos detras del robot
+const HoloRings = () => {
+  return (
+    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] -z-10 pointer-events-none opacity-40">
+      {/* Ring 1 - Dashed Slow */}
+      <div className="absolute inset-0 border border-dashed border-cyan-500/50 rounded-full animate-spin-slow"></div>
+      {/* Ring 2 - Solid Reverse */}
+      <div className="absolute inset-4 border border-fuchsia-500/30 rounded-full animate-spin-reverse-slower"></div>
+      {/* Ring 3 - Tech Ticks */}
+      <div className="absolute inset-[-20px] border-2 border-dotted border-white/10 rounded-full animate-pulse-slow"></div>
+    </div>
+  );
+};
+
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center relative overflow-hidden text-white px-4 selection:bg-fuchsia-500 selection:text-white font-sans">
 
-      {/* 1. FONDO: Gradiente Nebulosa Dramatico (Magenta/Morado/Negro) */}
+      {/* 1. FONDO: Gradiente Nebulosa Dramatico */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,_#d500f9_0%,_#4a148c_40%,_#000000_90%)] z-0 opacity-80"></div>
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,_transparent_0%,_#000000_100%)] z-0"></div>
 
-      {/* 2. EFECTO: Chispas flotando (Mas intensas) */}
+      {/* 2. WIREFRAME: Suelo Digital */}
+      <GridFloor />
+
+      {/* 3. EFECTO: Chispas flotando */}
       <Sparks />
 
       {/* Navbar */}
       <nav className="w-full py-6 flex justify-between items-center z-50 max-w-7xl mx-auto">
-        {/* Logo en esquina (Blanco Puro con filtro) */}
+        {/* Logo en esquina */}
         <div className="h-8 md:h-12 w-auto opacity-90 hover:opacity-100 transition-opacity cursor-pointer">
           <img
             src="/landing/logo-text.png"
@@ -80,6 +108,10 @@ export default function Home() {
 
         {/* ROBOT HERO (Al Frente) */}
         <div className="relative w-full max-w-[320px] md:max-w-[400px] aspect-square flex items-center justify-center animate-float-slow z-20">
+
+          {/* WIREFRAME: Anillos detras del robot */}
+          <HoloRings />
+
           {/* Un brillo detras del robot para que resalte del fondo oscuro */}
           <div className="absolute w-[60%] h-[60%] bg-purple-600/30 rounded-full blur-[60px] -z-10 animate-pulse"></div>
 
@@ -90,7 +122,7 @@ export default function Home() {
           />
         </div>
 
-        {/* LOGO CENTRAL (Blanco, debajo del robot) */}
+        {/* LOGO CENTRAL */}
         <div className="relative w-full max-w-[500px] md:max-w-[600px] -mt-16 md:-mt-24 z-30 mb-8 flex flex-col items-center">
           <img
             src="/landing/logo-text.png"
@@ -105,10 +137,7 @@ export default function Home() {
             href="/form"
             className="group relative inline-flex items-center justify-center overflow-hidden rounded-full py-4 px-10 transition-all hover:scale-105 duration-300 shadow-[0_0_30px_rgba(124,58,237,0.3)] hover:shadow-[0_0_50px_rgba(124,58,237,0.6)]"
           >
-            {/* Gradiente del boton */}
             <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-90 group-hover:opacity-100 transition-opacity"></div>
-
-            {/* Texto */}
             <span className="relative font-bold text-lg tracking-widest uppercase drop-shadow-md">
               Crear Invitación
             </span>
@@ -124,6 +153,7 @@ export default function Home() {
 
       {/* Estilos Globales para animacion */}
       <style jsx global>{`
+        /* Animaciones para Sparks */
         @keyframes floatUp {
             0% { transform: translateY(110vh) translateX(0); opacity: 0; }
             10% { opacity: 1; }
@@ -133,12 +163,35 @@ export default function Home() {
         .animate-float-up {
             will-change: transform, opacity;
         }
+        
+        /* Animacion Robot */
         @keyframes subtleFloat {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); }
         }
         .animate-float-slow {
             animation: subtleFloat 6s ease-in-out infinite;
+        }
+
+        /* Animaciones Holo Rings */
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes spinReverse { 100% { transform: rotate(-360deg); } }
+        
+        .animate-spin-slow { animation: spin 10s linear infinite; }
+        .animate-spin-reverse-slower { animation: spinReverse 15s linear infinite; }
+        .animate-pulse-slow { animation: pulse 4s ease-in-out infinite; }
+
+        /* Grid Floor Perspective */
+        .perspective-grid {
+            transform: perspective(500px) rotateX(60deg);
+            background-image: linear-gradient(to right, rgba(213, 0, 249, 0.2) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(213, 0, 249, 0.2) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: gridMove 20s linear infinite;
+        }
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 400px; }
         }
       `}</style>
 
