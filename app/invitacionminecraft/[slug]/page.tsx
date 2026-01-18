@@ -620,18 +620,46 @@ function MapSection({ mapUrl }: { mapUrl: string }) {
             </div>
 
             <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="MAPA DEL TESORO">
-                <div className="w-full h-64 md:h-96 bg-gray-200">
-                    <iframe
-                        src={mapUrl}
-                        width="100%"
-                        height="100%"
-                        style={{ border: 0 }}
-                        allowFullScreen={true}
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                    ></iframe>
-                </div>
-                <p className="mt-4 text-sm text-gray-400">Si no carga, intenta abrirlo externamente.</p>
+                {mapUrl.includes("embed") ? (
+                    <div className="w-full h-64 md:h-96 bg-gray-200">
+                        <iframe
+                            src={mapUrl}
+                            width="100%"
+                            height="100%"
+                            style={{ border: 0 }}
+                            allowFullScreen={true}
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                        ></iframe>
+                    </div>
+                ) : (
+                    <div className="flex flex-col items-center justify-center p-4">
+                        <div className="mb-6 opacity-80">
+                            {/* Fallback Graphic */}
+                            <img
+                                src="/sprites/item-map-final.png"
+                                alt="Mapa Externo"
+                                className="w-24 h-24 image-pixelated animate-bounce"
+                            />
+                        </div>
+                        <p className="mb-6 text-gray-300 font-vt323 text-xl">
+                            El mapa no se puede desplegar aquí. <br /> ¡Ábrelo en tu App!
+                        </p>
+                        <a
+                            href={mapUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-[#388e3c] text-white py-4 px-6 border-b-4 border-[#1b5e20] hover:bg-[#4caf50] active:border-b-0 inline-flex items-center gap-2 group transition-all"
+                            style={{ fontFamily: 'var(--font-press-start)', fontSize: '12px' }}
+                        >
+                            <span>🗺️</span> ABRIR UBICACIÓN GPS
+                        </a>
+                    </div>
+                )}
+
+                {mapUrl.includes("embed") && (
+                    <p className="mt-4 text-sm text-gray-400">Si no carga, intenta abrirlo externamente.</p>
+                )}
             </Modal>
         </section>
     );
