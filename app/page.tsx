@@ -8,15 +8,17 @@ const Sparks = () => {
   const [particles, setParticles] = useState<any[]>([]);
 
   useEffect(() => {
-    // Generamos particulas aleatorias SOLO en el cliente para evitar error de hidratacion
-    const newParticles = Array.from({ length: 40 }).map((_, i) => ({
+    // Generamos particulas aleatorias SOLO en el cliente
+    // MAS DRAMATICO: Mas particulas, mas rapidas, mas grandes
+    const newParticles = Array.from({ length: 60 }).map((_, i) => ({
       id: i,
       left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      animationDuration: `${Math.random() * 5 + 8}s`, // Flotan lento entre 8 y 13 seg
-      animationDelay: `${Math.random() * 5}s`,
-      opacity: Math.random() * 0.6 + 0.2,
-      size: Math.random() * 3 + 1, // Tamaño variable
+      top: `${Math.random() * 120}%`, // Empiezan mas abajo incluso
+      animationDuration: `${Math.random() * 4 + 4}s`, // Mas rapidas (4-8s)
+      animationDelay: `${Math.random() * 2}s`,
+      opacity: Math.random() * 0.8 + 0.2,
+      size: Math.random() * 4 + 1, // Hasta 5px
+      blur: Math.random() > 0.5 ? 'blur-[1px]' : '', // Algunas desenfocadas para profundidad
     }));
     setParticles(newParticles);
   }, []);
@@ -26,7 +28,7 @@ const Sparks = () => {
       {particles.map((p) => (
         <div
           key={p.id}
-          className="absolute bg-white rounded-full animate-float-up"
+          className={`absolute bg-white rounded-full animate-float-up ${p.blur}`}
           style={{
             left: p.left,
             top: p.top,
@@ -35,7 +37,7 @@ const Sparks = () => {
             opacity: p.opacity,
             animation: `floatUp ${p.animationDuration} linear infinite`,
             animationDelay: p.animationDelay,
-            boxShadow: `0 0 ${p.size * 2}px rgba(255, 255, 255, 0.8)`
+            boxShadow: `0 0 ${p.size * 3}px rgba(255, 100, 255, 0.9)`, // Brillo rosado
           }}
         />
       ))}
@@ -45,16 +47,13 @@ const Sparks = () => {
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col items-center relative overflow-hidden text-white px-4 selection:bg-cyan-500 selection:text-black font-sans">
+    <div className="min-h-screen flex flex-col items-center relative overflow-hidden text-white px-4 selection:bg-fuchsia-500 selection:text-white font-sans">
 
-      {/* 1. FONDO: Gradiente Espacial (Sin imagen) */}
-      {/* Imitando el vibe neon/espacial: Morado oscuro -> Negro */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#4a148c] via-[#1a0b2e] to-[#000000] z-0"></div>
+      {/* 1. FONDO: Gradiente Nebulosa Dramatico (Magenta/Morado/Negro) */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,_#d500f9_0%,_#4a148c_40%,_#000000_90%)] z-0 opacity-80"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,_transparent_0%,_#000000_100%)] z-0"></div>
 
-      {/* Capa extra para oscurecer abajo */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-0"></div>
-
-      {/* 2. EFECTO: Chispas flotando */}
+      {/* 2. EFECTO: Chispas flotando (Mas intensas) */}
       <Sparks />
 
       {/* Navbar */}
