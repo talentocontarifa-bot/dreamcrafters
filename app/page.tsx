@@ -84,7 +84,7 @@ export default function Home() {
           <div className="absolute w-[60%] h-[60%] bg-purple-600/30 rounded-full blur-[60px] -z-10 animate-pulse"></div>
 
           <img
-            src="/landing/robot-hero.png"
+            src="/landing/robot-hero.webp"
             alt="Dreamcrafters Robot"
             className="w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] object-contain"
           />
