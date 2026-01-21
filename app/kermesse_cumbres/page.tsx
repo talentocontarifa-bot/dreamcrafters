@@ -198,17 +198,8 @@ export default function Home() {
             {/* Contenido Principal */}
             <main className="relative z-10 flex flex-col items-center justify-center flex-grow w-full max-w-4xl mt-4 md:mt-8">
 
-                {/* TITULO CENTRAL (Imagen con Glow) - PRIMERO en el DOM (Fondo) */}
-                <div className="relative w-full max-w-[600px] z-0 mb-0 flex flex-col items-center pointer-events-none mt-8">
-                    <img
-                        src="/kermesse_cumbres/main_title.webp"
-                        alt="Kermesse Cumbres 2026"
-                        className="w-full h-auto drop-shadow-[0_0_15px_rgba(34,211,238,0.6)] filter brightness-110"
-                    />
-                </div>
-
-                {/* HERO: COCO (El Cocodrilo) - DESPUES (Frente) con Margen Negativo para subir */}
-                <div className="relative w-full max-w-[385px] md:max-w-[480px] -mt-24 md:-mt-32 aspect-square flex items-center justify-center animate-float-slow z-40 pointer-events-none">
+                {/* HERO: COCO (El Cocodrilo) - PRIMERO - GIGANTE (+30%) */}
+                <div className="relative w-full max-w-[480px] md:max-w-[620px] aspect-square flex items-center justify-center animate-float-slow z-20 pointer-events-none animate-in fade-in zoom-in duration-1000">
 
                     {/* WIREFRAME: Anillos detras del robot */}
                     <HoloRings />
@@ -219,15 +210,24 @@ export default function Home() {
                     <img
                         src="/kermesse_cumbres/coco.webp"
                         alt="Mascota Cumbres"
-                        className="w-full h-auto drop-shadow-[0_0_15px_rgba(57,255,20,0.6)] animate-pulse-slow object-contain filter brightness-110 contrast-110"
+                        className="w-full h-auto drop-shadow-[0_0_25px_rgba(57,255,20,0.5)] animate-pulse-slow object-contain filter brightness-110 contrast-110"
+                    />
+                </div>
+
+                {/* TITULO CENTRAL (Imagen con Glow) - DESPUES - PEQUEÑO (-40%) */}
+                <div className="relative w-full max-w-[360px] md:max-w-[450px] z-10 mb-8 -mt-8 flex flex-col items-center pointer-events-none animate-in slide-in-from-bottom-10 fade-in duration-1000 delay-300 fill-mode-backwards">
+                    <img
+                        src="/kermesse_cumbres/main_title.webp"
+                        alt="Kermesse Cumbres 2026"
+                        className="w-full h-auto drop-shadow-[0_0_15px_rgba(34,211,238,0.6)] filter brightness-110"
                     />
                 </div>
 
                 {/* DIVIDER: NEON SEPARATOR */}
-                <div className="w-full max-w-[200px] h-[2px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent mb-12 opacity-70 shadow-[0_0_10px_#22d3ee]"></div>
+                <div className="w-full max-w-[200px] h-[2px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent mb-12 opacity-70 shadow-[0_0_10px_#22d3ee] animate-in zoom-in duration-700 delay-500 fill-mode-backwards"></div>
 
                 {/* SECCION 1: COUNTDOWN */}
-                <div className="flex flex-col items-center z-30 mb-16 w-full animate-float-up delay-100">
+                <div className="flex flex-col items-center z-30 mb-16 w-full animate-in slide-in-from-bottom-8 fade-in duration-1000 delay-700 fill-mode-backwards">
                     <p className="text-cyan-300 uppercase tracking-[0.4em] text-[10px] md:text-sm font-bold mb-6 text-center">
                         La diversión comienza en
                     </p>
@@ -235,7 +235,7 @@ export default function Home() {
                 </div>
 
                 {/* SECCION 2: INFO CARDS (Fecha, Hora, Mapa) */}
-                <div className="relative z-30 flex flex-col md:flex-row gap-8 items-stretch md:items-center bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-10 rounded-3xl shadow-[0_0_30px_rgba(0,0,0,0.5)] w-full max-w-4xl justify-center hover:bg-white/10 transition-all duration-500 group mx-auto">
+                <div className="relative z-30 flex flex-col md:flex-row gap-8 items-stretch md:items-center bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-10 rounded-3xl shadow-[0_0_30px_rgba(0,0,0,0.5)] w-full max-w-4xl justify-center hover:bg-white/10 transition-all duration-500 group mx-auto animate-in slide-in-from-bottom-12 fade-in duration-1000 delay-1000 fill-mode-backwards">
 
                     {/* Fecha */}
                     <div className="flex flex-col items-center gap-3 text-center flex-1">
