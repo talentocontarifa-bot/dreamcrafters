@@ -136,10 +136,10 @@ const MapModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
                     </button>
                 </div>
 
-                {/* Mapa Iframe */}
+                {/* Mapa Iframe - Dirección Exacta */}
                 <div className="w-full h-[50vh] md:h-[60vh] relative bg-gray-900">
                     <iframe
-                        src="https://maps.google.com/maps?q=Instituto%20Cumbres%20Chetumal&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                        src="https://maps.google.com/maps?q=Instituto%20Cumbres%20Chetumal%2C%20Av.%20Insurgentes%20631%2C%20Magisterial%2C%2077039%20Chetumal%2C%20Q.R.&t=&z=16&ie=UTF8&iwloc=&output=embed"
                         width="100%"
                         height="100%"
                         style={{ border: 0 }}
@@ -168,31 +168,36 @@ const MapModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
 // Componente Marquee de Actividades
 const NeonMarquee = () => {
     const activities = [
-        { name: "Juegos Mecánicos", icon: "/kermesse_cumbres/juegos.webp", color: "text-cyan-400", glow: "drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]" },
-        { name: "Show en Vivo", icon: "/kermesse_cumbres/show.webp", color: "text-fuchsia-400", glow: "drop-shadow-[0_0_15px_rgba(232,121,249,0.8)]" },
-        { name: "Zona de Comida", icon: "/kermesse_cumbres/comida.webp", color: "text-green-400", glow: "drop-shadow-[0_0_15px_rgba(74,222,128,0.8)]" },
-        { name: "Gran Bazar", icon: "/kermesse_cumbres/bazar.webp", color: "text-yellow-400", glow: "drop-shadow-[0_0_15px_rgba(250,204,21,0.8)]" },
-        { name: "Inflables", icon: "/kermesse_cumbres/inflables.webp", color: "text-purple-400", glow: "drop-shadow-[0_0_15px_rgba(192,132,252,0.8)]" },
+        { name: "Juegos Mecánicos", icon: "/kermesse_cumbres/juegos.webp", color: "text-cyan-400", glow: "drop-shadow-[0_0_20px_rgba(34,211,238,0.9)]" },
+        { name: "Show en Vivo", icon: "/kermesse_cumbres/show.webp", color: "text-fuchsia-400", glow: "drop-shadow-[0_0_20px_rgba(232,121,249,0.9)]" },
+        { name: "Zona de Comida", icon: "/kermesse_cumbres/comida.webp", color: "text-green-400", glow: "drop-shadow-[0_0_20px_rgba(74,222,128,0.9)]" },
+        { name: "Gran Bazar", icon: "/kermesse_cumbres/bazar.webp", color: "text-yellow-400", glow: "drop-shadow-[0_0_20px_rgba(250,204,21,0.9)]" },
+        { name: "Inflables", icon: "/kermesse_cumbres/inflables.webp", color: "text-purple-400", glow: "drop-shadow-[0_0_20px_rgba(192,132,252,0.9)]" },
     ];
 
     return (
-        <div className="w-full relative overflow-hidden py-10 mb-12 bg-transparent">
-            {/* Gradientes laterales para suavizar entrada/salida */}
+        <div
+            className="w-full relative overflow-hidden py-12 mb-12 bg-transparent"
+            style={{
+                maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
+            }}
+        >
             <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
             <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
 
-            <div className="flex gap-16 md:gap-24 animate-marquee w-max py-4 items-end">
+            <div className="flex gap-16 md:gap-32 animate-marquee w-max py-4 items-end">
                 {/* Duplicamos la lista varias veces para el loop infinito */}
                 {[...activities, ...activities, ...activities, ...activities].map((item, index) => (
-                    <div key={index} className="flex flex-col items-center gap-6 group">
-                        <div className="relative transition-transform duration-300 hover:scale-110">
+                    <div key={index} className="flex flex-col items-center gap-6 group min-w-[140px]">
+                        <div className="relative transform transition-transform duration-500">
                             <img
                                 src={item.icon}
                                 alt={item.name}
-                                className={`w-24 h-24 md:w-32 md:h-32 object-contain ${item.glow} filter brightness-110`}
+                                className={`w-32 h-32 md:w-40 md:h-40 object-contain ${item.glow} filter brightness-110`}
                             />
                         </div>
-                        <span className={`text-sm md:text-base font-bold uppercase tracking-widest ${item.color} drop-shadow-md text-center bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm border border-white/5`}>
+                        <span className={`text-sm md:text-lg font-bold uppercase tracking-widest ${item.color} drop-shadow-md text-center`}>
                             {item.name}
                         </span>
                     </div>
@@ -205,19 +210,15 @@ const NeonMarquee = () => {
                     100% { transform: translateX(-25%); } 
                 }
                 .animate-marquee {
-                    animation: marquee 30s linear infinite;
-                }
-                .animate-marquee:hover {
-                    animation-play-state: paused;
+                    animation: marquee 25s linear infinite;
                 }
             `}</style>
         </div>
     );
 };
 
-// Componente Reproductor de Musica
+// Componente Reproductor de Musica (Invisible)
 const MusicPlayer = () => {
-    const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     const playAudio = async () => {
@@ -227,27 +228,24 @@ const MusicPlayer = () => {
         try {
             audio.volume = 0.5;
             await audio.play();
-            setIsPlaying(true);
         } catch (error) {
-            console.log("Autoplay blocked/failed", error);
-            setIsPlaying(false);
+            // Silently fail if blocked, wait for interaction
         }
     };
 
-    // Intentar reproducir al cargar y al primer clic
     useEffect(() => {
         // Intento 1: Autoplay directo
         playAudio();
 
-        // Intento 2 y 3: Play en la primera interaccion (clic o toque)
+        // Intento 2: Play en la primera interaccion (clic o toque)
         const handleInteraction = () => {
-            if (!isPlaying && audioRef.current && audioRef.current.paused) {
+            if (audioRef.current && audioRef.current.paused) {
                 playAudio();
             }
         };
 
         window.addEventListener('click', handleInteraction, { once: true });
-        window.addEventListener('touchstart', handleInteraction, { once: true }); // Para moviles
+        window.addEventListener('touchstart', handleInteraction, { once: true });
 
         return () => {
             window.removeEventListener('click', handleInteraction);
@@ -255,43 +253,9 @@ const MusicPlayer = () => {
         };
     }, []);
 
-    const togglePlay = () => {
-        if (audioRef.current) {
-            if (isPlaying) {
-                audioRef.current.pause();
-                setIsPlaying(false);
-            } else {
-                audioRef.current.play();
-                setIsPlaying(true);
-            }
-        }
-    };
-
+    // Renderiza el audio oculto, sin boton
     return (
-        <div className="fixed bottom-6 right-6 z-[60] animate-in fade-in slide-in-from-bottom-5 duration-1000 delay-1000">
-            <audio ref={audioRef} src="/kermesse_cumbres/music.mp3" loop />
-            <button
-                onClick={togglePlay}
-                className={`p-4 rounded-full shadow-[0_0_20px_rgba(57,255,20,0.4)] transition-all duration-300 transform hover:scale-110 ${isPlaying ? 'bg-green-500 text-white animate-pulse-slow' : 'bg-black/50 text-white/70 border border-white/20'}`}
-                aria-label={isPlaying ? "Pausar Música" : "Reproducir Música"}
-            >
-                {isPlaying ? (
-                    <div className="flex gap-1 h-4 items-end">
-                        <div className="w-1 bg-white animate-[music-bar_0.5s_ease-in-out_infinite] h-2"></div>
-                        <div className="w-1 bg-white animate-[music-bar_0.5s_ease-in-out_infinite_0.1s] h-4"></div>
-                        <div className="w-1 bg-white animate-[music-bar_0.5s_ease-in-out_infinite_0.2s] h-3"></div>
-                    </div>
-                ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M4 2v20l17-10z" /></svg>
-                )}
-            </button>
-            <style jsx>{`
-                @keyframes music-bar {
-                    0%, 100% { height: 50%; opacity: 0.8; }
-                    50% { height: 100%; opacity: 1; }
-                }
-            `}</style>
-        </div>
+        <audio ref={audioRef} src="/kermesse_cumbres/music.mp3" loop className="hidden" />
     );
 };
 
