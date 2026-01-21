@@ -118,12 +118,12 @@ export default function Home() {
 
             {/* Navbar */}
             <nav className="w-full py-6 flex justify-between items-center z-50 max-w-7xl mx-auto">
-                {/* Logo en esquina */}
-                <div className="h-8 md:h-12 w-auto opacity-90 hover:opacity-100 transition-opacity cursor-pointer">
+                {/* Logo en esquina - Instituto Cumbres */}
+                <div className="h-10 md:h-16 w-auto opacity-90 hover:opacity-100 transition-opacity cursor-pointer">
                     <img
-                        src="/landing/logo-text.png"
-                        alt="Dreamcrafters Logo"
-                        className="h-full w-auto filter brightness-0 invert"
+                        src="/kermesse_cumbres/logo.webp"
+                        alt="Instituto Cumbres Logo"
+                        className="h-full w-auto object-contain"
                     />
                 </div>
 
@@ -148,18 +148,18 @@ export default function Home() {
                     <div className="absolute w-[60%] h-[60%] bg-purple-600/30 rounded-full blur-[60px] -z-10 animate-pulse"></div>
 
                     <img
-                        src="/landing/robot-hero.webp"
-                        alt="Dreamcrafters Robot"
+                        src="/kermesse_cumbres/coco.webp"
+                        alt="Mascota Cumbres"
                         className="w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] object-contain"
                     />
                 </div>
 
 
-                {/* LOGO CENTRAL CON GLITCH */}
-                <div className="relative w-full max-w-[500px] md:max-w-[600px] -mt-16 md:-mt-24 z-30 mb-8 flex flex-col items-center">
-
-                    <GlitchLogo />
-
+                {/* TITULO CENTRAL (Reemplazando GlitchLogo por identidad del evento) */}
+                <div className="relative w-full max-w-[600px] -mt-10 md:-mt-16 z-30 mb-12 flex flex-col items-center">
+                    <h1 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-white to-fuchsia-400 text-center drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">
+                        Kermesse 2026
+                    </h1>
                 </div>
 
                 {/* Boton CTA */}
