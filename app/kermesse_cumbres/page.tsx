@@ -138,19 +138,19 @@ export default function Home() {
             {/* Contenido Principal */}
             <main className="relative z-10 flex flex-col items-center justify-center flex-grow w-full max-w-6xl mt-4 md:mt-8">
 
-                {/* ROBOT HERO (Al Frente) */}
+                {/* HERO: COCO (El Cocodrilo) */}
                 <div className="relative w-full max-w-[320px] md:max-w-[400px] aspect-square flex items-center justify-center animate-float-slow z-20">
 
                     {/* WIREFRAME: Anillos detras del robot */}
                     <HoloRings />
 
                     {/* Un brillo detras del robot para que resalte del fondo oscuro */}
-                    <div className="absolute w-[60%] h-[60%] bg-purple-600/30 rounded-full blur-[60px] -z-10 animate-pulse"></div>
+                    <div className="absolute w-[60%] h-[60%] bg-green-500/30 rounded-full blur-[60px] -z-10 animate-pulse"></div>
 
                     <img
                         src="/kermesse_cumbres/coco.webp"
                         alt="Mascota Cumbres"
-                        className="w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] object-contain"
+                        className="w-full h-auto drop-shadow-[0_0_15px_rgba(57,255,20,0.6)] animate-pulse-slow object-contain filter brightness-110 contrast-110"
                     />
                 </div>
 
