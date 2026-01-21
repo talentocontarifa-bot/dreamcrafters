@@ -136,10 +136,10 @@ const MapModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
                     </button>
                 </div>
 
-                {/* Mapa Iframe - Dirección Exacta (Forzada por Calle) */}
+                {/* Mapa Iframe - Dirección Exacta (Cancún) */}
                 <div className="w-full h-[50vh] md:h-[60vh] relative bg-gray-900">
                     <iframe
-                        src="https://maps.google.com/maps?q=Av.+Insurgentes+631%2C+Magisterial%2C+77039+Chetumal%2C+Q.R.&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                        src="https://maps.google.com/maps?q=Monte+Vinson+esquina+Av.+Cumbres+Mza+8%2C+Supermanzana+310%2C+77560+Canc%C3%BAn%2C+Q.R.&t=&z=16&ie=UTF8&iwloc=&output=embed"
                         width="100%"
                         height="100%"
                         style={{ border: 0 }}
