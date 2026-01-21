@@ -411,6 +411,41 @@ export default function Home() {
                     <NeonMarquee />
                 </div>
 
+                {/* SECCION DE PRECIOS: BRAZALETE MAGICO */}
+                <div className="w-full max-w-md z-30 mb-16 animate-in slide-in-from-bottom-10 fade-in duration-1000 delay-1100 fill-mode-backwards">
+                    <div className="relative group cursor-default">
+                        {/* Glow Background */}
+                        <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+
+                        <div className="relative bg-black/80 backdrop-blur-xl border border-yellow-500/50 rounded-2xl p-8 flex flex-col items-center text-center overflow-hidden">
+                            {/* Shine Effect */}
+                            <div className="absolute top-0 right-0 -mr-16 -mt-16 w-32 h-32 rounded-full bg-white/10 blur-2xl"></div>
+
+                            <h3 className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-amber-500 text-3xl md:text-4xl font-black uppercase tracking-widest mb-2 drop-shadow-sm">
+                                Brazalete Mágico
+                            </h3>
+
+                            <div className="my-4 relative">
+                                <span className="text-5xl md:text-6xl font-bold text-white drop-shadow-[0_0_15px_rgba(234,179,8,0.8)]">
+                                    $600
+                                </span>
+                                <div className="absolute -right-6 -top-2 rotate-12 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">
+                                    VIP
+                                </div>
+                            </div>
+
+                            <p className="text-yellow-200/80 text-sm md:text-base font-medium tracking-wide border-t border-yellow-500/20 pt-4 w-full">
+                                ¡Acceso ilimitado a todos los juegos!
+                            </p>
+
+                            {/* Icono de Ticket/Brazalete */}
+                            <div className="mt-6 text-yellow-500 animate-pulse-slow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {/* SECCION 2: INFO CARDS (Fecha, Hora, Mapa) */}
                 <div className="relative z-30 flex flex-col md:flex-row gap-8 items-stretch md:items-center bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-10 rounded-3xl shadow-[0_0_30px_rgba(0,0,0,0.5)] w-full max-w-4xl justify-center hover:bg-white/10 transition-all duration-500 group mx-auto animate-in slide-in-from-bottom-12 fade-in duration-1000 delay-1200 fill-mode-backwards">
 
