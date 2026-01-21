@@ -254,8 +254,9 @@ const NeonMarquee = () => {
     );
 };
 
-// Componente Reproductor de Musica (Invisible)
+// Componente Reproductor de Musica (Visible con Autoplay táctil)
 const MusicPlayer = () => {
+    const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     const playAudio = async () => {
@@ -265,24 +266,27 @@ const MusicPlayer = () => {
         try {
             audio.volume = 0.5;
             await audio.play();
+            setIsPlaying(true);
         } catch (error) {
-            // Silently fail if blocked, wait for interaction
+            console.log("Autoplay blocked/failed", error);
+            setIsPlaying(false);
         }
     };
 
+    // Intentar reproducir al cargar, al primer clic y al primer toque (movil)
     useEffect(() => {
         // Intento 1: Autoplay directo
         playAudio();
 
-        // Intento 2: Play en la primera interaccion (clic o toque)
+        // Intento 2 y 3: Play en la primera interaccion (clic o toque)
         const handleInteraction = () => {
-            if (audioRef.current && audioRef.current.paused) {
+            if (!isPlaying && audioRef.current && audioRef.current.paused) {
                 playAudio();
             }
         };
 
         window.addEventListener('click', handleInteraction, { once: true });
-        window.addEventListener('touchstart', handleInteraction, { once: true });
+        window.addEventListener('touchstart', handleInteraction, { once: true }); // Para moviles
 
         return () => {
             window.removeEventListener('click', handleInteraction);
@@ -290,9 +294,43 @@ const MusicPlayer = () => {
         };
     }, []);
 
-    // Renderiza el audio oculto, sin boton
+    const togglePlay = () => {
+        if (audioRef.current) {
+            if (isPlaying) {
+                audioRef.current.pause();
+                setIsPlaying(false);
+            } else {
+                audioRef.current.play();
+                setIsPlaying(true);
+            }
+        }
+    };
+
     return (
-        <audio ref={audioRef} src="/kermesse_cumbres/music.mp3" loop className="hidden" />
+        <div className="fixed bottom-6 right-6 z-[60] animate-in fade-in slide-in-from-bottom-5 duration-1000 delay-1000">
+            <audio ref={audioRef} src="/kermesse_cumbres/music.mp3" loop />
+            <button
+                onClick={togglePlay}
+                className={`p-4 rounded-full shadow-[0_0_20px_rgba(57,255,20,0.4)] transition-all duration-300 transform hover:scale-110 ${isPlaying ? 'bg-green-500 text-white animate-pulse-slow' : 'bg-black/50 text-white/70 border border-white/20'}`}
+                aria-label={isPlaying ? "Pausar Música" : "Reproducir Música"}
+            >
+                {isPlaying ? (
+                    <div className="flex gap-1 h-4 items-end">
+                        <div className="w-1 bg-white animate-[music-bar_0.5s_ease-in-out_infinite] h-2"></div>
+                        <div className="w-1 bg-white animate-[music-bar_0.5s_ease-in-out_infinite_0.1s] h-4"></div>
+                        <div className="w-1 bg-white animate-[music-bar_0.5s_ease-in-out_infinite_0.2s] h-3"></div>
+                    </div>
+                ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M4 2v20l17-10z" /></svg>
+                )}
+            </button>
+            <style jsx>{`
+                @keyframes music-bar {
+                    0%, 100% { height: 50%; opacity: 0.8; }
+                    50% { height: 100%; opacity: 1; }
+                }
+            `}</style>
+        </div>
     );
 };
 
