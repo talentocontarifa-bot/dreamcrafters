@@ -168,31 +168,31 @@ const MapModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
 // Componente Marquee de Actividades
 const NeonMarquee = () => {
     const activities = [
-        { name: "Juegos Mecánicos", icon: "/kermesse_cumbres/juegos.webp", color: "text-cyan-400", glow: "shadow-cyan-500/50" },
-        { name: "Show en Vivo", icon: "/kermesse_cumbres/show.webp", color: "text-fuchsia-400", glow: "shadow-fuchsia-500/50" },
-        { name: "Zona de Comida", icon: "/kermesse_cumbres/comida.webp", color: "text-green-400", glow: "shadow-green-500/50" },
-        { name: "Gran Bazar", icon: "/kermesse_cumbres/bazar.webp", color: "text-yellow-400", glow: "shadow-yellow-500/50" },
-        { name: "Inflables", icon: "/kermesse_cumbres/inflables.webp", color: "text-purple-400", glow: "shadow-purple-500/50" },
+        { name: "Juegos Mecánicos", icon: "/kermesse_cumbres/juegos.webp", color: "text-cyan-400", glow: "drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]" },
+        { name: "Show en Vivo", icon: "/kermesse_cumbres/show.webp", color: "text-fuchsia-400", glow: "drop-shadow-[0_0_15px_rgba(232,121,249,0.8)]" },
+        { name: "Zona de Comida", icon: "/kermesse_cumbres/comida.webp", color: "text-green-400", glow: "drop-shadow-[0_0_15px_rgba(74,222,128,0.8)]" },
+        { name: "Gran Bazar", icon: "/kermesse_cumbres/bazar.webp", color: "text-yellow-400", glow: "drop-shadow-[0_0_15px_rgba(250,204,21,0.8)]" },
+        { name: "Inflables", icon: "/kermesse_cumbres/inflables.webp", color: "text-purple-400", glow: "drop-shadow-[0_0_15px_rgba(192,132,252,0.8)]" },
     ];
 
     return (
-        <div className="w-full relative overflow-hidden py-8 mb-12 bg-black/20 backdrop-blur-sm border-y border-white/5">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#000000] via-transparent to-[#000000] z-10 pointer-events-none"></div>
+        <div className="w-full relative overflow-hidden py-10 mb-12 bg-transparent">
+            {/* Gradientes laterales para suavizar entrada/salida */}
+            <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
 
-            <div className="flex gap-12 animate-marquee w-max py-4">
-                {/* Duplicamos la lista para el loop infinito */}
-                {[...activities, ...activities, ...activities].map((item, index) => (
-                    <div key={index} className="flex flex-col items-center gap-4 group min-w-[120px]">
-                        <div className={`p-4 rounded-full bg-white/5 border border-white/10 ${item.glow} hover:scale-110 transition-transform duration-300 relative`}>
-                            {/* Glow effect behind */}
-                            <div className={`absolute inset-0 rounded-full blur-md opacity-40 ${item.color.replace('text', 'bg')}`}></div>
+            <div className="flex gap-16 md:gap-24 animate-marquee w-max py-4 items-end">
+                {/* Duplicamos la lista varias veces para el loop infinito */}
+                {[...activities, ...activities, ...activities, ...activities].map((item, index) => (
+                    <div key={index} className="flex flex-col items-center gap-6 group">
+                        <div className="relative transition-transform duration-300 hover:scale-110">
                             <img
                                 src={item.icon}
                                 alt={item.name}
-                                className="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+                                className={`w-24 h-24 md:w-32 md:h-32 object-contain ${item.glow} filter brightness-110`}
                             />
                         </div>
-                        <span className={`text-xs md:text-sm font-bold uppercase tracking-widest ${item.color} drop-shadow-md text-center max-w-[140px]`}>
+                        <span className={`text-sm md:text-base font-bold uppercase tracking-widest ${item.color} drop-shadow-md text-center bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm border border-white/5`}>
                             {item.name}
                         </span>
                     </div>
@@ -202,10 +202,10 @@ const NeonMarquee = () => {
             <style jsx>{`
                 @keyframes marquee {
                     0% { transform: translateX(0); }
-                    100% { transform: translateX(-33.33%); } /* Mover 1/3 porque triplicamos la lista */
+                    100% { transform: translateX(-25%); } 
                 }
                 .animate-marquee {
-                    animation: marquee 20s linear infinite;
+                    animation: marquee 30s linear infinite;
                 }
                 .animate-marquee:hover {
                     animation-play-state: paused;
@@ -215,7 +215,6 @@ const NeonMarquee = () => {
     );
 };
 
-// Componente Reproductor de Musica
 // Componente Reproductor de Musica
 const MusicPlayer = () => {
     const [isPlaying, setIsPlaying] = useState(false);
@@ -235,7 +234,7 @@ const MusicPlayer = () => {
         }
     };
 
-    // Intentar reproducir al cargar, al primer clic y al primer toque (movil)
+    // Intentar reproducir al cargar y al primer clic
     useEffect(() => {
         // Intento 1: Autoplay directo
         playAudio();
@@ -409,7 +408,7 @@ export default function Home() {
                     {/* Ubicacion (Boton Mapa) */}
                     <div className="flex flex-col items-center gap-3 text-center flex-1 cursor-pointer" onClick={() => setShowMap(true)}>
                         <div className="p-4 rounded-full bg-green-500/20 text-green-300 group-hover:scale-110 transition-transform duration-300 shadow-[0_0_15px_rgba(57,255,20,0.3)] hover:bg-green-500 hover:text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                         </div>
                         <div>
                             {/* Mobile: Blanco Solido / Desktop: Gradiente */}
@@ -475,7 +474,6 @@ export default function Home() {
             100% { background-position: 0 400px; }
         }
       `}</style>
-
         </div>
     );
 }
