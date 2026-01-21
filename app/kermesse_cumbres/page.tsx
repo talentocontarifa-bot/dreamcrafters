@@ -157,11 +157,13 @@ export default function Home() {
                     />
                 </div>
 
-                {/* TITULO CENTRAL */}
-                <div className="relative w-full max-w-[700px] -mt-10 md:-mt-16 z-30 mb-8 flex flex-col items-center">
-                    <h1 className="text-4xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-white to-fuchsia-400 text-center drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] leading-tight tracking-tight">
-                        Kermesse 2026
-                    </h1>
+                {/* TITULO CENTRAL (Imagen con Glow) - Z-Index mayor para estar frente al cocodrilo */}
+                <div className="relative w-full max-w-[600px] -mt-24 md:-mt-32 z-30 mb-8 flex flex-col items-center pointer-events-none">
+                    <img
+                        src="/kermesse_cumbres/main_title.webp"
+                        alt="Kermesse Cumbres 2026"
+                        className="w-full h-auto drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] filter brightness-110"
+                    />
                 </div>
 
                 {/* DIVIDER: NEON SEPARATOR */}
@@ -205,11 +207,31 @@ export default function Home() {
 
                 </div>
 
+                {/* SECCION 3: MAPA DE UBICACIÓN */}
+                <div className="flex flex-col items-center z-30 mt-16 w-full max-w-4xl px-4">
+                    <p className="text-cyan-300 uppercase tracking-[0.3em] text-xs font-bold mb-6 text-center">
+                        Ubicación del Evento
+                    </p>
+                    <div className="w-full h-[300px] md:h-[400px] rounded-3xl overflow-hidden border border-white/20 shadow-[0_0_30px_rgba(34,211,238,0.2)]">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3781.761661644788!2d-88.2916666851062!3d18.5847222873715!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f5bb7df8f8c6b6b%3A0x6b6b6b6b6b6b6b6b!2sInstituto%20Cumbres%20Chetumal!5e0!3m2!1ses-419!2smx!4v1642636800000!5m2!1ses-419!2smx"
+                            width="100%"
+                            height="100%"
+                            style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg)' }}
+                            allowFullScreen={true}
+                            loading="lazy"
+                        ></iframe>
+                    </div>
+                </div>
+
             </main>
 
-            {/* Footer Minimalista */}
-            <footer className="relative z-10 py-8 text-center text-[10px] text-white/20 tracking-[0.3em] uppercase mt-12 w-full border-t border-white/5">
-                Instituto Cumbres © 2026
+            {/* Footer Powered By */}
+            <footer className="relative z-10 py-8 text-center text-[10px] text-white/30 tracking-[0.2em] uppercase mt-12 w-full border-t border-white/5 flex flex-col gap-2">
+                <span>Instituto Cumbres © 2026</span>
+                <a href="https://dreamcrafters.lat" className="hover:text-cyan-400 transition-colors duration-300 font-bold opacity-60 hover:opacity-100">
+                    Powered by DreamCrafters
+                </a>
             </footer>
 
             {/* Estilos Globales para animacion */}
