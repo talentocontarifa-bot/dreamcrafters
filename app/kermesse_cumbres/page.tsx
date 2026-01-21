@@ -139,10 +139,10 @@ const MapModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
                 {/* Mapa Iframe */}
                 <div className="w-full h-[50vh] md:h-[60vh] relative bg-gray-900">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3781.761661644788!2d-88.2916666851062!3d18.5847222873715!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f5bb7df8f8c6b6b%3A0x6b6b6b6b6b6b6b6b!2sInstituto%20Cumbres%20Chetumal!5e0!3m2!1ses-419!2smx!4v1642636800000!5m2!1ses-419!2smx"
+                        src="https://maps.google.com/maps?q=Instituto%20Cumbres%20Chetumal&t=&z=15&ie=UTF8&iwloc=&output=embed"
                         width="100%"
                         height="100%"
-                        style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg)' }}
+                        style={{ border: 0 }}
                         allowFullScreen={true}
                         loading="lazy"
                     ></iframe>
