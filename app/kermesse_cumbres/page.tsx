@@ -139,7 +139,7 @@ const MapModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
                 {/* Mapa Iframe - Dirección Exacta */}
                 <div className="w-full h-[50vh] md:h-[60vh] relative bg-gray-900">
                     <iframe
-                        src="https://maps.google.com/maps?q=Instituto%20Cumbres%20Chetumal%2C%20Av.%20Insurgentes%20631%2C%20Magisterial%2C%2077039%20Chetumal%2C%20Q.R.&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                        src="https://maps.google.com/maps?q=Instituto%20Cumbres%20Chetumal+Quintana+Roo&t=&z=16&ie=UTF8&iwloc=&output=embed"
                         width="100%"
                         height="100%"
                         style={{ border: 0 }}
@@ -165,7 +165,7 @@ const MapModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
     );
 };
 
-// Componente Marquee de Actividades
+// Componente Marquee de Actividades (Con Escala en el Centro)
 const NeonMarquee = () => {
     const activities = [
         { name: "Juegos Mecánicos", icon: "/kermesse_cumbres/juegos.webp", color: "text-cyan-400", glow: "drop-shadow-[0_0_20px_rgba(34,211,238,0.9)]" },
@@ -175,22 +175,59 @@ const NeonMarquee = () => {
         { name: "Inflables", icon: "/kermesse_cumbres/inflables.webp", color: "text-purple-400", glow: "drop-shadow-[0_0_20px_rgba(192,132,252,0.9)]" },
     ];
 
+    const containerRef = useRef<HTMLDivElement>(null);
+    const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+    useEffect(() => {
+        let animationFrameId: number;
+
+        const checkPosition = () => {
+            if (!containerRef.current) return;
+            const containerCenter = containerRef.current.getBoundingClientRect().left + containerRef.current.offsetWidth / 2;
+
+            itemsRef.current.forEach((item) => {
+                if (!item) return;
+                const rect = item.getBoundingClientRect();
+                const itemCenter = rect.left + rect.width / 2;
+                const distance = Math.abs(containerCenter - itemCenter);
+
+                // Rango de efecto: 300px desde el centro
+                const maxDistance = 300;
+                let scale = 1;
+
+                if (distance < maxDistance) {
+                    // Escala maxima 1.5 en el centro, bajando a 1 en los bordes
+                    scale = 1 + (0.5 * (1 - distance / maxDistance));
+                }
+
+                // Aplicar transformacion directamente al icono (primer hijo)
+                const icon = item.querySelector('.icon-container') as HTMLElement;
+                if (icon) {
+                    icon.style.transform = `scale(${scale})`;
+                }
+            });
+
+            animationFrameId = requestAnimationFrame(checkPosition);
+        };
+
+        checkPosition();
+        return () => cancelAnimationFrame(animationFrameId);
+    }, []);
+
     return (
         <div
-            className="w-full relative overflow-hidden py-12 mb-12 bg-transparent"
-            style={{
-                maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-                WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
-            }}
+            ref={containerRef}
+            className="w-full relative overflow-hidden py-16 mb-12 bg-transparent"
         >
-            <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
-            <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
-
-            <div className="flex gap-16 md:gap-32 animate-marquee w-max py-4 items-end">
-                {/* Duplicamos la lista varias veces para el loop infinito */}
-                {[...activities, ...activities, ...activities, ...activities].map((item, index) => (
-                    <div key={index} className="flex flex-col items-center gap-6 group min-w-[140px]">
-                        <div className="relative transform transition-transform duration-500">
+            <div className="flex gap-16 md:gap-32 animate-marquee w-max py-4 items-center pl-[50vw]">
+                {/* Duplicamos la lista MUCHAS veces para el loop infinito fluido */}
+                {[...activities, ...activities, ...activities, ...activities, ...activities, ...activities].map((item, index) => (
+                    <div
+                        key={index}
+                        ref={(el) => { itemsRef.current[index] = el; }}
+                        className="flex flex-col items-center gap-8 group min-w-[160px]"
+                    >
+                        <div className="icon-container transition-transform duration-75 will-change-transform">
                             <img
                                 src={item.icon}
                                 alt={item.name}
@@ -207,10 +244,10 @@ const NeonMarquee = () => {
             <style jsx>{`
                 @keyframes marquee {
                     0% { transform: translateX(0); }
-                    100% { transform: translateX(-25%); } 
+                    100% { transform: translateX(-50%); } 
                 }
                 .animate-marquee {
-                    animation: marquee 25s linear infinite;
+                    animation: marquee 60s linear infinite; 
                 }
             `}</style>
         </div>
@@ -296,7 +333,7 @@ export default function Home() {
             <main className="relative z-10 flex flex-col items-center justify-center flex-grow w-full max-w-4xl mt-4 md:mt-8">
 
                 {/* HERO: COCO (El Cocodrilo) - PRIMERO - GIGANTE (+30%) */}
-                <div className="relative w-full max-w-[480px] md:max-w-[620px] aspect-square flex items-center justify-center animate-float-slow z-20 pointer-events-none animate-in fade-in zoom-in duration-1000">
+                <div className="relative w-full max-w-[580px] md:max-w-[750px] aspect-square flex items-center justify-center animate-float-slow z-20 pointer-events-none animate-in fade-in zoom-in duration-1000">
 
                     {/* WIREFRAME: Anillos detras del robot */}
                     <HoloRings />
