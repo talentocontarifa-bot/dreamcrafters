@@ -136,10 +136,10 @@ const MapModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
                     </button>
                 </div>
 
-                {/* Mapa Iframe - Dirección Exacta */}
+                {/* Mapa Iframe - Dirección Exacta (Forzada por Calle) */}
                 <div className="w-full h-[50vh] md:h-[60vh] relative bg-gray-900">
                     <iframe
-                        src="https://maps.google.com/maps?q=Instituto%20Cumbres%20Chetumal+Quintana+Roo&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                        src="https://maps.google.com/maps?q=Av.+Insurgentes+631%2C+Magisterial%2C+77039+Chetumal%2C+Q.R.&t=&z=16&ie=UTF8&iwloc=&output=embed"
                         width="100%"
                         height="100%"
                         style={{ border: 0 }}
@@ -244,10 +244,10 @@ const NeonMarquee = () => {
             <style jsx>{`
                 @keyframes marquee {
                     0% { transform: translateX(0); }
-                    100% { transform: translateX(-50%); } 
+                    100% { transform: translateX(-50%); }
                 }
                 .animate-marquee {
-                    animation: marquee 60s linear infinite; 
+                    animation: marquee 60s linear infinite;
                 }
             `}</style>
         </div>
@@ -411,13 +411,15 @@ export default function Home() {
                     <NeonMarquee />
                 </div>
 
-                {/* SECCION DE PRECIOS: BRAZALETE MAGICO */}
-                <div className="w-full max-w-md z-30 mb-16 animate-in slide-in-from-bottom-10 fade-in duration-1000 delay-1100 fill-mode-backwards">
-                    <div className="relative group cursor-default">
+                {/* SECCION DE PRECIOS */}
+                <div className="w-full max-w-lg z-30 mb-20 flex flex-col gap-8 items-center animate-in slide-in-from-bottom-10 fade-in duration-1000 delay-1100 fill-mode-backwards">
+
+                    {/* TARJETA 1: BRAZALETE MAGICO (Premium) */}
+                    <div className="relative group cursor-default w-full">
                         {/* Glow Background */}
                         <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
 
-                        <div className="relative bg-black/80 backdrop-blur-xl border border-yellow-500/50 rounded-2xl p-8 flex flex-col items-center text-center overflow-hidden">
+                        <div className="relative bg-black/80 backdrop-blur-xl border border-yellow-500/50 rounded-2xl p-6 md:p-8 flex flex-col items-center text-center overflow-hidden">
                             {/* Shine Effect */}
                             <div className="absolute top-0 right-0 -mr-16 -mt-16 w-32 h-32 rounded-full bg-white/10 blur-2xl"></div>
 
@@ -425,25 +427,45 @@ export default function Home() {
                                 Brazalete Mágico
                             </h3>
 
-                            <div className="my-4 relative">
-                                <span className="text-5xl md:text-6xl font-bold text-white drop-shadow-[0_0_15px_rgba(234,179,8,0.8)]">
+                            <div className="my-2 relative">
+                                <span className="text-5xl md:text-7xl font-bold text-white drop-shadow-[0_0_15px_rgba(234,179,8,0.8)]">
                                     $600
                                 </span>
-                                <div className="absolute -right-6 -top-2 rotate-12 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">
+                                <div className="absolute -right-8 -top-4 rotate-12 bg-red-600 border border-red-400 text-white text-[10px] md:text-xs font-bold px-2 py-0.5 rounded shadow-sm">
                                     VIP
                                 </div>
                             </div>
 
-                            <p className="text-yellow-200/80 text-sm md:text-base font-medium tracking-wide border-t border-yellow-500/20 pt-4 w-full">
-                                ¡Acceso ilimitado a todos los juegos!
+                            <p className="text-yellow-200/90 text-sm md:text-base font-medium tracking-wide border-t border-yellow-500/20 pt-4 w-full mt-2">
+                                Incluye entrada y acceso a<br />
+                                <span className="font-bold text-white uppercase">TODOS los juegos</span>
                             </p>
 
-                            {/* Icono de Ticket/Brazalete */}
-                            <div className="mt-6 text-yellow-500 animate-pulse-slow">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+                            {/* IMAGEN DEL BRAZALETE */}
+                            <div className="mt-6 w-48 md:w-56 animate-float-slow">
+                                <img
+                                    src="/kermesse_cumbres/brazalete.webp"
+                                    alt="Brazalete Mágico"
+                                    className="w-full h-auto drop-shadow-[0_0_20px_rgba(234,179,8,0.6)] filter brightness-110 contrast-110"
+                                />
                             </div>
                         </div>
                     </div>
+
+                    {/* TARJETA 2: ENTRADA GENERAL (Secundaria) */}
+                    <div className="relative group cursor-default w-full max-w-sm">
+                        <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+                        <div className="relative bg-black/40 backdrop-blur-md border border-white/10 rounded-xl p-6 flex items-center justify-between hover:bg-white/5 transition-colors">
+                            <div className="text-left">
+                                <h4 className="text-xl font-bold text-cyan-300 uppercase tracking-widest">Entrada General</h4>
+                                <p className="text-xs text-white/50 mt-1">Acceso al evento</p>
+                            </div>
+                            <div className="text-right">
+                                <span className="text-3xl font-bold text-white">$150</span>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 {/* SECCION 2: INFO CARDS (Fecha, Hora, Mapa) */}
