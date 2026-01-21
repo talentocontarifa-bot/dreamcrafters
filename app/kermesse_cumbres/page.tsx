@@ -165,37 +165,101 @@ const MapModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
     );
 };
 
+// Componente Marquee de Actividades
+const NeonMarquee = () => {
+    const activities = [
+        { name: "Juegos Mecánicos", icon: "/kermesse_cumbres/juegos.webp", color: "text-cyan-400", glow: "shadow-cyan-500/50" },
+        { name: "Show en Vivo", icon: "/kermesse_cumbres/show.webp", color: "text-fuchsia-400", glow: "shadow-fuchsia-500/50" },
+        { name: "Zona de Comida", icon: "/kermesse_cumbres/comida.webp", color: "text-green-400", glow: "shadow-green-500/50" },
+        { name: "Gran Bazar", icon: "/kermesse_cumbres/bazar.webp", color: "text-yellow-400", glow: "shadow-yellow-500/50" },
+        { name: "Inflables", icon: "/kermesse_cumbres/inflables.webp", color: "text-purple-400", glow: "shadow-purple-500/50" },
+    ];
+
+    return (
+        <div className="w-full relative overflow-hidden py-8 mb-12 bg-black/20 backdrop-blur-sm border-y border-white/5">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#000000] via-transparent to-[#000000] z-10 pointer-events-none"></div>
+
+            <div className="flex gap-12 animate-marquee w-max py-4">
+                {/* Duplicamos la lista para el loop infinito */}
+                {[...activities, ...activities, ...activities].map((item, index) => (
+                    <div key={index} className="flex flex-col items-center gap-4 group min-w-[120px]">
+                        <div className={`p-4 rounded-full bg-white/5 border border-white/10 ${item.glow} hover:scale-110 transition-transform duration-300 relative`}>
+                            {/* Glow effect behind */}
+                            <div className={`absolute inset-0 rounded-full blur-md opacity-40 ${item.color.replace('text', 'bg')}`}></div>
+                            <img
+                                src={item.icon}
+                                alt={item.name}
+                                className="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+                            />
+                        </div>
+                        <span className={`text-xs md:text-sm font-bold uppercase tracking-widest ${item.color} drop-shadow-md text-center max-w-[140px]`}>
+                            {item.name}
+                        </span>
+                    </div>
+                ))}
+            </div>
+
+            <style jsx>{`
+                @keyframes marquee {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(-33.33%); } /* Mover 1/3 porque triplicamos la lista */
+                }
+                .animate-marquee {
+                    animation: marquee 20s linear infinite;
+                }
+                .animate-marquee:hover {
+                    animation-play-state: paused;
+                }
+            `}</style>
+        </div>
+    );
+};
+
+// Componente Reproductor de Musica
 // Componente Reproductor de Musica
 const MusicPlayer = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
-    // Intentar reproducir al cargar
-    useEffect(() => {
+    const playAudio = async () => {
         const audio = audioRef.current;
-        if (audio) {
-            audio.volume = 0.5; // Volumen inicial al 50%
-            const playPromise = audio.play();
+        if (!audio) return;
 
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    setIsPlaying(true);
-                }).catch(error => {
-                    console.log("Autoplay blocked by browser policy", error);
-                    setIsPlaying(false);
-                });
-            }
+        try {
+            audio.volume = 0.5;
+            await audio.play();
+            setIsPlaying(true);
+        } catch (error) {
+            console.log("Autoplay blocked/failed", error);
+            setIsPlaying(false);
         }
+    };
+
+    // Intentar reproducir al cargar y al primer clic
+    useEffect(() => {
+        // Intento 1: Autoplay directo
+        playAudio();
+
+        // Intento 2: Play en el primer clic (backup)
+        const handleInteraction = () => {
+            if (!isPlaying && audioRef.current && audioRef.current.paused) {
+                playAudio();
+            }
+        };
+
+        window.addEventListener('click', handleInteraction, { once: true });
+        return () => window.removeEventListener('click', handleInteraction);
     }, []);
 
     const togglePlay = () => {
         if (audioRef.current) {
             if (isPlaying) {
                 audioRef.current.pause();
+                setIsPlaying(false);
             } else {
                 audioRef.current.play();
+                setIsPlaying(true);
             }
-            setIsPlaying(!isPlaying);
         }
     };
 
@@ -292,15 +356,20 @@ export default function Home() {
                 <div className="w-full max-w-[200px] h-[2px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent mb-12 opacity-70 shadow-[0_0_10px_#22d3ee] animate-in zoom-in duration-700 delay-500 fill-mode-backwards"></div>
 
                 {/* SECCION 1: COUNTDOWN */}
-                <div className="flex flex-col items-center z-30 mb-16 w-full animate-in slide-in-from-bottom-8 fade-in duration-1000 delay-700 fill-mode-backwards">
+                <div className="flex flex-col items-center z-30 mb-8 w-full animate-in slide-in-from-bottom-8 fade-in duration-1000 delay-700 fill-mode-backwards">
                     <p className="text-cyan-300 uppercase tracking-[0.4em] text-[10px] md:text-sm font-bold mb-6 text-center">
                         La diversión comienza en
                     </p>
                     <CountdownTimer />
                 </div>
 
+                {/* SECCION 1.5: CARRUSEL DE ICONOS (Neon Marquee) */}
+                <div className="w-full z-30 animate-in fade-in zoom-in duration-1000 delay-1000 fill-mode-backwards">
+                    <NeonMarquee />
+                </div>
+
                 {/* SECCION 2: INFO CARDS (Fecha, Hora, Mapa) */}
-                <div className="relative z-30 flex flex-col md:flex-row gap-8 items-stretch md:items-center bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-10 rounded-3xl shadow-[0_0_30px_rgba(0,0,0,0.5)] w-full max-w-4xl justify-center hover:bg-white/10 transition-all duration-500 group mx-auto animate-in slide-in-from-bottom-12 fade-in duration-1000 delay-1000 fill-mode-backwards">
+                <div className="relative z-30 flex flex-col md:flex-row gap-8 items-stretch md:items-center bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-10 rounded-3xl shadow-[0_0_30px_rgba(0,0,0,0.5)] w-full max-w-4xl justify-center hover:bg-white/10 transition-all duration-500 group mx-auto animate-in slide-in-from-bottom-12 fade-in duration-1000 delay-1200 fill-mode-backwards">
 
                     {/* Fecha */}
                     <div className="flex flex-col items-center gap-3 text-center flex-1">
