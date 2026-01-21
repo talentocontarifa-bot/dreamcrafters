@@ -151,7 +151,7 @@ const MapModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
                 {/* Footer Modal - External Link */}
                 <div className="p-4 md:p-6 bg-white/5 border-t border-white/10 flex justify-center">
                     <a
-                        href="https://maps.app.goo.gl/MP7adtrdHsAJBtSb9?g_st=com.google.maps.preview.copy"
+                        href="https://maps.app.goo.gl/y1wVVkCPcCZTg7YeA"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 px-6 rounded-full transition-all shadow-lg shadow-cyan-500/30"
@@ -198,8 +198,8 @@ export default function Home() {
             {/* Contenido Principal */}
             <main className="relative z-10 flex flex-col items-center justify-center flex-grow w-full max-w-4xl mt-4 md:mt-8">
 
-                {/* HERO: COCO (El Cocodrilo) */}
-                <div className="relative w-full max-w-[320px] md:max-w-[400px] aspect-square flex items-center justify-center animate-float-slow z-20">
+                {/* HERO: COCO (El Cocodrilo) - AL FRENTE (z-40) y MAS GRANDE (+20%) */}
+                <div className="relative w-full max-w-[385px] md:max-w-[480px] aspect-square flex items-center justify-center animate-float-slow z-40 pointer-events-none">
 
                     {/* WIREFRAME: Anillos detras del robot */}
                     <HoloRings />
@@ -214,8 +214,8 @@ export default function Home() {
                     />
                 </div>
 
-                {/* TITULO CENTRAL (Imagen con Glow) - Z-Index mayor para estar frente al cocodrilo */}
-                <div className="relative w-full max-w-[600px] -mt-24 md:-mt-32 z-30 mb-8 flex flex-col items-center pointer-events-none">
+                {/* TITULO CENTRAL (Imagen con Glow) - ATRAS (z-0) para efecto de profundidad */}
+                <div className="relative w-full max-w-[600px] -mt-24 md:-mt-32 z-0 mb-8 flex flex-col items-center pointer-events-none">
                     <img
                         src="/kermesse_cumbres/main_title.webp"
                         alt="Kermesse Cumbres 2026"
