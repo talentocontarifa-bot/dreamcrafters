@@ -151,7 +151,7 @@ const MapModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
                 {/* Footer Modal - External Link */}
                 <div className="p-4 md:p-6 bg-white/5 border-t border-white/10 flex justify-center">
                     <a
-                        href="https://maps.app.goo.gl/y1wVVkCPcCZTg7YeA"
+                        href="https://maps.app.goo.gl/MP7adtrdHsAJBtSb9?g_st=com.google.maps.preview.copy"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 px-6 rounded-full transition-all shadow-lg shadow-cyan-500/30"
@@ -235,12 +235,12 @@ const MusicPlayer = () => {
         }
     };
 
-    // Intentar reproducir al cargar y al primer clic
+    // Intentar reproducir al cargar, al primer clic y al primer toque (movil)
     useEffect(() => {
         // Intento 1: Autoplay directo
         playAudio();
 
-        // Intento 2: Play en el primer clic (backup)
+        // Intento 2 y 3: Play en la primera interaccion (clic o toque)
         const handleInteraction = () => {
             if (!isPlaying && audioRef.current && audioRef.current.paused) {
                 playAudio();
@@ -248,7 +248,12 @@ const MusicPlayer = () => {
         };
 
         window.addEventListener('click', handleInteraction, { once: true });
-        return () => window.removeEventListener('click', handleInteraction);
+        window.addEventListener('touchstart', handleInteraction, { once: true }); // Para moviles
+
+        return () => {
+            window.removeEventListener('click', handleInteraction);
+            window.removeEventListener('touchstart', handleInteraction);
+        };
     }, []);
 
     const togglePlay = () => {
