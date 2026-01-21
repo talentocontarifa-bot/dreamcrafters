@@ -198,28 +198,28 @@ export default function Home() {
             {/* Contenido Principal */}
             <main className="relative z-10 flex flex-col items-center justify-center flex-grow w-full max-w-4xl mt-4 md:mt-8">
 
-                {/* HERO: COCO (El Cocodrilo) - AL FRENTE (z-40) y MAS GRANDE (+20%) */}
-                <div className="relative w-full max-w-[385px] md:max-w-[480px] aspect-square flex items-center justify-center animate-float-slow z-40 pointer-events-none">
+                {/* TITULO CENTRAL (Imagen con Glow) - PRIMERO en el DOM (Fondo) */}
+                <div className="relative w-full max-w-[600px] z-0 mb-0 flex flex-col items-center pointer-events-none mt-8">
+                    <img
+                        src="/kermesse_cumbres/main_title.webp"
+                        alt="Kermesse Cumbres 2026"
+                        className="w-full h-auto drop-shadow-[0_0_15px_rgba(34,211,238,0.6)] filter brightness-110"
+                    />
+                </div>
+
+                {/* HERO: COCO (El Cocodrilo) - DESPUES (Frente) con Margen Negativo para subir */}
+                <div className="relative w-full max-w-[385px] md:max-w-[480px] -mt-24 md:-mt-32 aspect-square flex items-center justify-center animate-float-slow z-40 pointer-events-none">
 
                     {/* WIREFRAME: Anillos detras del robot */}
                     <HoloRings />
 
-                    {/* Un brillo detras del robot para que resalte del fondo oscuro */}
+                    {/* Un brillo detras del cocodrilo */}
                     <div className="absolute w-[60%] h-[60%] bg-green-500/30 rounded-full blur-[60px] -z-10 animate-pulse"></div>
 
                     <img
                         src="/kermesse_cumbres/coco.webp"
                         alt="Mascota Cumbres"
                         className="w-full h-auto drop-shadow-[0_0_15px_rgba(57,255,20,0.6)] animate-pulse-slow object-contain filter brightness-110 contrast-110"
-                    />
-                </div>
-
-                {/* TITULO CENTRAL (Imagen con Glow) - ATRAS (z-0) para efecto de profundidad */}
-                <div className="relative w-full max-w-[600px] -mt-24 md:-mt-32 z-0 mb-8 flex flex-col items-center pointer-events-none">
-                    <img
-                        src="/kermesse_cumbres/main_title.webp"
-                        alt="Kermesse Cumbres 2026"
-                        className="w-full h-auto drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] filter brightness-110"
                     />
                 </div>
 
