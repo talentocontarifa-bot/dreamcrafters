@@ -3,22 +3,70 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
+// Componente Countdown para Kermesse
+const CountdownTimer = () => {
+    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+        const targetDate = new Date('2026-02-13T16:30:00'); // 13 Febrero 2026, 4:30 PM
+
+        const interval = setInterval(() => {
+            const now = new Date();
+            const difference = targetDate.getTime() - now.getTime();
+
+            if (difference <= 0) {
+                clearInterval(interval);
+                setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+            } else {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((difference / 1000 / 60) % 60);
+                const seconds = Math.floor((difference / 1000) % 60);
+                setTimeLeft({ days, hours, minutes, seconds });
+            }
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    const TimeUnit = ({ value, label }: { value: number, label: string }) => (
+        <div className="flex flex-col items-center mx-2 md:mx-4 animate-float-up" style={{ animationDelay: Math.random() + 's' }}>
+            <div className="bg-white/5 backdrop-blur-md border border-cyan-500/30 rounded-xl p-3 md:p-5 w-16 md:w-24 text-center shadow-[0_0_20px_rgba(34,211,238,0.2)]">
+                <span className="text-2xl md:text-4xl font-bold font-mono text-white drop-shadow-md">
+                    {isClient ? value.toString().padStart(2, '0') : '00'}
+                </span>
+            </div>
+            <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] mt-3 text-cyan-300/80 font-bold">{label}</span>
+        </div>
+    );
+
+    return (
+        <div className="flex justify-center flex-wrap mt-2 mb-12 relative z-30">
+            <TimeUnit value={timeLeft.days} label="Días" />
+            <TimeUnit value={timeLeft.hours} label="Hrs" />
+            <TimeUnit value={timeLeft.minutes} label="Min" />
+            <TimeUnit value={timeLeft.seconds} label="Seg" />
+        </div>
+    );
+};
+
 // Componente para las chispas/estrellas flotantes
 const Sparks = () => {
     const [particles, setParticles] = useState<any[]>([]);
 
     useEffect(() => {
         // Generamos particulas aleatorias SOLO en el cliente
-        // MAS DRAMATICO: Mas particulas, mas rapidas, mas grandes
         const newParticles = Array.from({ length: 60 }).map((_, i) => ({
             id: i,
             left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 120}%`, // Empiezan mas abajo incluso
-            animationDuration: `${Math.random() * 4 + 4}s`, // Mas rapidas (4-8s)
+            top: `${Math.random() * 120}%`,
+            animationDuration: `${Math.random() * 4 + 4}s`,
             animationDelay: `${Math.random() * 2}s`,
             opacity: Math.random() * 0.8 + 0.2,
-            size: Math.random() * 4 + 1, // Hasta 5px
-            blur: Math.random() > 0.5 ? 'blur-[1px]' : '', // Algunas desenfocadas para profundidad
+            size: Math.random() * 4 + 1,
+            blur: Math.random() > 0.5 ? 'blur-[1px]' : '',
         }));
         setParticles(newParticles);
     }, []);
@@ -37,7 +85,7 @@ const Sparks = () => {
                         opacity: p.opacity,
                         animation: `floatUp ${p.animationDuration} linear infinite`,
                         animationDelay: p.animationDelay,
-                        boxShadow: `0 0 ${p.size * 3}px rgba(255, 100, 255, 0.9)`, // Brillo rosado
+                        boxShadow: `0 0 ${p.size * 3}px rgba(255, 100, 255, 0.9)`,
                     }}
                 />
             ))}
@@ -70,41 +118,9 @@ const HoloRings = () => {
     );
 };
 
-
-// Componente Logo con Glitch
-const GlitchLogo = () => {
-    return (
-        <div className="relative w-full h-auto group">
-
-            {/* Capa 1: Fantasma Rojo/Cian */}
-            <img
-                src="/landing/logo-text.png"
-                alt="Glitch Layer 1"
-                className="absolute inset-0 w-full h-auto filter brightness-0 invert opacity-70 animate-glitch-1 mix-blend-hard-light"
-                style={{ clipPath: 'inset(10% 0 80% 0)' }}
-            />
-
-            {/* Capa 2: Fantasma Azul/Magenta */}
-            <img
-                src="/landing/logo-text.png"
-                alt="Glitch Layer 2"
-                className="absolute inset-0 w-full h-auto filter brightness-0 invert opacity-70 animate-glitch-2 mix-blend-hard-light"
-                style={{ clipPath: 'inset(80% 0 5% 0)' }}
-            />
-
-            {/* Capa Base: Logo Principal */}
-            <img
-                src="/landing/logo-text.png"
-                alt="Artificialmente hechos a mano"
-                className="relative w-full h-auto filter brightness-0 invert drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)]"
-            />
-        </div>
-    );
-};
-
 export default function Home() {
     return (
-        <div className="min-h-screen flex flex-col items-center relative overflow-hidden text-white px-4 selection:bg-fuchsia-500 selection:text-white font-sans">
+        <div className="min-h-screen flex flex-col items-center relative overflow-hidden text-white px-4 selection:bg-fuchsia-500 selection:text-white font-sans pb-20">
 
             {/* 1. FONDO: Gradiente Nebulosa Dramatico */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,_#d500f9_0%,_#4a148c_40%,_#000000_90%)] z-0 opacity-80"></div>
@@ -116,37 +132,24 @@ export default function Home() {
             {/* 3. EFECTO: Chispas flotando */}
             <Sparks />
 
-            {/* Navbar */}
-            <nav className="w-full py-6 flex justify-between items-center z-50 max-w-7xl mx-auto">
-                {/* Logo en esquina - Instituto Cumbres */}
-                <div className="h-10 md:h-16 w-auto opacity-90 hover:opacity-100 transition-opacity cursor-pointer">
+            {/* Navbar Minimalista (Sin boton contacto) */}
+            <nav className="w-full py-6 flex justify-center md:justify-start items-center z-50 max-w-7xl mx-auto px-6">
+                <div className="h-12 md:h-16 w-auto opacity-90 hover:opacity-100 transition-opacity cursor-pointer">
                     <img
                         src="/kermesse_cumbres/logo.webp"
                         alt="Instituto Cumbres Logo"
                         className="h-full w-auto object-contain"
                     />
                 </div>
-
-                <Link
-                    href="/form"
-                    className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white font-bold py-2 px-6 rounded-full transition-all text-xs md:text-sm tracking-wider uppercase"
-                >
-                    Contacto
-                </Link>
             </nav>
 
             {/* Contenido Principal */}
-            <main className="relative z-10 flex flex-col items-center justify-center flex-grow w-full max-w-6xl mt-4 md:mt-8">
+            <main className="relative z-10 flex flex-col items-center justify-center flex-grow w-full max-w-4xl mt-4 md:mt-8">
 
                 {/* HERO: COCO (El Cocodrilo) */}
-                <div className="relative w-full max-w-[320px] md:max-w-[400px] aspect-square flex items-center justify-center animate-float-slow z-20">
-
-                    {/* WIREFRAME: Anillos detras del robot */}
+                <div className="relative w-full max-w-[320px] md:max-w-[450px] aspect-square flex items-center justify-center animate-float-slow z-20">
                     <HoloRings />
-
-                    {/* Un brillo detras del robot para que resalte del fondo oscuro */}
                     <div className="absolute w-[60%] h-[60%] bg-green-500/30 rounded-full blur-[60px] -z-10 animate-pulse"></div>
-
                     <img
                         src="/kermesse_cumbres/coco.webp"
                         alt="Mascota Cumbres"
@@ -154,141 +157,104 @@ export default function Home() {
                     />
                 </div>
 
-
-                {/* TITULO CENTRAL (Reemplazando GlitchLogo por identidad del evento) */}
-                <div className="relative w-full max-w-[600px] -mt-10 md:-mt-16 z-30 mb-12 flex flex-col items-center">
-                    <h1 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-white to-fuchsia-400 text-center drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">
+                {/* TITULO CENTRAL */}
+                <div className="relative w-full max-w-[700px] -mt-10 md:-mt-16 z-30 mb-8 flex flex-col items-center">
+                    <h1 className="text-4xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-white to-fuchsia-400 text-center drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] leading-tight tracking-tight">
                         Kermesse 2026
                     </h1>
                 </div>
 
-                {/* Boton CTA */}
-                <div className="z-30 mb-8">
-                    <Link
-                        href="/form"
-                        className="group relative inline-flex items-center justify-center overflow-hidden rounded-full py-4 px-10 transition-all hover:scale-105 duration-300 shadow-[0_0_30px_rgba(124,58,237,0.3)] hover:shadow-[0_0_50px_rgba(124,58,237,0.6)]"
-                    >
-                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                        <span className="relative font-bold text-lg tracking-widest uppercase drop-shadow-md">
-                            Crear Invitación
-                        </span>
-                    </Link>
+                {/* DIVIDER: NEON SEPARATOR */}
+                <div className="w-full max-w-[200px] h-[2px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent mb-12 opacity-70 shadow-[0_0_10px_#22d3ee]"></div>
+
+                {/* SECCION 1: COUNTDOWN */}
+                <div className="flex flex-col items-center z-30 mb-16 w-full animate-float-up delay-100">
+                    <p className="text-cyan-300 uppercase tracking-[0.4em] text-[10px] md:text-sm font-bold mb-6 text-center">
+                        La diversión comienza en
+                    </p>
+                    <CountdownTimer />
                 </div>
 
-                {/* REDES SOCIALES (NUEVO) */}
-                <div className="flex gap-8 z-30 mb-12 opacity-80 items-center">
-                    {/* Facebook - Visualmente adjusted */}
-                    <a
-                        href="https://www.facebook.com/dreamcrafters.ia/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-white hover:text-[#1877F2] transition-colors duration-300 transform hover:scale-110"
-                        aria-label="Facebook"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="drop-shadow-md w-6 h-6">
-                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                        </svg>
-                    </a>
+                {/* SECCION 2: FECHA Y HORA (Card Informativa) */}
+                <div className="relative z-30 flex flex-col md:flex-row gap-6 md:gap-12 items-center bg-white/5 backdrop-blur-md border border-white/10 p-8 md:p-10 rounded-3xl shadow-[0_0_30px_rgba(0,0,0,0.5)] w-full max-w-2xl justify-center hover:bg-white/10 transition-all duration-500 group">
 
-                    {/* WhatsApp - Visualmente adjusted (Slightly larger to match visual weight) */}
-                    <a
-                        href="https://wa.me/529845828658"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-white hover:text-[#25D366] transition-colors duration-300 transform hover:scale-110"
-                        aria-label="WhatsApp"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="drop-shadow-md w-[28px] h-[28px]">
-                            <path fillRule="evenodd" clipRule="evenodd" d="M18.403 5.633A8.919 8.919 0 0 0 12.053 3c-4.948 0-8.976 4.027-8.978 8.977 0 1.582.413 3.126 1.198 4.488L3 21.116l4.759-1.249a8.981 8.981 0 0 0 4.29 1.093h.004c4.947 0 8.975-4.027 8.977-8.977a8.926 8.926 0 0 0-2.627-6.35m-6.35 13.812h-.003a7.446 7.446 0 0 1-3.798-1.041l-.272-.162-2.824.741.753-2.753-.177-.282a7.448 7.448 0 0 1-1.141-3.971c.002-4.114 3.349-7.461 7.465-7.461 1.993 0 3.866.778 5.275 2.188a7.432 7.432 0 0 1 2.183 5.279c-.002 4.114-3.349 7.462-7.461 7.462m4.093-5.589c-.225-.113-1.327-.655-1.533-.73-.205-.075-.354-.112-.504.112-.149.224-.579.73-.709.88-.131.149-.261.169-.486.056-.224-.113-.953-.351-1.815-1.12-.669-.595-1.12-1.329-1.252-1.554-.131-.225-.014-.346.099-.458.101-.1.224-.261.336-.393.112-.131.149-.224.224-.374.075-.149.037-.28-.019-.393-.056-.113-.504-1.214-.69-1.663-.181-.435-.366-.377-.504-.383-.131-.006-.28-.006-.429-.006-.149 0-.393.056-.599.28-.206.225-.785.767-.785 1.871s.804 2.171.916 2.32c.112.15 1.582 2.415 3.832 3.387.536.231.954.369 1.279.473.537.171 1.026.146 1.413.089.431-.064 1.327-.542 1.514-1.066.187-.524.187-.973.131-1.067-.056-.094-.206-.15-.43-.262" />
-                        </svg>
-                    </a>
+                    {/* Fecha */}
+                    <div className="flex flex-col items-center gap-3 text-center">
+                        <div className="p-4 rounded-full bg-fuchsia-500/20 text-fuchsia-300 group-hover:scale-110 transition-transform duration-300 shadow-[0_0_15px_rgba(217,70,239,0.3)]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        </div>
+                        <div>
+                            <span className="block text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-fuchsia-200">13 de Febrero</span>
+                            <span className="text-white/60 text-sm uppercase tracking-wider">Viernes</span>
+                        </div>
+                    </div>
+
+                    {/* Separador Vertical (Desktop) */}
+                    <div className="hidden md:block w-[1px] h-16 bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+
+                    {/* Hora */}
+                    <div className="flex flex-col items-center gap-3 text-center">
+                        <div className="p-4 rounded-full bg-cyan-500/20 text-cyan-300 group-hover:scale-110 transition-transform duration-300 shadow-[0_0_15px_rgba(34,211,238,0.3)]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                        <div>
+                            <span className="block text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-cyan-200">4:30 PM</span>
+                            <span className="text-white/60 text-sm uppercase tracking-wider">Hora de inicio</span>
+                        </div>
+                    </div>
+
                 </div>
 
             </main>
 
-            {/* Footer */}
-            <footer className="relative z-10 py-6 text-center text-[10px] text-white/30 tracking-widest uppercase">
-                © 2026 DreamCrafters Inc.
+            {/* Footer Minimalista */}
+            <footer className="relative z-10 py-8 text-center text-[10px] text-white/20 tracking-[0.3em] uppercase mt-12 w-full border-t border-white/5">
+                Instituto Cumbres © 2026
             </footer>
 
             {/* Estilos Globales para animacion */}
             <style jsx global>{`
-        /* GLITCH LOGO ANIMATIONS - INTENSIFIED */
-        @keyframes glitch-anim-1 {
-            0% { clip-path: inset(20% 0 80% 0); transform: translate(-10px, 5px) skew(5deg); }
-            20% { clip-path: inset(60% 0 10% 0); transform: translate(10px, -5px) skew(-5deg); }
-            40% { clip-path: inset(40% 0 50% 0); transform: translate(-10px, 10px) skew(10deg); }
-            60% { clip-path: inset(80% 0 5% 0); transform: translate(10px, -10px) skew(-10deg); }
-            80% { clip-path: inset(10% 0 70% 0); transform: translate(-5px, 5px) skew(5deg); }
-            100% { clip-path: inset(30% 0 50% 0); transform: translate(5px, -5px) skew(-5deg); }
+        /* Animaciones para Sparks */
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-20px) translateX(20px); opacity: 0; }
         }
-        @keyframes glitch-anim-2 {
-            0% { clip-path: inset(10% 0 60% 0); transform: translate(10px, -5px) skew(-5deg); }
-            20% { clip-path: inset(80% 0 5% 0); transform: translate(-10px, 10px) skew(5deg); }
-            40% { clip-path: inset(30% 0 20% 0); transform: translate(10px, 5px) skew(-10deg); }
-            60% { clip-path: inset(10% 0 80% 0); transform: translate(-5px, -10px) skew(10deg); }
-            80% { clip-path: inset(50% 0 30% 0); transform: translate(5px, 10px) skew(-5deg); }
-            100% { clip-path: inset(20% 0 70% 0); transform: translate(-10px, 5px) skew(5deg); }
-        }
-        
-        /* FREQUENCY increased */
-        @keyframes flicker {
-            0%, 90% { opacity: 0; }
-            91%, 92% { opacity: 1; transform: scale(1.02); }
-            93%, 94% { opacity: 0; }
-            95%, 100% { opacity: 1; transform: scale(1.05) translateX(5px); }
-        }
-        
-        .animate-glitch-1, .animate-glitch-2 {
-            display: block;
-            animation: glitch-anim-1 0.4s cubic-bezier(.25, .46, .45, .94) both infinite, flicker 2.5s infinite;
-        }
-         .animate-glitch-2 {
-            animation: glitch-anim-2 0.4s cubic-bezier(.25, .46, .45, .94) both infinite, flicker 2.5s infinite;
-            animation-delay: 0.1s; /* Slight Phase shift */
+        .animate-float-up {
+            will-change: transform, opacity;
         }
 
+        /* Animacion Robot/Coco */
+        @keyframes subtleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .animate-float-slow {
+            animation: subtleFloat 6s ease-in-out infinite;
+        }
+
+        /* Animaciones Holo Rings */
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes spinReverse { 100% { transform: rotate(-360deg); } }
         
-        /* OTRAS ANIMACIONES PREVIAS */
-          @keyframes floatUp {
-              0% { transform: translateY(110vh) translateX(0); opacity: 0; }
-              10% { opacity: 1; }
-              90% { opacity: 1; }
-              100% { transform: translateY(-20px) translateX(20px); opacity: 0; }
-          }
-          .animate-float-up {
-              will-change: transform, opacity;
-          }
-  
-          @keyframes subtleFloat {
-              0%, 100% { transform: translateY(0); }
-              50% { transform: translateY(-15px); }
-          }
-          .animate-float-slow {
-              animation: subtleFloat 6s ease-in-out infinite;
-          }
-  
-          /* Animaciones Holo Rings */
-          @keyframes spin { 100% { transform: rotate(360deg); } }
-          @keyframes spinReverse { 100% { transform: rotate(-360deg); } }
-          
-          .animate-spin-slow { animation: spin 10s linear infinite; }
-          .animate-spin-reverse-slower { animation: spinReverse 15s linear infinite; }
-          .animate-pulse-slow { animation: pulse 4s ease-in-out infinite; }
-  
-          /* Grid Floor Perspective */
-          .perspective-grid {
-              transform: perspective(500px) rotateX(60deg);
-              background-image: linear-gradient(to right, rgba(213, 0, 249, 0.2) 1px, transparent 1px),
-                                linear-gradient(to bottom, rgba(213, 0, 249, 0.2) 1px, transparent 1px);
-              background-size: 40px 40px;
-              animation: gridMove 20s linear infinite;
-          }
-          @keyframes gridMove {
-              0% { background-position: 0 0; }
-              100% { background-position: 0 400px; }
-          }
-        `}</style>
+        .animate-spin-slow { animation: spin 10s linear infinite; }
+        .animate-spin-reverse-slower { animation: spinReverse 15s linear infinite; }
+        .animate-pulse-slow { animation: pulse 4s ease-in-out infinite; }
+
+        /* Grid Floor Perspective */
+        .perspective-grid {
+            transform: perspective(500px) rotateX(60deg);
+            background-image: linear-gradient(to right, rgba(213, 0, 249, 0.2) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(213, 0, 249, 0.2) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: gridMove 20s linear infinite;
+        }
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 400px; }
+        }
+      `}</style>
 
         </div>
     );
