@@ -246,34 +246,93 @@ const NeonServicesGrid = () => {
     );
 };
 
-// Componente Marquee Doble de Bazar
+// Componente Marquee Doble de Bazar con Efecto Lupa
 const SponsorsMarquee = () => {
-    // 10 logos repetidos
     const sponsors = Array(12).fill("/kermesse_cumbres/logo_demo_bw.webp");
 
+    const containerRef = useRef<HTMLDivElement>(null);
+    const row1Ref = useRef<(HTMLDivElement | null)[]>([]);
+    const row2Ref = useRef<(HTMLDivElement | null)[]>([]);
+
+    useEffect(() => {
+        let animationFrameId: number;
+
+        const updateScales = () => {
+            if (!containerRef.current) return;
+
+            const containerRect = containerRef.current.getBoundingClientRect();
+            const containerCenter = containerRect.left + containerRect.width / 2;
+            const activationRange = 250; // Rango de pixeles donde ocurre el efecto (mas amplio)
+
+            // Helper to update a list of refs
+            const updateRow = (refs: React.MutableRefObject<(HTMLDivElement | null)[]>) => {
+                refs.current.forEach((item) => {
+                    if (!item) return;
+                    const rect = item.getBoundingClientRect();
+
+                    // Si el elemento no esta visible en pantalla, saltar calculo (Optimizacion Basica)
+                    if (rect.right < 0 || rect.left > window.innerWidth) return;
+
+                    const itemCenter = rect.left + rect.width / 2;
+                    const dist = Math.abs(containerCenter - itemCenter);
+
+                    let scale = 1;
+
+                    if (dist < activationRange) {
+                        // Curva suave (coseno) para que no sea lineal
+                        const ratio = 1 - (dist / activationRange);
+                        // Max escala 1.35
+                        scale = 1 + (0.35 * Math.pow(ratio, 2));
+                    }
+
+                    // Aplicar transformacion directo al DOM para rendimiento
+                    // Buscamos la imagen dentro del div ref
+                    const img = item.firstChild as HTMLElement;
+                    if (img) {
+                        img.style.transform = `scale(${scale})`;
+                    }
+                });
+            };
+
+            updateRow(row1Ref);
+            updateRow(row2Ref);
+
+            animationFrameId = requestAnimationFrame(updateScales);
+        };
+
+        updateScales();
+        return () => cancelAnimationFrame(animationFrameId);
+    }, []);
+
     return (
-        <div className="w-full max-w-full overflow-hidden mb-20 relative">
+        <div ref={containerRef} className="w-full max-w-full overflow-hidden mb-20 relative">
             <div className="text-center mb-10">
                 <span className="text-white/60 uppercase tracking-[0.5em] text-lg font-bold border-b border-white/20 pb-2">Bazar</span>
             </div>
 
-            {/* Mask Gradient para enfocar el centro (Fade en bordes) */}
-            <div className="absolute inset-y-0 left-0 w-12 md:w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
-            <div className="absolute inset-y-0 right-0 w-12 md:w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
-
             {/* Fila 1: Izquierda a Derecha (Slow 80s) */}
             <div className="relative flex overflow-x-hidden mb-8">
-                <div className="py-2 animate-marquee whitespace-nowrap flex items-center gap-12">
+                <div className="py-8 animate-marquee whitespace-nowrap flex items-center gap-12">
                     {[...sponsors, ...sponsors].map((src, idx) => (
-                        <div key={`row1-${idx}`} className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 flex-shrink-0 hover:scale-110">
-                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100" />
+                        <div
+                            key={`row1-${idx}`}
+                            ref={(el) => { row1Ref.current[idx] = el; }}
+                            className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-colors duration-300 hover:grayscale-0 flex-shrink-0"
+                        >
+                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100 will-change-transform transition-transform duration-75" />
                         </div>
                     ))}
                 </div>
-                <div className="absolute top-0 py-2 animate-marquee2 whitespace-nowrap flex items-center gap-12">
+                <div className="absolute top-0 py-8 animate-marquee2 whitespace-nowrap flex items-center gap-12">
                     {[...sponsors, ...sponsors].map((src, idx) => (
-                        <div key={`row1-dup-${idx}`} className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 flex-shrink-0 hover:scale-110">
-                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100" />
+                        <div
+                            key={`row1-dup-${idx}`}
+                            // Nota: Los duplicados tambien necesitan refs para el efecto visual continuo
+                            // Usamos un offset en el array para no sobreescribir los primeros
+                            ref={(el) => { row1Ref.current[idx + sponsors.length * 2] = el; }}
+                            className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-colors duration-300 hover:grayscale-0 flex-shrink-0"
+                        >
+                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100 will-change-transform transition-transform duration-75" />
                         </div>
                     ))}
                 </div>
@@ -281,17 +340,25 @@ const SponsorsMarquee = () => {
 
             {/* Fila 2: Derecha a Izquierda (Reverse Slow 80s) */}
             <div className="relative flex overflow-x-hidden">
-                <div className="py-2 animate-marquee-reverse whitespace-nowrap flex items-center gap-12">
+                <div className="py-8 animate-marquee-reverse whitespace-nowrap flex items-center gap-12">
                     {[...sponsors, ...sponsors].map((src, idx) => (
-                        <div key={`row2-${idx}`} className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 flex-shrink-0 hover:scale-110">
-                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100" />
+                        <div
+                            key={`row2-${idx}`}
+                            ref={(el) => { row2Ref.current[idx] = el; }}
+                            className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-colors duration-300 hover:grayscale-0 flex-shrink-0"
+                        >
+                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100 will-change-transform transition-transform duration-75" />
                         </div>
                     ))}
                 </div>
-                <div className="absolute top-0 py-2 animate-marquee2-reverse whitespace-nowrap flex items-center gap-12">
+                <div className="absolute top-0 py-8 animate-marquee2-reverse whitespace-nowrap flex items-center gap-12">
                     {[...sponsors, ...sponsors].map((src, idx) => (
-                        <div key={`row2-dup-${idx}`} className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 flex-shrink-0 hover:scale-110">
-                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100" />
+                        <div
+                            key={`row2-dup-${idx}`}
+                            ref={(el) => { row2Ref.current[idx + sponsors.length * 2] = el; }}
+                            className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-colors duration-300 hover:grayscale-0 flex-shrink-0"
+                        >
+                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100 will-change-transform transition-transform duration-75" />
                         </div>
                     ))}
                 </div>
