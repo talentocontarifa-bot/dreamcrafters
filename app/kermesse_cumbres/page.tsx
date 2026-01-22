@@ -244,6 +244,12 @@ const NeonServicesGrid = () => {
                     </div>
                 ))}
             </div>
+
+            <div className="w-full text-center mt-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-1000 fill-mode-backwards">
+                <span className="text-cyan-200/80 font-medium italic text-sm md:text-base tracking-widest uppercase">
+                    Y mucho más...
+                </span>
+            </div>
         </div>
     );
 };
