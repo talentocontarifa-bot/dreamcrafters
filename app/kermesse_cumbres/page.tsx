@@ -165,7 +165,7 @@ const MapModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
     );
 };
 
-// Componente Grid de Actividades con Scroll Reveal
+// Componente Grid de Actividades con Scroll Reveal (Pares)
 const NeonServicesGrid = () => {
     const activities = [
         { name: "Juegos Mecánicos", icon: "/kermesse_cumbres/juegos.webp", color: "text-cyan-400", glow: "drop-shadow-[0_0_20px_rgba(34,211,238,0.9)]" },
@@ -185,16 +185,19 @@ const NeonServicesGrid = () => {
                     if (entry.isIntersecting) {
                         const index = Number(entry.target.getAttribute('data-index'));
                         if (!visibleItems.includes(index)) {
-                            // Reduced delay significantly for snappier mobile feel (50ms instead of 150ms)
+                            // Animar de 2 en 2 (pares e impares juntos o con delay minimo entre bloque)
+                            // Bloque 0: items 0,1. Bloque 1: items 2,3...
+                            const blockIndex = Math.floor(index / 2);
+
                             setTimeout(() => {
                                 setVisibleItems((prev) => [...prev, index]);
-                            }, index * 50);
+                            }, blockIndex * 150); // Delay por BLOQUE, no por item
                             observer.unobserve(entry.target);
                         }
                     }
                 });
             },
-            { threshold: 0.1 } // Trigger even earlier (10% visible)
+            { threshold: 0.1 }
         );
 
         itemsRef.current.forEach((item) => {
@@ -206,6 +209,10 @@ const NeonServicesGrid = () => {
 
     return (
         <div className="w-full max-w-6xl mx-auto px-4 py-8">
+            <h3 className="text-center text-cyan-300 uppercase tracking-[0.4em] text-sm md:text-base font-bold mb-12 animate-pulse-slow">
+                Tendremos
+            </h3>
+
             <div className="flex flex-wrap justify-center gap-8 md:gap-12">
                 {activities.map((item, index) => (
                     <div
@@ -239,28 +246,76 @@ const NeonServicesGrid = () => {
     );
 };
 
-// Componente Grid de Patrocinadores (Bazar)
-const SponsorsGrid = () => {
-    // Generate 10 dummy sponsors
-    const sponsors = Array(10).fill("/kermesse_cumbres/logo_demo_bw.webp");
+// Componente Marquee Doble de Bazar
+const SponsorsMarquee = () => {
+    // 10 logos repetidos
+    const sponsors = Array(12).fill("/kermesse_cumbres/logo_demo_bw.webp");
 
     return (
-        <div className="w-full max-w-4xl mx-auto px-6 mb-20 animate-in fade-in duration-1000 fill-mode-backwards delay-500">
+        <div className="w-full max-w-full overflow-hidden mb-20">
             <div className="text-center mb-10">
-                <span className="text-white/40 uppercase tracking-[0.3em] text-xs font-bold border-b border-white/10 pb-2">Patrocinadores & Bazar</span>
+                <span className="text-white/60 uppercase tracking-[0.5em] text-lg font-bold border-b border-white/20 pb-2">Bazar</span>
             </div>
 
-            <div className="grid grid-cols-3 md:grid-cols-5 gap-8 md:gap-12 items-center justify-items-center opacity-70 hover:opacity-100 transition-opacity duration-500">
-                {sponsors.map((src, idx) => (
-                    <div key={idx} className="w-20 h-20 md:w-24 md:h-24 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-500 hover:scale-110">
-                        <img
-                            src={src}
-                            alt={`Patrocinador ${idx + 1}`}
-                            className="max-w-full max-h-full object-contain opacity-60 hover:opacity-100 transition-opacity"
-                        />
-                    </div>
-                ))}
+            {/* Fila 1: Izquierda a Derecha (Slow) */}
+            <div className="relative flex overflow-x-hidden mb-8">
+                <div className="py-2 animate-marquee whitespace-nowrap flex items-center gap-12">
+                    {[...sponsors, ...sponsors].map((src, idx) => (
+                        <div key={`row1-${idx}`} className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 flex-shrink-0">
+                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100" />
+                        </div>
+                    ))}
+                </div>
+                <div className="absolute top-0 py-2 animate-marquee2 whitespace-nowrap flex items-center gap-12">
+                    {[...sponsors, ...sponsors].map((src, idx) => (
+                        <div key={`row1-dup-${idx}`} className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 flex-shrink-0">
+                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100" />
+                        </div>
+                    ))}
+                </div>
             </div>
+
+            {/* Fila 2: Derecha a Izquierda (Reverse) */}
+            <div className="relative flex overflow-x-hidden">
+                <div className="py-2 animate-marquee-reverse whitespace-nowrap flex items-center gap-12">
+                    {[...sponsors, ...sponsors].map((src, idx) => (
+                        <div key={`row2-${idx}`} className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 flex-shrink-0">
+                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100" />
+                        </div>
+                    ))}
+                </div>
+                <div className="absolute top-0 py-2 animate-marquee2-reverse whitespace-nowrap flex items-center gap-12">
+                    {[...sponsors, ...sponsors].map((src, idx) => (
+                        <div key={`row2-dup-${idx}`} className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 flex-shrink-0">
+                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100" />
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <style jsx>{`
+                .animate-marquee { animation: marquee 40s linear infinite; }
+                .animate-marquee2 { animation: marquee2 40s linear infinite; }
+                .animate-marquee-reverse { animation: marquee-reverse 40s linear infinite; }
+                .animate-marquee2-reverse { animation: marquee2-reverse 40s linear infinite; }
+
+                @keyframes marquee {
+                    0% { transform: translateX(0%); }
+                    100% { transform: translateX(-100%); }
+                }
+                @keyframes marquee2 {
+                    0% { transform: translateX(100%); }
+                    100% { transform: translateX(0%); }
+                }
+                 @keyframes marquee-reverse {
+                    0% { transform: translateX(-100%); }
+                    100% { transform: translateX(0%); }
+                }
+                @keyframes marquee2-reverse {
+                    0% { transform: translateX(0%); }
+                    100% { transform: translateX(100%); }
+                }
+             `}</style>
         </div>
     );
 };
@@ -480,7 +535,7 @@ export default function Home() {
                 </div>
 
                 {/* SECCION DE PATROCINADORES */}
-                <SponsorsGrid />
+                <SponsorsMarquee />
 
                 {/* SECCION 2: INFO CARDS (Fecha, Hora, Mapa) */}
                 <div className="relative z-30 flex flex-col md:flex-row gap-8 items-stretch md:items-center bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-10 rounded-3xl shadow-[0_0_30px_rgba(0,0,0,0.5)] w-full max-w-4xl justify-center hover:bg-white/10 transition-all duration-500 group mx-auto animate-in slide-in-from-bottom-12 fade-in duration-1000 delay-1200 fill-mode-backwards">
