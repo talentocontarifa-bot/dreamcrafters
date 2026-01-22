@@ -163,15 +163,29 @@ export default function Home() {
         </div>
 
         {/* Boton CTA */}
-        <div className="z-30 mb-8">
-          <Link
-            href="/form"
+        <div className="z-30 mb-8 flex flex-col items-center gap-6">
+          <a
+            href="https://wa.me/529845828658"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group relative inline-flex items-center justify-center overflow-hidden rounded-full py-4 px-10 transition-all hover:scale-105 duration-300 shadow-[0_0_30px_rgba(124,58,237,0.3)] hover:shadow-[0_0_50px_rgba(124,58,237,0.6)]"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-90 group-hover:opacity-100 transition-opacity"></div>
             <span className="relative font-bold text-lg tracking-widest uppercase drop-shadow-md">
-              Crear Invitación
+              Cotiza tu invitación
             </span>
+          </a>
+
+          {/* Nuevo Boton Imagen al Formulario */}
+          <Link
+            href="/form"
+            className="transition-transform duration-300 hover:scale-105 hover:brightness-110"
+          >
+            <img
+              src="https://www.dreamcrafters.lat/sprites/title-fiesta.webp"
+              alt="Crear Invitacion Fiesta"
+              className="h-16 md:h-20 w-auto object-contain drop-shadow-[0_0_15px_rgba(236,72,153,0.5)]"
+            />
           </Link>
         </div>
 
