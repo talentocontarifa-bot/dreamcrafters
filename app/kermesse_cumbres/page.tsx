@@ -252,41 +252,45 @@ const SponsorsMarquee = () => {
     const sponsors = Array(12).fill("/kermesse_cumbres/logo_demo_bw.webp");
 
     return (
-        <div className="w-full max-w-full overflow-hidden mb-20">
+        <div className="w-full max-w-full overflow-hidden mb-20 relative">
             <div className="text-center mb-10">
                 <span className="text-white/60 uppercase tracking-[0.5em] text-lg font-bold border-b border-white/20 pb-2">Bazar</span>
             </div>
 
-            {/* Fila 1: Izquierda a Derecha (Slow) */}
+            {/* Mask Gradient para enfocar el centro (Fade en bordes) */}
+            <div className="absolute inset-y-0 left-0 w-12 md:w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute inset-y-0 right-0 w-12 md:w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
+
+            {/* Fila 1: Izquierda a Derecha (Slow 80s) */}
             <div className="relative flex overflow-x-hidden mb-8">
                 <div className="py-2 animate-marquee whitespace-nowrap flex items-center gap-12">
                     {[...sponsors, ...sponsors].map((src, idx) => (
-                        <div key={`row1-${idx}`} className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 flex-shrink-0">
+                        <div key={`row1-${idx}`} className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 flex-shrink-0 hover:scale-110">
                             <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100" />
                         </div>
                     ))}
                 </div>
                 <div className="absolute top-0 py-2 animate-marquee2 whitespace-nowrap flex items-center gap-12">
                     {[...sponsors, ...sponsors].map((src, idx) => (
-                        <div key={`row1-dup-${idx}`} className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 flex-shrink-0">
+                        <div key={`row1-dup-${idx}`} className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 flex-shrink-0 hover:scale-110">
                             <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100" />
                         </div>
                     ))}
                 </div>
             </div>
 
-            {/* Fila 2: Derecha a Izquierda (Reverse) */}
+            {/* Fila 2: Derecha a Izquierda (Reverse Slow 80s) */}
             <div className="relative flex overflow-x-hidden">
                 <div className="py-2 animate-marquee-reverse whitespace-nowrap flex items-center gap-12">
                     {[...sponsors, ...sponsors].map((src, idx) => (
-                        <div key={`row2-${idx}`} className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 flex-shrink-0">
+                        <div key={`row2-${idx}`} className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 flex-shrink-0 hover:scale-110">
                             <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100" />
                         </div>
                     ))}
                 </div>
                 <div className="absolute top-0 py-2 animate-marquee2-reverse whitespace-nowrap flex items-center gap-12">
                     {[...sponsors, ...sponsors].map((src, idx) => (
-                        <div key={`row2-dup-${idx}`} className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 flex-shrink-0">
+                        <div key={`row2-dup-${idx}`} className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-all duration-300 hover:grayscale-0 flex-shrink-0 hover:scale-110">
                             <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100" />
                         </div>
                     ))}
@@ -294,10 +298,10 @@ const SponsorsMarquee = () => {
             </div>
 
             <style jsx>{`
-                .animate-marquee { animation: marquee 40s linear infinite; }
-                .animate-marquee2 { animation: marquee2 40s linear infinite; }
-                .animate-marquee-reverse { animation: marquee-reverse 40s linear infinite; }
-                .animate-marquee2-reverse { animation: marquee2-reverse 40s linear infinite; }
+                .animate-marquee { animation: marquee 80s linear infinite; }
+                .animate-marquee2 { animation: marquee2 80s linear infinite; }
+                .animate-marquee-reverse { animation: marquee-reverse 80s linear infinite; }
+                .animate-marquee2-reverse { animation: marquee2-reverse 80s linear infinite; }
 
                 @keyframes marquee {
                     0% { transform: translateX(0%); }
