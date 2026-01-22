@@ -185,16 +185,16 @@ const NeonServicesGrid = () => {
                     if (entry.isIntersecting) {
                         const index = Number(entry.target.getAttribute('data-index'));
                         if (!visibleItems.includes(index)) {
-                            // Add visibility with staggered delay based on index
+                            // Reduced delay significantly for snappier mobile feel (50ms instead of 150ms)
                             setTimeout(() => {
                                 setVisibleItems((prev) => [...prev, index]);
-                            }, index * 150); // 150ms delay per item
+                            }, index * 50);
                             observer.unobserve(entry.target);
                         }
                     }
                 });
             },
-            { threshold: 0.2 } // Trigger when 20% visible
+            { threshold: 0.1 } // Trigger even earlier (10% visible)
         );
 
         itemsRef.current.forEach((item) => {
@@ -213,10 +213,10 @@ const NeonServicesGrid = () => {
                         ref={(el) => { itemsRef.current[index] = el; }}
                         data-index={index}
                         className={`
-                            flex flex-col items-center gap-4 transition-all duration-1000 transform
+                            flex flex-col items-center gap-4 transition-all duration-700 transform will-change-transform
                             ${visibleItems.includes(index)
                                 ? 'opacity-100 translate-y-0 scale-100'
-                                : 'opacity-0 translate-y-10 scale-90'}
+                                : 'opacity-0 translate-y-8 scale-95'}
                         `}
                     >
                         <div className="relative group">
@@ -232,6 +232,32 @@ const NeonServicesGrid = () => {
                         <span className={`text-sm md:text-lg font-bold uppercase tracking-widest ${item.color} drop-shadow-md text-center bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm border border-white/5`}>
                             {item.name}
                         </span>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+// Componente Grid de Patrocinadores (Bazar)
+const SponsorsGrid = () => {
+    // Generate 10 dummy sponsors
+    const sponsors = Array(10).fill("/kermesse_cumbres/logo_demo_bw.webp");
+
+    return (
+        <div className="w-full max-w-4xl mx-auto px-6 mb-20 animate-in fade-in duration-1000 fill-mode-backwards delay-500">
+            <div className="text-center mb-10">
+                <span className="text-white/40 uppercase tracking-[0.3em] text-xs font-bold border-b border-white/10 pb-2">Patrocinadores & Bazar</span>
+            </div>
+
+            <div className="grid grid-cols-3 md:grid-cols-5 gap-8 md:gap-12 items-center justify-items-center opacity-70 hover:opacity-100 transition-opacity duration-500">
+                {sponsors.map((src, idx) => (
+                    <div key={idx} className="w-20 h-20 md:w-24 md:h-24 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-500 hover:scale-110">
+                        <img
+                            src={src}
+                            alt={`Patrocinador ${idx + 1}`}
+                            className="max-w-full max-h-full object-contain opacity-60 hover:opacity-100 transition-opacity"
+                        />
                     </div>
                 ))}
             </div>
@@ -452,6 +478,9 @@ export default function Home() {
                     </div>
 
                 </div>
+
+                {/* SECCION DE PATROCINADORES */}
+                <SponsorsGrid />
 
                 {/* SECCION 2: INFO CARDS (Fecha, Hora, Mapa) */}
                 <div className="relative z-30 flex flex-col md:flex-row gap-8 items-stretch md:items-center bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-10 rounded-3xl shadow-[0_0_30px_rgba(0,0,0,0.5)] w-full max-w-4xl justify-center hover:bg-white/10 transition-all duration-500 group mx-auto animate-in slide-in-from-bottom-12 fade-in duration-1000 delay-1200 fill-mode-backwards">
