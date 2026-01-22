@@ -169,7 +169,9 @@ const MapModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
 const NeonServicesGrid = () => {
     const activities = [
         { name: "Juegos Mecánicos", icon: "/kermesse_cumbres/juegos.webp", color: "text-cyan-400", glow: "drop-shadow-[0_0_20px_rgba(34,211,238,0.9)]" },
-        { name: "Show en Vivo", icon: "/kermesse_cumbres/show.webp", color: "text-fuchsia-400", glow: "drop-shadow-[0_0_20px_rgba(232,121,249,0.9)]" },
+        { name: "Show de Drones", icon: "/kermesse_cumbres/show_drones.webp", color: "text-sky-400", glow: "drop-shadow-[0_0_20px_rgba(56,189,248,0.9)]" },
+        { name: "Show LED", icon: "/kermesse_cumbres/show_led.webp", color: "text-pink-500", glow: "drop-shadow-[0_0_20px_rgba(236,72,153,0.9)]" },
+        { name: "Banda en vivo", icon: "/kermesse_cumbres/banda_vivo.webp", color: "text-amber-400", glow: "drop-shadow-[0_0_20px_rgba(251,191,36,0.9)]" },
         { name: "Zona de Comida", icon: "/kermesse_cumbres/comida.webp", color: "text-green-400", glow: "drop-shadow-[0_0_20px_rgba(74,222,128,0.9)]" },
         { name: "Gran Bazar", icon: "/kermesse_cumbres/bazar.webp", color: "text-yellow-400", glow: "drop-shadow-[0_0_20px_rgba(250,204,21,0.9)]" },
         { name: "Inflables", icon: "/kermesse_cumbres/inflables.webp", color: "text-purple-400", glow: "drop-shadow-[0_0_20px_rgba(192,132,252,0.9)]" },
@@ -445,7 +447,7 @@ const MusicPlayer = () => {
 
     return (
         <div className="fixed bottom-6 right-6 z-[60] animate-in fade-in slide-in-from-bottom-5 duration-1000 delay-1000">
-            <audio ref={audioRef} src="/kermesse_cumbres/music.mp3" loop />
+            <audio ref={audioRef} src="/kermesse_cumbres/avicii_levels.mp3" loop />
             <button
                 onClick={togglePlay}
                 className={`p-4 rounded-full shadow-[0_0_20px_rgba(57,255,20,0.4)] transition-all duration-300 transform hover:scale-110 ${isPlaying ? 'bg-green-500 text-white animate-pulse-slow' : 'bg-black/50 text-white/70 border border-white/20'}`}
