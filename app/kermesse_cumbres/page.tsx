@@ -165,8 +165,8 @@ const MapModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
     );
 };
 
-// Componente Marquee de Actividades (Con Escala en el Centro)
-const NeonMarquee = () => {
+// Componente Grid de Actividades con Scroll Reveal
+const NeonServicesGrid = () => {
     const activities = [
         { name: "Juegos Mecánicos", icon: "/kermesse_cumbres/juegos.webp", color: "text-cyan-400", glow: "drop-shadow-[0_0_20px_rgba(34,211,238,0.9)]" },
         { name: "Show en Vivo", icon: "/kermesse_cumbres/show.webp", color: "text-fuchsia-400", glow: "drop-shadow-[0_0_20px_rgba(232,121,249,0.9)]" },
@@ -175,81 +175,66 @@ const NeonMarquee = () => {
         { name: "Inflables", icon: "/kermesse_cumbres/inflables.webp", color: "text-purple-400", glow: "drop-shadow-[0_0_20px_rgba(192,132,252,0.9)]" },
     ];
 
-    const containerRef = useRef<HTMLDivElement>(null);
+    const [visibleItems, setVisibleItems] = useState<number[]>([]);
     const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
     useEffect(() => {
-        let animationFrameId: number;
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const index = Number(entry.target.getAttribute('data-index'));
+                        if (!visibleItems.includes(index)) {
+                            // Add visibility with staggered delay based on index
+                            setTimeout(() => {
+                                setVisibleItems((prev) => [...prev, index]);
+                            }, index * 150); // 150ms delay per item
+                            observer.unobserve(entry.target);
+                        }
+                    }
+                });
+            },
+            { threshold: 0.2 } // Trigger when 20% visible
+        );
 
-        const checkPosition = () => {
-            if (!containerRef.current) return;
-            const containerCenter = containerRef.current.getBoundingClientRect().left + containerRef.current.offsetWidth / 2;
+        itemsRef.current.forEach((item) => {
+            if (item) observer.observe(item);
+        });
 
-            itemsRef.current.forEach((item) => {
-                if (!item) return;
-                const rect = item.getBoundingClientRect();
-                const itemCenter = rect.left + rect.width / 2;
-                const distance = Math.abs(containerCenter - itemCenter);
-
-                // Rango de efecto: 300px desde el centro
-                const maxDistance = 300;
-                let scale = 1;
-
-                if (distance < maxDistance) {
-                    // Escala maxima 1.5 en el centro, bajando a 1 en los bordes
-                    scale = 1 + (0.5 * (1 - distance / maxDistance));
-                }
-
-                // Aplicar transformacion directamente al icono (primer hijo)
-                const icon = item.querySelector('.icon-container') as HTMLElement;
-                if (icon) {
-                    icon.style.transform = `scale(${scale})`;
-                }
-            });
-
-            animationFrameId = requestAnimationFrame(checkPosition);
-        };
-
-        checkPosition();
-        return () => cancelAnimationFrame(animationFrameId);
+        return () => observer.disconnect();
     }, []);
 
     return (
-        <div
-            ref={containerRef}
-            className="w-full relative overflow-hidden py-16 mb-12 bg-transparent"
-        >
-            <div className="flex gap-16 md:gap-32 animate-marquee w-max py-4 items-center pl-[50vw]">
-                {/* Duplicamos la lista MUCHAS veces para el loop infinito fluido */}
-                {[...activities, ...activities, ...activities, ...activities, ...activities, ...activities].map((item, index) => (
+        <div className="w-full max-w-6xl mx-auto px-4 py-8">
+            <div className="flex flex-wrap justify-center gap-8 md:gap-12">
+                {activities.map((item, index) => (
                     <div
                         key={index}
                         ref={(el) => { itemsRef.current[index] = el; }}
-                        className="flex flex-col items-center gap-8 group min-w-[160px]"
+                        data-index={index}
+                        className={`
+                            flex flex-col items-center gap-4 transition-all duration-1000 transform
+                            ${visibleItems.includes(index)
+                                ? 'opacity-100 translate-y-0 scale-100'
+                                : 'opacity-0 translate-y-10 scale-90'}
+                        `}
                     >
-                        <div className="icon-container transition-transform duration-75 will-change-transform">
-                            <img
-                                src={item.icon}
-                                alt={item.name}
-                                className={`w-32 h-32 md:w-40 md:h-40 object-contain ${item.glow} filter brightness-110`}
-                            />
+                        <div className="relative group">
+                            {/* Hover Scale Effect */}
+                            <div className="transition-transform duration-300 md:group-hover:scale-110">
+                                <img
+                                    src={item.icon}
+                                    alt={item.name}
+                                    className={`w-28 h-28 md:w-36 md:h-36 object-contain ${item.glow} filter brightness-110`}
+                                />
+                            </div>
                         </div>
-                        <span className={`text-sm md:text-lg font-bold uppercase tracking-widest ${item.color} drop-shadow-md text-center`}>
+                        <span className={`text-sm md:text-lg font-bold uppercase tracking-widest ${item.color} drop-shadow-md text-center bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm border border-white/5`}>
                             {item.name}
                         </span>
                     </div>
                 ))}
             </div>
-
-            <style jsx>{`
-                @keyframes marquee {
-                    0% { transform: translateX(0); }
-                    100% { transform: translateX(-50%); }
-                }
-                .animate-marquee {
-                    animation: marquee 60s linear infinite;
-                }
-            `}</style>
         </div>
     );
 };
@@ -380,7 +365,7 @@ export default function Home() {
                     <div className="absolute w-[60%] h-[60%] bg-green-500/30 rounded-full blur-[60px] -z-10 animate-pulse"></div>
 
                     <img
-                        src="/kermesse_cumbres/coco.webp"
+                        src="/kermesse_cumbres/coco_v2.webp"
                         alt="Mascota Cumbres"
                         className="w-full h-auto drop-shadow-[0_0_25px_rgba(57,255,20,0.5)] animate-pulse-slow object-contain filter brightness-110 contrast-110"
                     />
@@ -398,17 +383,17 @@ export default function Home() {
                 {/* DIVIDER: NEON SEPARATOR */}
                 <div className="w-full max-w-[200px] h-[2px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent mb-12 opacity-70 shadow-[0_0_10px_#22d3ee] animate-in zoom-in duration-700 delay-500 fill-mode-backwards"></div>
 
-                {/* SECCION 1: COUNTDOWN */}
+                {/* SECCION 1A: ACTIVIDADES (Neon Grid con Scroll Reveal) - AHORA PRIMERO */}
+                <div className="w-full z-30 mb-12">
+                    <NeonServicesGrid />
+                </div>
+
+                {/* SECCION 1B: COUNTDOWN - AHORA SEGUNDO */}
                 <div className="flex flex-col items-center z-30 mb-8 w-full animate-in slide-in-from-bottom-8 fade-in duration-1000 delay-700 fill-mode-backwards">
                     <p className="text-cyan-300 uppercase tracking-[0.4em] text-[10px] md:text-sm font-bold mb-6 text-center">
                         La diversión comienza en
                     </p>
                     <CountdownTimer />
-                </div>
-
-                {/* SECCION 1.5: CARRUSEL DE ICONOS (Neon Marquee) */}
-                <div className="w-full z-30 animate-in fade-in zoom-in duration-1000 delay-1000 fill-mode-backwards">
-                    <NeonMarquee />
                 </div>
 
                 {/* SECCION DE PRECIOS */}
