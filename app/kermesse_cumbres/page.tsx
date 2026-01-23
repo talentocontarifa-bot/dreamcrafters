@@ -325,18 +325,18 @@ const SponsorsMarquee = () => {
 
             {/* Fila 1: Izquierda a Derecha (Slow 80s) */}
             <div className="relative flex overflow-x-hidden mb-8">
-                <div className="py-8 animate-marquee whitespace-nowrap flex items-center gap-12">
+                <div className="py-8 animate-marquee whitespace-nowrap flex items-center gap-32">
                     {[...sponsors, ...sponsors].map((src, idx) => (
                         <div
                             key={`row1-${idx}`}
                             ref={(el) => { row1Ref.current[idx] = el; }}
                             className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-colors duration-300 hover:grayscale-0 flex-shrink-0"
                         >
-                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100 will-change-transform transition-transform duration-75" />
+                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-80 hover:opacity-100 will-change-transform transition-all duration-300" />
                         </div>
                     ))}
                 </div>
-                <div className="absolute top-0 py-8 animate-marquee2 whitespace-nowrap flex items-center gap-12">
+                <div className="absolute top-0 py-8 animate-marquee2 whitespace-nowrap flex items-center gap-32">
                     {[...sponsors, ...sponsors].map((src, idx) => (
                         <div
                             key={`row1-dup-${idx}`}
@@ -345,7 +345,7 @@ const SponsorsMarquee = () => {
                             ref={(el) => { row1Ref.current[idx + sponsors.length * 2] = el; }}
                             className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-colors duration-300 hover:grayscale-0 flex-shrink-0"
                         >
-                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100 will-change-transform transition-transform duration-75" />
+                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-80 hover:opacity-100 will-change-transform transition-all duration-300" />
                         </div>
                     ))}
                 </div>
@@ -353,25 +353,25 @@ const SponsorsMarquee = () => {
 
             {/* Fila 2: Derecha a Izquierda (Reverse Slow 80s) */}
             <div className="relative flex overflow-x-hidden">
-                <div className="py-8 animate-marquee-reverse whitespace-nowrap flex items-center gap-12">
+                <div className="py-8 animate-marquee-reverse whitespace-nowrap flex items-center gap-32">
                     {[...sponsors, ...sponsors].map((src, idx) => (
                         <div
                             key={`row2-${idx}`}
                             ref={(el) => { row2Ref.current[idx] = el; }}
                             className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-colors duration-300 hover:grayscale-0 flex-shrink-0"
                         >
-                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100 will-change-transform transition-transform duration-75" />
+                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-80 hover:opacity-100 will-change-transform transition-all duration-300" />
                         </div>
                     ))}
                 </div>
-                <div className="absolute top-0 py-8 animate-marquee2-reverse whitespace-nowrap flex items-center gap-12">
+                <div className="absolute top-0 py-8 animate-marquee2-reverse whitespace-nowrap flex items-center gap-32">
                     {[...sponsors, ...sponsors].map((src, idx) => (
                         <div
                             key={`row2-dup-${idx}`}
                             ref={(el) => { row2Ref.current[idx + sponsors.length * 2] = el; }}
                             className="w-24 h-24 md:w-32 md:h-32 inline-flex items-center justify-center grayscale transition-colors duration-300 hover:grayscale-0 flex-shrink-0"
                         >
-                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-100 will-change-transform transition-transform duration-75" />
+                            <img src={src} alt="Patrocinador" className="w-full h-full object-contain opacity-80 hover:opacity-100 will-change-transform transition-all duration-300" />
                         </div>
                     ))}
                 </div>
@@ -679,7 +679,7 @@ export default function Home() {
 
             {/* Footer Powered By */}
             <footer className="relative z-10 py-8 text-center text-[10px] text-white/30 tracking-[0.2em] uppercase mt-12 w-full border-t border-white/5 flex flex-col gap-2">
-                <span>Cumbres International School © 2026</span>
+                <span>Cumbres International School</span>
                 <a href="https://dreamcrafters.lat" className="hover:text-cyan-400 transition-colors duration-300 font-bold opacity-60 hover:opacity-100">
                     Powered by DreamCrafters
                 </a>
