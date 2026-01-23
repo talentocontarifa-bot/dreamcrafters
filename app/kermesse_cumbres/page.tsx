@@ -175,6 +175,7 @@ const NeonServicesGrid = () => {
         { name: "Zona de Comida", icon: "/kermesse_cumbres/comida.webp", color: "text-green-400", glow: "drop-shadow-[0_0_20px_rgba(74,222,128,0.9)]" },
         { name: "Gran Bazar", icon: "/kermesse_cumbres/bazar.webp", color: "text-yellow-400", glow: "drop-shadow-[0_0_20px_rgba(250,204,21,0.9)]" },
         { name: "Inflables", icon: "/kermesse_cumbres/inflables.webp", color: "text-purple-400", glow: "drop-shadow-[0_0_20px_rgba(192,132,252,0.9)]" },
+        { name: "Reunión Alumni", icon: "/kermesse_cumbres/exalumnos.webp", color: "text-indigo-400", glow: "drop-shadow-[0_0_20px_rgba(129,140,248,0.9)]" },
     ];
 
     const [visibleItems, setVisibleItems] = useState<number[]>([]);
@@ -256,7 +257,11 @@ const NeonServicesGrid = () => {
 
 // Componente Marquee Doble de Bazar con Efecto Lupa
 const SponsorsMarquee = () => {
-    const sponsors = Array(12).fill("/kermesse_cumbres/logo_demo_bw.webp");
+    const sponsors = [
+        "/kermesse_cumbres/logo_gran_puerto.webp",
+        "/kermesse_cumbres/logo_boa.webp",
+        "/kermesse_cumbres/logo_grandiosa.webp"
+    ];
 
     const containerRef = useRef<HTMLDivElement>(null);
     const row1Ref = useRef<(HTMLDivElement | null)[]>([]);
@@ -574,12 +579,17 @@ export default function Home() {
 
                             <div className="my-2 relative">
                                 <span className="text-5xl md:text-7xl font-bold text-white drop-shadow-[0_0_15px_rgba(234,179,8,0.8)]">
-                                    $600
+                                    $500
                                 </span>
                                 <div className="absolute -right-8 -top-4 rotate-12 bg-red-600 border border-red-400 text-white text-[10px] md:text-xs font-bold px-2 py-0.5 rounded shadow-sm">
                                     VIP
                                 </div>
                             </div>
+
+                            <p className="text-xs text-yellow-100/70 mb-2 italic">
+                                Preventa (hasta el 12 de febrero)<br />
+                                <span className="line-through decoration-red-500/70 opacity-70">Precio regular $600</span>
+                            </p>
 
                             <p className="text-yellow-200/90 text-sm md:text-base font-medium tracking-wide border-t border-yellow-500/20 pt-4 w-full mt-2">
                                 Incluye entrada y acceso a<br />
@@ -669,7 +679,7 @@ export default function Home() {
 
             {/* Footer Powered By */}
             <footer className="relative z-10 py-8 text-center text-[10px] text-white/30 tracking-[0.2em] uppercase mt-12 w-full border-t border-white/5 flex flex-col gap-2">
-                <span>Instituto Cumbres © 2026</span>
+                <span>Cumbres International School © 2026</span>
                 <a href="https://dreamcrafters.lat" className="hover:text-cyan-400 transition-colors duration-300 font-bold opacity-60 hover:opacity-100">
                     Powered by DreamCrafters
                 </a>
