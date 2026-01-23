@@ -325,7 +325,7 @@ const SponsorsMarquee = () => {
 
             {/* Fila 1: Izquierda a Derecha (Slow 80s) */}
             <div className="relative flex overflow-x-hidden mb-8">
-                <div className="py-8 animate-marquee whitespace-nowrap flex items-center gap-32">
+                <div className="py-8 animate-marquee whitespace-nowrap flex items-center gap-32 pr-32">
                     {[...sponsors, ...sponsors].map((src, idx) => (
                         <div
                             key={`row1-${idx}`}
@@ -336,7 +336,7 @@ const SponsorsMarquee = () => {
                         </div>
                     ))}
                 </div>
-                <div className="absolute top-0 py-8 animate-marquee2 whitespace-nowrap flex items-center gap-32">
+                <div className="absolute top-0 py-8 animate-marquee2 whitespace-nowrap flex items-center gap-32 pr-32">
                     {[...sponsors, ...sponsors].map((src, idx) => (
                         <div
                             key={`row1-dup-${idx}`}
@@ -353,7 +353,7 @@ const SponsorsMarquee = () => {
 
             {/* Fila 2: Derecha a Izquierda (Reverse Slow 80s) */}
             <div className="relative flex overflow-x-hidden">
-                <div className="py-8 animate-marquee-reverse whitespace-nowrap flex items-center gap-32">
+                <div className="py-8 animate-marquee-reverse whitespace-nowrap flex items-center gap-32 pr-32">
                     {[...sponsors, ...sponsors].map((src, idx) => (
                         <div
                             key={`row2-${idx}`}
@@ -364,7 +364,7 @@ const SponsorsMarquee = () => {
                         </div>
                     ))}
                 </div>
-                <div className="absolute top-0 py-8 animate-marquee2-reverse whitespace-nowrap flex items-center gap-32">
+                <div className="absolute top-0 py-8 animate-marquee2-reverse whitespace-nowrap flex items-center gap-32 pr-32">
                     {[...sponsors, ...sponsors].map((src, idx) => (
                         <div
                             key={`row2-dup-${idx}`}
