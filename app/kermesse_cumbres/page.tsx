@@ -175,7 +175,7 @@ const NeonServicesGrid = () => {
         { name: "Zona de Comida", icon: "/kermesse_cumbres/comida.webp", color: "text-green-400", glow: "drop-shadow-[0_0_20px_rgba(74,222,128,0.9)]" },
         { name: "Gran Bazar", icon: "/kermesse_cumbres/bazar.webp", color: "text-yellow-400", glow: "drop-shadow-[0_0_20px_rgba(250,204,21,0.9)]" },
         { name: "Inflables", icon: "/kermesse_cumbres/inflables.webp", color: "text-purple-400", glow: "drop-shadow-[0_0_20px_rgba(192,132,252,0.9)]" },
-        { name: "Reunión Alumni", icon: "/kermesse_cumbres/exalumnos.webp", color: "text-indigo-400", glow: "drop-shadow-[0_0_20px_rgba(129,140,248,0.9)]" },
+        { name: "Alumni Get-Together", icon: "/kermesse_cumbres/exalumnos.webp", color: "text-indigo-400", glow: "drop-shadow-[0_0_20px_rgba(129,140,248,0.9)]" },
     ];
 
     const [visibleItems, setVisibleItems] = useState<number[]>([]);
@@ -319,9 +319,7 @@ const SponsorsMarquee = () => {
 
     return (
         <div ref={containerRef} className="w-full max-w-full overflow-hidden mb-20 relative">
-            <div className="text-center mb-10">
-                <span className="text-white/60 uppercase tracking-[0.5em] text-lg font-bold border-b border-white/20 pb-2">Bazar</span>
-            </div>
+            {/* Fila 1: Izquierda a Derecha (Slow 80s) */}
 
             {/* Fila 1: Izquierda a Derecha (Slow 80s) */}
             <div className="relative flex overflow-x-hidden mb-8">
