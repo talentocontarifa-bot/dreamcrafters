@@ -606,10 +606,10 @@ export default function Home() {
 
             </div>
           </div>
-        </section >
+        </section>
 
         {/* Footer */}
-        < footer >
+        <footer>
           <div className="container">
             <b style={{ fontFamily: "'Orbitron', sans-serif", color: 'white', fontSize: '24px' }}>DREAMCRAFTERS</b>
             <div style={{ marginTop: '10px' }}>© <span id="year"></span> SYSTEM_VER_2.0</div>
@@ -618,9 +618,9 @@ export default function Home() {
               <a href="https://www.tiktok.com/@dreamcrafters_mx" target="_blank" rel="noopener noreferrer" style={{ margin: '0 10px' }}>[ TIKTOK ]</a>
             </div>
           </div>
-        </footer >
+        </footer>
 
-      </main >
+      </main>
 
       <div id="toast" className="toast">
         &gt; MENSAJE TRANSMITIDO CON ÉXITO_
