@@ -1,422 +1,380 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import { useState, useEffect } from 'react';
+import Script from 'next/script';
+import Head from 'next/head';
 
 export default function WeddingInvitation() {
-    const [days, setDays] = useState(0);
-    const [hours, setHours] = useState(0);
-    const [minutes, setMinutes] = useState(0);
-    const [seconds, setSeconds] = useState(0);
-    const [isFinished, setIsFinished] = useState(false);
-    const [isMusicPlaying, setIsMusicPlaying] = useState(false);
-    const [showBankDetails, setShowBankDetails] = useState(false);
-    const audioRef = useRef<HTMLAudioElement>(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0 });
 
+    // Scroll Reveal Animation
     useEffect(() => {
-        AOS.init({
-            once: true,
-            offset: 100,
-            duration: 1000,
-        });
-
-        const navbar = document.getElementById("navbar");
-        const handleScroll = () => {
-            if (window.scrollY > 50) {
-                navbar?.classList.add("bg-wedding-dark", "shadow-lg", "py-2");
-                navbar?.classList.remove("bg-transparent", "py-4");
-            } else {
-                navbar?.classList.remove("bg-wedding-dark", "shadow-lg", "py-2");
-                navbar?.classList.add("bg-transparent", "py-4");
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-
-        // Countdown Logic
-        const weddingDate = new Date("October 25, 2025 16:30:00").getTime();
-        const interval = setInterval(() => {
-            const now = new Date().getTime();
-            const distance = weddingDate - now;
-
-            if (distance < 0) {
-                setIsFinished(true);
-                clearInterval(interval);
-            } else {
-                setDays(Math.floor(distance / (1000 * 60 * 60 * 24)));
-                setHours(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-                setMinutes(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
-                setSeconds(Math.floor((distance % (1000 * 60)) / 1000));
-            }
-        }, 1000);
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-            clearInterval(interval);
-        };
-    }, []);
-
-    const toggleMusic = () => {
-        if (audioRef.current) {
-            if (isMusicPlaying) {
-                audioRef.current.pause();
-                setIsMusicPlaying(false);
-            } else {
-                const playPromise = audioRef.current.play();
-                if (playPromise !== undefined) {
-                    playPromise
-                        .then(() => {
-                            setIsMusicPlaying(true);
-                        })
-                        .catch((error) => {
-                            console.error("Error al reproducir audio:", error);
-                            setIsMusicPlaying(false);
-                        });
+        const reveal = () => {
+            const reveals = document.querySelectorAll(".reveal");
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
                 }
             }
-        }
-    };
+        };
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger once on load
+        return () => window.removeEventListener("scroll", reveal);
+    }, []);
 
+    // Countdown Logic
+    useEffect(() => {
+        // Set date 48 days from now as per demo logic, or fixed date
+        const futureDate = new Date();
+        futureDate.setDate(futureDate.getDate() + 48);
 
-    const [showMapModal, setShowMapModal] = useState(false);
-    const [showEntryModal, setShowEntryModal] = useState(true); // New state for entry/music permission
-    const [mapUrl, setMapUrl] = useState("");
+        const interval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = futureDate.getTime() - now;
 
-    const openMap = (url: string) => {
-        setMapUrl(url);
-        setShowMapModal(true);
-    };
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 
-    const handleWhatsAppConfirm = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const name = formData.get("name");
-        const attendance = formData.get("attendance");
-        const seats = formData.get("seats");
-        const message = formData.get("message");
+            setTimeLeft({ days: d, hours: h, minutes: m });
+        }, 1000);
 
-        const text = `🎉 *Confirmación de Boda - Sofia & Mateo* 🎉%0A%0A👤 *Nombre:* ${name}%0A✅ *Asistencia:* ${attendance === 'on' ? 'Sí, asistiré' : 'Sí asistiré'}%0A🎟 *Lugares:* ${seats}%0A💌 *Mensaje:* ${message}`;
+        return () => clearInterval(interval);
+    }, []);
 
-        // Reemplaza este número con el del cliente real
-        const phoneNumber = "525512345678";
-        window.open(`https://wa.me/${phoneNumber}?text=${text}`, '_blank');
-    };
+    const toggleModal = () => setIsModalOpen(!isModalOpen);
 
     return (
-        <div className="bg-wedding-light text-wedding-dark font-wedding-sans overflow-x-hidden relative">
-            {/* FontAwesome integration */}
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        <>
+            <Script src="https://cdn.tailwindcss.com?plugins=forms,container-queries" strategy="beforeInteractive" />
+            <Script id="tailwind-config" strategy="beforeInteractive">
+                {`
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                colors: {
+                  "primary": "#c5a059",
+                  "accent": "#e5e7eb",
+                  "background-dark": "#0a1128",
+                  "burgundy": "#4a0404",
+                },
+                fontFamily: {
+                  "display": ["Cinzel", "serif"],
+                  "serif": ["Playfair Display", "serif"],
+                  "body": ["Cormorant Garamond", "serif"]
+                },
+              },
+            },
+          }
+        `}
+            </Script>
 
-            {/* Entry Modal for Music Autoplay Permission */}
-            {showEntryModal && (
-                <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 backdrop-blur-md animate-fade-in text-center p-4">
-                    <div className="bg-wedding-dark text-white p-10 rounded-lg shadow-2xl max-w-md border border-wedding-gold/30">
-                        <h2 className="font-script text-5xl mb-4 text-wedding-gold">S & M</h2>
-                        <p className="font-classic uppercase tracking-widest text-sm mb-8">Bienvenidos a nuestra boda</p>
-                        <button
-                            onClick={() => {
-                                setShowEntryModal(false);
-                                toggleMusic(); // Try to play music on first interaction
-                            }}
-                            className="bg-wedding-gold text-white px-8 py-3 rounded-full hover:bg-white hover:text-wedding-dark transition uppercase tracking-widest text-xs font-bold animate-pulse"
-                        >
-                            Ingresar
-                        </button>
+            {/* Font Links manually injected here or via next/font */}
+            <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet" />
+            <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+            <style jsx global>{`
+        /* Custom Styles applied via styled-jsx to ensure they invoke after tailwind processing or work alongside */
+        .ornamental-border {
+            border: 1px solid rgba(197, 160, 89, 0.4);
+            outline: 4px solid transparent;
+            outline-offset: -8px;
+            border-image: none;
+        }
+        .classic-frame {
+            border: 2px solid #c5a059;
+            padding: 2px;
+            position: relative;
+        }
+        .classic-frame::after {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            pointer-events: none;
+        }
+        .hero-gradient {
+            background: linear-gradient(to bottom, rgba(10, 17, 40, 0.3) 0%, rgba(10, 17, 40, 0.8) 50%, rgba(10, 17, 40, 1) 100%);
+        }
+        
+        html { scroll-behavior: smooth; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Force Tailwind classes application if needed, but CDN should handle classes in markup */
+        body {
+            background-color: #0a1128; /* Fallback */
+            color: #e5e7eb;
+        }
+      `}</style>
+
+            {/* Page Content Wrapper to simulate body class */}
+            <div className="bg-background-dark text-accent font-body min-h-[100dvh] overflow-x-hidden selection:bg-primary/30">
+
+                {/* Navigation */}
+                <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-6 bg-background-dark/80 backdrop-blur-md border-b border-primary/10 transition-all duration-300" id="navbar">
+                    <div className="flex items-center gap-3">
+                        <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>shield_with_heart</span>
+                        <span className="text-[10px] tracking-[0.4em] uppercase font-display text-primary">M &amp; E</span>
                     </div>
-                </div>
-            )}
+                    <button
+                        onClick={() => setIsPlaying(!isPlaying)}
+                        className={`size-10 flex items-center justify-center border border-primary/40 rounded-full hover:bg-primary/10 active:scale-95 transition-all group ${isPlaying ? 'bg-primary/20' : ''}`}
+                    >
+                        <span className="material-symbols-outlined text-primary group-hover:animate-pulse" style={{ fontSize: '18px' }}>
+                            {isPlaying ? 'volume_up' : 'music_note'}
+                        </span>
+                    </button>
+                </nav>
 
-            {/* Map Modal */}
-            {showMapModal && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-                    <div className="bg-white w-full max-w-3xl rounded-lg shadow-2xl overflow-hidden relative">
-                        <button
-                            onClick={() => setShowMapModal(false)}
-                            className="absolute top-2 right-2 bg-black text-white w-8 h-8 rounded-full z-10 hover:bg-red-600 transition flex items-center justify-center"
-                        >
-                            <i className="fas fa-times"></i>
-                        </button>
-                        <div className="w-full h-[400px] md:h-[500px]">
-                            <iframe
-                                width="100%"
-                                height="100%"
-                                frameBorder="0"
-                                style={{ border: 0 }}
-                                src={mapUrl}
-                                allowFullScreen
-                                className="grayscale hover:grayscale-0 transition-all duration-500"
-                            ></iframe>
+                {/* Header / Hero */}
+                <header className="relative min-h-screen flex flex-col justify-center items-center px-6 pt-32 pb-20 text-center overflow-hidden">
+                    <div className="absolute inset-0 z-0">
+                        <div className="absolute inset-0 hero-gradient z-10"></div>
+                        <img
+                            src="https://images.unsplash.com/photo-1519225421980-715cb0202128?q=80&w=2000&auto=format&fit=crop"
+                            alt="Wedding Background"
+                            className="w-full h-full object-cover opacity-50 animate-[pulse_10s_ease-in-out_infinite]"
+                        />
+                    </div>
+
+                    <div className="relative z-20 space-y-8 w-full max-w-sm reveal active">
+                        <div className="flex flex-col items-center">
+                            <div className="w-12 h-[1px] bg-primary mb-6"></div>
+                            <p className="text-primary tracking-[0.6em] text-[10px] uppercase font-display mb-8">The Wedding of</p>
+                            <h1 className="text-5xl md:text-7xl font-display text-primary leading-tight mb-2 tracking-wide">MATEO</h1>
+                            <span className="text-3xl font-serif italic text-accent/60 my-4">&amp;</span>
+                            <h1 className="text-5xl md:text-7xl font-display text-primary leading-tight tracking-wide">ELENA</h1>
                         </div>
-                        <div className="p-4 text-center bg-wedding-dark text-white">
-                            <a href="https://maps.app.goo.gl/UBpFfzdHPHdf1xsj8" target="_blank" rel="noopener noreferrer" className="inline-block bg-wedding-gold text-white px-6 py-2 rounded text-xs uppercase tracking-widest hover:bg-white hover:text-wedding-dark transition">
-                                Abrir en App de Google Maps
+
+                        <div className="w-full flex justify-center items-center gap-4 py-6">
+                            <div className="h-[1px] flex-1 bg-primary/30"></div>
+                            <p className="text-sm font-serif italic tracking-widest text-accent uppercase">Septiembre 14, 2024</p>
+                            <div class="h-[1px] flex-1 bg-primary/30"></div>
+                        </div>
+
+                        <p className="text-xl font-body italic opacity-80 leading-relaxed max-w-[300px] mx-auto text-accent/90">
+                            Nos complace invitarles a la celebración de nuestra unión matrimonial.
+                        </p>
+
+                        <div className="pt-8">
+                            <span className="material-symbols-outlined text-primary/50 animate-bounce text-2xl">keyboard_arrow_down</span>
+                        </div>
+                    </div>
+                </header>
+
+                {/* Quote Section */}
+                <section className="py-24 px-8 text-center bg-white/[0.02] border-y border-primary/10">
+                    <div className="max-w-md mx-auto relative py-12 px-6 reveal">
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 text-primary/20 text-6xl font-serif">“</div>
+                        <p className="text-2xl md:text-3xl font-serif italic leading-relaxed text-accent relative z-10">
+                            En un rincón del alma, el amor encontró su hogar eterno.
+                        </p>
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-primary/20 text-6xl font-serif rotate-180">“</div>
+                    </div>
+                </section>
+
+                {/* Countdown Section */}
+                <section className="py-16 px-6 relative">
+                    <div className="border border-primary/30 p-8 max-w-2xl mx-auto bg-background-dark/50 backdrop-blur-sm relative z-10 reveal">
+                        <h3 className="text-center text-[10px] tracking-[0.5em] uppercase font-display text-primary mb-10">Cuenta Regresiva</h3>
+                        <div className="grid grid-cols-3 gap-4" id="countdown">
+                            <div className="text-center border-r border-primary/20">
+                                <p className="text-3xl md:text-4xl font-serif text-primary" id="days">
+                                    {timeLeft.days < 10 ? `0${timeLeft.days}` : timeLeft.days}
+                                </p>
+                                <p className="text-[9px] uppercase tracking-widest text-accent/50 mt-2">Días</p>
+                            </div>
+                            <div className="text-center border-r border-primary/20">
+                                <p className="text-3xl md:text-4xl font-serif text-primary" id="hours">
+                                    {timeLeft.hours < 10 ? `0${timeLeft.hours}` : timeLeft.hours}
+                                </p>
+                                <p className="text-[9px] uppercase tracking-widest text-accent/50 mt-2">Horas</p>
+                            </div>
+                            <div className="text-center">
+                                <p className="text-3xl md:text-4xl font-serif text-primary" id="minutes">
+                                    {timeLeft.minutes < 10 ? `0${timeLeft.minutes}` : timeLeft.minutes}
+                                </p>
+                                <p className="text-[9px] uppercase tracking-widest text-accent/50 mt-2">Minutos</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Details Section */}
+                <section className="py-20 px-6 space-y-32 max-w-4xl mx-auto">
+
+                    {/* Ceremony */}
+                    <div className="flex flex-col md:flex-row items-center gap-12 text-center md:text-left reveal">
+                        <div className="classic-frame w-72 h-96 md:w-80 md:h-[28rem] shrink-0 transform md:rotate-2 hover:rotate-0 transition-transform duration-700">
+                            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop" alt="Ceremonia" className="w-full h-full object-cover grayscale brightness-75 hover:grayscale-0 transition-all duration-700" />
+                        </div>
+
+                        <div className="space-y-6 flex-1">
+                            <div className="flex flex-col items-center md:items-start">
+                                <span className="material-symbols-outlined text-primary text-3xl mb-4">church</span>
+                                <h4 className="text-primary text-[10px] tracking-[0.4em] uppercase font-display mb-2">La Ceremonia</h4>
+                                <div className="h-px w-12 bg-primary/40 mb-6"></div>
+                            </div>
+
+                            <h3 className="text-4xl md:text-5xl font-serif text-accent uppercase tracking-tight">Jardín de Luces</h3>
+
+                            <div className="font-body text-lg space-y-2 text-accent/80 italic">
+                                <p className="flex items-center justify-center md:justify-start gap-2">
+                                    <span className="material-symbols-outlined text-primary/60 text-base">calendar_month</span>
+                                    Sábado, 14 de Septiembre
+                                </p>
+                                <p className="flex items-center justify-center md:justify-start gap-2">
+                                    <span className="material-symbols-outlined text-primary/60 text-base">schedule</span>
+                                    Ocho de la Noche
+                                </p>
+                                <p className="flex items-center justify-center md:justify-start gap-2">
+                                    <span className="material-symbols-outlined text-primary/60 text-base">location_city</span>
+                                    Ciudad de México
+                                </p>
+                            </div>
+
+                            <div className="pt-4 flex justify-center md:justify-start">
+                                <button className="group flex items-center gap-3 border border-primary/60 px-8 py-3 text-[10px] tracking-[0.3em] uppercase font-display text-primary hover:bg-primary hover:text-background-dark transition-all duration-300">
+                                    <span className="material-symbols-outlined text-sm group-hover:animate-bounce">location_on</span>
+                                    Ubicar Sede
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Reception / Location Visual */}
+                    <div className="relative w-full aspect-[16/9] md:aspect-[21/9] border border-primary/20 overflow-hidden group reveal">
+                        <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1200&auto=format&fit=crop" alt="Reception" className="w-full h-full object-cover grayscale contrast-125 opacity-60 group-hover:scale-105 transition-transform duration-1000" />
+                        <div className="absolute inset-0 bg-background-dark/40 group-hover:bg-background-dark/20 transition-colors"></div>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="bg-background-dark/80 backdrop-blur-sm border border-primary/40 p-8 text-center transform group-hover:-translate-y-2 transition-transform duration-500">
+                                <p className="font-display text-[10px] tracking-widest text-primary mb-3 uppercase">Recepción</p>
+                                <p className="font-serif text-2xl md:text-3xl">Lomas de Chapultepec</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Dress Code */}
+                    <div className="flex flex-col items-center text-center space-y-6 reveal">
+                        <div className="w-16 h-16 rounded-full border border-primary/30 flex items-center justify-center mb-2">
+                            <span className="material-symbols-outlined text-primary text-3xl">apparel</span>
+                        </div>
+                        <div className="space-y-3">
+                            <h4 className="text-primary text-[10px] tracking-[0.4em] uppercase font-display">Código de Vestimenta</h4>
+                            <p className="text-3xl md:text-4xl font-serif text-accent uppercase tracking-tighter">Rigurosa Etiqueta</p>
+                        </div>
+                        <p className="font-body text-lg italic text-accent/70 max-w-md mx-auto leading-relaxed">
+                            Agradecemos su asistencia portando traje formal oscuro o smoking para caballeros, y vestido largo para damas.
+                        </p>
+                    </div>
+
+                </section>
+
+                {/* RSVP Section */}
+                <section className="py-24 px-6 border-y border-primary/20 bg-white/[0.03]">
+                    <div className="text-center max-w-md mx-auto space-y-10 reveal">
+                        <div className="inline-block p-4 border border-primary/40 rotate-45 mb-4">
+                            <div className="-rotate-45">
+                                <span className="material-symbols-outlined text-primary text-4xl">mail_outline</span>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            <h2 className="text-4xl md:text-5xl font-display text-primary uppercase tracking-tight">R.S.V.P.</h2>
+                            <div className="h-px w-20 bg-primary/40 mx-auto"></div>
+                            <p className="font-serif italic text-accent/80 text-lg">Favor de confirmar su grata compañía antes del día 15 de Agosto.</p>
+                        </div>
+
+                        <div className="space-y-4 pt-4 flex flex-col gap-4">
+                            <button onClick={toggleModal} className="w-full bg-primary text-background-dark font-display text-[11px] tracking-[0.3em] py-5 uppercase font-bold hover:bg-white hover:text-background-dark transition-all duration-300 shadow-[0_0_20px_rgba(197,160,89,0.2)] hover:shadow-[0_0_30px_rgba(197,160,89,0.4)]">
+                                Confirmar Asistencia
+                            </button>
+                            <button onClick={() => alert('Funcionalidad de mesa de regalos próximamente.')} className="w-full bg-transparent border border-primary/50 text-primary font-display text-[11px] tracking-[0.3em] py-5 uppercase font-bold hover:bg-primary/10 transition-all duration-300">
+                                Mesa de Regalos
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Footer */}
+                <footer className="py-24 px-6 text-center bg-background-dark border-t border-primary/10">
+                    <div className="mb-16">
+                        <p className="text-primary tracking-[0.8em] text-[10px] uppercase font-display mb-10 opacity-70">#MateoyElena2024</p>
+                        <div className="flex justify-center gap-12">
+                            <a href="#" className="group flex flex-col items-center gap-2">
+                                <span className="material-symbols-outlined text-primary/40 group-hover:text-primary transition-colors">camera_alt</span>
+                                <span className="text-[8px] uppercase tracking-widest text-primary/0 group-hover:text-primary/40 transition-all -translate-y-2 group-hover:translate-y-0">Fotos</span>
+                            </a>
+                            <a href="#" className="group flex flex-col items-center gap-2">
+                                <span className="material-symbols-outlined text-primary/40 group-hover:text-primary transition-colors">auto_awesome</span>
+                                <span class="text-[8px] uppercase tracking-widest text-primary/0 group-hover:text-primary/40 transition-all -translate-y-2 group-hover:translate-y-0">Magia</span>
+                            </a>
+                            <a href="#" className="group flex flex-col items-center gap-2">
+                                <span className="material-symbols-outlined text-primary/40 group-hover:text-primary transition-colors">favorite</span>
+                                <span className="text-[8px] uppercase tracking-widest text-primary/0 group-hover:text-primary/40 transition-all -translate-y-2 group-hover:translate-y-0">Amor</span>
                             </a>
                         </div>
                     </div>
-                </div>
-            )}
 
-            {/* Audio Player */}
-            <audio ref={audioRef} loop src="/music/wedding_song.mp3" />
-            <div className="fixed bottom-5 right-5 z-50">
-                <button
-                    onClick={toggleMusic}
-                    className="bg-wedding-gold text-white p-3 rounded-full shadow-lg hover:bg-yellow-700 transition duration-300 animate-pulse border-2 border-white"
-                    title="Reproducir Música"
-                >
-                    <i className={`fas ${isMusicPlaying ? 'fa-pause' : 'fa-music'}`}></i>
-                    {!isMusicPlaying && <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] px-1 rounded-full animate-bounce">Click</span>}
-                </button>
-            </div>
-
-            {/* Navigation */}
-            <nav className="fixed w-full z-40 transition-all duration-300 bg-transparent py-4" id="navbar">
-                <div className="container mx-auto px-6 flex justify-center md:justify-between items-center">
-                    <div className="text-white text-2xl font-script font-bold hidden md:block">S & M</div>
-                    <div className="hidden md:flex space-x-8 text-white uppercase text-xs tracking-widest font-classic">
-                        <a href="#historia" className="hover:text-wedding-gold transition">Nuestra Historia</a>
-                        <a href="#eventos" className="hover:text-wedding-gold transition">Eventos</a>
-                        <a href="#rsvp" className="hover:text-wedding-gold transition">Confirmar</a>
-                    </div>
-                </div>
-            </nav>
-
-            {/* Hero Section */}
-            <header className="h-screen relative flex items-center justify-center text-center bg-fixed bg-cover bg-center" style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')" }}>
-                <div className="text-white px-4" data-aos="fade-up" data-aos-duration="1500">
-                    <p className="uppercase tracking-[0.3em] text-sm md:text-base mb-4 font-wedding-sans">¡Nos Casamos!</p>
-                    <h1 className="font-script text-7xl md:text-9xl mb-2 text-transparent bg-clip-text bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#aa771c]">Sofía & Mateo</h1>
-                    <div className="w-24 h-px bg-white mx-auto my-6 opacity-70"></div>
-                    <p className="font-classic text-xl md:text-2xl tracking-widest uppercase">25 . Octubre . 2025</p>
-                    <p className="mt-2 font-serif italic text-lg opacity-90">Hacienda Santa Cruz, México</p>
-
-                    <div className="mt-12 animate-bounce">
-                        <a href="#monograma" className="text-white opacity-70 hover:opacity-100 transition">
-                            <i className="fas fa-chevron-down text-2xl"></i>
-                        </a>
-                    </div>
-                </div>
-            </header>
-
-            {/* Monogram & Intro Section */}
-            <section id="monograma" className="py-20 md:py-32 bg-white relative">
-                <div className="container mx-auto px-4 text-center">
-                    {/* Monogram Logo */}
-                    <div className="mb-12 relative h-40 flex items-center justify-center" data-aos="zoom-in">
-                        <div className="absolute text-[150px] font-script text-wedding-gold opacity-10 top-0 left-1/2 transform -translate-x-1/2 -translate-y-12 select-none">S&M</div>
-                        <div className="border-2 border-wedding-gold p-8 inline-block relative z-10">
-                            <span className="font-classic text-3xl tracking-widest text-wedding-dark">S</span>
-                            <span className="mx-3 text-wedding-gold text-xl italic font-serif">&</span>
-                            <span className="font-classic text-3xl tracking-widest text-wedding-dark">M</span>
-                        </div>
-                    </div>
-
-                    <div className="max-w-2xl mx-auto" data-aos="fade-up">
-                        <p className="font-serif text-2xl md:text-3xl italic text-wedding-gold mb-6">"El amor no se mira, se siente, y aún más cuando ella está junto a ti."</p>
-                        <p className="text-wedding-gray leading-relaxed font-light">
-                            Querida familia y amigos, estamos emocionados de invitarlos a celebrar el comienzo de nuestra nueva vida juntos. Hemos preparado este día con mucho amor y no sería lo mismo sin ustedes.
+                    <div className="space-y-6">
+                        <div className="h-px w-16 bg-primary/20 mx-auto"></div>
+                        <p className="text-[9px] font-display text-primary/30 uppercase tracking-[0.3em]">
+                            Una Celebración de Amor Eterno &copy; 2024
                         </p>
                     </div>
-                </div>
-            </section>
+                </footer>
 
-            {/* Photo Banner */}
-            <div className="w-full h-64 md:h-96 bg-fixed bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1511285560982-1351cdeb9821?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')" }}></div>
-
-            {/* Countdown Section */}
-            <section className="py-16 bg-wedding-dark text-white text-center">
-                <div className="container mx-auto px-4">
-                    <h2 className="font-classic text-2xl tracking-widest mb-10 text-wedding-gold">Faltan</h2>
-                    <div className="flex flex-wrap justify-center gap-6 md:gap-12" id="countdown">
-                        {isFinished ? (
-                            <div className="text-3xl font-serif text-wedding-gold">¡Llegó el gran día!</div>
-                        ) : (
-                            <>
-                                <div className="flex flex-col items-center bg-wedding-gold/10 p-4 w-24 rounded-lg border border-wedding-gold/20 backdrop-blur-sm"><span className="text-4xl md:text-5xl font-serif text-wedding-gold">{days}</span><span className="text-xs uppercase tracking-widest mt-2 text-gray-300">Días</span></div>
-                                <div className="flex flex-col items-center bg-wedding-gold/10 p-4 w-24 rounded-lg border border-wedding-gold/20 backdrop-blur-sm"><span className="text-4xl md:text-5xl font-serif text-wedding-gold">{hours}</span><span className="text-xs uppercase tracking-widest mt-2 text-gray-300">Hs</span></div>
-                                <div className="flex flex-col items-center bg-wedding-gold/10 p-4 w-24 rounded-lg border border-wedding-gold/20 backdrop-blur-sm"><span className="text-4xl md:text-5xl font-serif text-wedding-gold">{minutes}</span><span className="text-xs uppercase tracking-widest mt-2 text-gray-300">Min</span></div>
-                                <div className="flex flex-col items-center bg-wedding-gold/10 p-4 w-24 rounded-lg border border-wedding-gold/20 backdrop-blur-sm"><span className="text-4xl md:text-5xl font-serif text-wedding-gold">{seconds}</span><span className="text-xs uppercase tracking-widest mt-2 text-gray-300">Seg</span></div>
-                            </>
-                        )}
-                    </div>
-                    <div className="mt-10">
-                        <a
-                            href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+de+Sofia+%26+Mateo&dates=20251025T163000/20251026T020000&details=¡Acompáñanos+a+celebrar+nuestra+boda!&location=Hacienda+Santa+Cruz,+México"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block border border-wedding-gold text-wedding-gold px-8 py-3 uppercase tracking-widest text-xs hover:bg-wedding-gold hover:text-white transition duration-300"
-                        >
-                            Agendar en Google Calendar
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            {/* Events Section */}
-            <section id="eventos" className="py-24 bg-wedding-light">
-                <div className="container mx-auto px-4">
-                    <div className="text-center mb-16" data-aos="fade-up">
-                        <h2 className="font-script text-6xl text-wedding-gold mb-4">Itinerario</h2>
-                        <p className="uppercase tracking-widest text-sm text-wedding-dark font-bold">Detalles del Gran Día</p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-                        {/* Ceremony Card */}
-                        <div className="bg-white p-10 shadow-xl text-center border-t-4 border-wedding-gold transform hover:-translate-y-2 transition duration-500" data-aos="fade-right">
-                            <div className="text-wedding-gold text-4xl mb-4"><i className="fas fa-church"></i></div>
-                            <h3 className="font-serif text-3xl mb-2">Ceremonia Religiosa</h3>
-                            <p className="font-classic text-sm text-gray-400 mb-6 uppercase tracking-widest">4:30 PM</p>
-                            <p className="text-wedding-dark mb-6 leading-relaxed">Capilla de San Gabriel<br />Antigua Hacienda Santa Cruz</p>
-                            {/* Embed Map Modal Trigger */}
-                            <button
-                                onClick={() => openMap("https://maps.google.com/maps?q=Capilla+San+Pablo+Apostol+Cancun&t=&z=15&ie=UTF8&iwloc=&output=embed")}
-                                className="inline-block text-xs uppercase tracking-widest border-b border-wedding-gold pb-1 hover:text-wedding-gold cursor-pointer"
-                            >
-                                Ver Mapa
+                {/* RSVP Modal */}
+                {isModalOpen && (
+                    <div id="rsvp-modal" className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+                        <div className="absolute inset-0 bg-background-dark/90 backdrop-blur-sm" onClick={toggleModal}></div>
+                        <div className="relative bg-background-dark border border-primary/40 p-8 md:p-12 max-w-lg w-full shadow-2xl">
+                            <button className="absolute top-4 right-4 text-primary/50 hover:text-primary" onClick={toggleModal}>
+                                <span className="material-symbols-outlined">close</span>
                             </button>
-                        </div>
 
-                        {/* Reception Card */}
-                        <div className="bg-white p-10 shadow-xl text-center border-t-4 border-wedding-gold transform hover:-translate-y-2 transition duration-500" data-aos="fade-left">
-                            <div className="text-wedding-gold text-4xl mb-4"><i className="fas fa-glass-cheers"></i></div>
-                            <h3 className="font-serif text-3xl mb-2">Recepción y Fiesta</h3>
-                            <p className="font-classic text-sm text-gray-400 mb-6 uppercase tracking-widest">6:00 PM - 2:00 AM</p>
-                            <p className="text-wedding-dark mb-6 leading-relaxed">Jardín Principal<br />Hacienda Santa Cruz</p>
-                            {/* Embed Map Modal Trigger */}
-                            <button
-                                onClick={() => openMap("https://maps.google.com/maps?q=Capilla+San+Pablo+Apostol+Cancun&t=&z=15&ie=UTF8&iwloc=&output=embed")}
-                                className="inline-block text-xs uppercase tracking-widest border-b border-wedding-gold pb-1 hover:text-wedding-gold cursor-pointer"
-                            >
-                                Ver Mapa
-                            </button>
+                            <div className="text-center mb-8">
+                                <h3 className="font-display text-primary text-2xl uppercase tracking-widest mb-2">Confirmar</h3>
+                                <p className="font-serif text-accent/60 italic">Nos encantaría verte ahí</p>
+                            </div>
+
+                            <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert('¡Gracias por confirmar! Nos vemos pronto.'); toggleModal(); }}>
+                                <div>
+                                    <label className="block text-[10px] uppercase tracking-widest text-primary/70 mb-2">Nombre Completo</label>
+                                    <input type="text" className="w-full bg-white/5 border border-primary/30 text-accent p-3 focus:outline-none focus:border-primary transition-colors font-serif" placeholder="Tu nombre" />
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] uppercase tracking-widest text-primary/70 mb-2">Número de Asistentes</label>
+                                    <select className="w-full bg-white/5 border border-primary/30 text-accent p-3 focus:outline-none focus:border-primary transition-colors font-serif">
+                                        <option className="bg-background-dark">1 Persona</option>
+                                        <option className="bg-background-dark">2 Personas</option>
+                                        <option className="bg-background-dark">3 Personas</option>
+                                    </select>
+                                </div>
+                                <button type="submit" className="w-full bg-primary text-background-dark font-display text-[11px] tracking-[0.3em] py-4 uppercase font-bold hover:brightness-110 transition-all mt-4">
+                                    Enviar Confirmación
+                                </button>
+                            </form>
                         </div>
                     </div>
-                </div>
-            </section>
+                )}
 
-            {/* Dress Code & Details */}
-            <section className="py-20 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-gray-200">
-
-                        {/* Dress Code */}
-                        <div className="p-6" data-aos="fade-up" data-aos-delay="100">
-                            <i className="fas fa-user-tie text-3xl text-wedding-gold mb-4"></i>
-                            <h4 className="font-classic text-lg uppercase tracking-widest mb-3">Código de Vestimenta</h4>
-                            <p className="font-serif text-xl italic text-gray-600">Formal Riguroso</p>
-                            <p className="text-xs text-gray-400 mt-2">Ellos: Traje o Tuxedo | Ellas: Vestido Largo</p>
-                        </div>
-
-                        {/* No Kids */}
-                        <div className="p-6" data-aos="fade-up" data-aos-delay="200">
-                            <i className="fas fa-child text-3xl text-wedding-gold mb-4"></i>
-                            <h4 className="font-classic text-lg uppercase tracking-widest mb-3">Solo Adultos</h4>
-                            <p className="text-sm text-gray-500 leading-relaxed">Amamos a sus pequeños, pero queremos que disfruten esta noche con nosotros. Recepción exclusiva para adultos.</p>
-                        </div>
-
-                        {/* Gifts */}
-                        <div className="p-6" data-aos="fade-up" data-aos-delay="300">
-                            <i className="fas fa-envelope-open-text text-3xl text-wedding-gold mb-4"></i>
-                            <h4 className="font-classic text-lg uppercase tracking-widest mb-3">Mesa de Regalos</h4>
-                            <p className="text-sm text-gray-500 leading-relaxed mb-3">Su presencia es nuestro mejor regalo. Si desean tener un detalle con nosotros:</p>
-                            <button onClick={() => setShowBankDetails(!showBankDetails)} className="text-wedding-gold font-bold text-xs uppercase underline cursor-pointer hover:text-wedding-dark">
-                                Ver datos bancarios / Sobre
-                            </button>
-                            <div className={`${showBankDetails ? 'block' : 'hidden'} mt-4 bg-gray-50 p-3 rounded text-xs text-left`}>
-                                <p><strong>Banco:</strong> BBVA</p>
-                                <p><strong>Cuenta:</strong> 1234 5678 9012</p>
-                                <p><strong>Nombre:</strong> Mateo & Sofia</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
-
-            {/* Gallery Grid */}
-            <section className="py-4">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    <div className="h-64 md:h-80 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')" }} data-aos="fade-in"></div>
-                    <div className="h-64 md:h-80 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1522673607200-1645062cd958?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')" }} data-aos="fade-in" data-aos-delay="100"></div>
-                    <div className="h-64 md:h-80 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1519225448526-0c857948a60e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')" }} data-aos="fade-in" data-aos-delay="200"></div>
-                    <div className="h-64 md:h-80 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')" }} data-aos="fade-in" data-aos-delay="300"></div>
-                </div>
-            </section>
-
-            {/* RSVP Section */}
-            <section id="rsvp" className="py-24 bg-wedding-light relative">
-                {/* Decoration element */}
-                <div className="absolute top-0 left-0 w-32 h-32 border-l-4 border-t-4 border-wedding-gold opacity-20 m-10 hidden md:block"></div>
-                <div className="absolute bottom-0 right-0 w-32 h-32 border-r-4 border-b-4 border-wedding-gold opacity-20 m-10 hidden md:block"></div>
-
-                <div className="container mx-auto px-4 max-w-2xl relative z-10">
-                    <div className="text-center mb-12">
-                        <span className="font-script text-5xl text-wedding-gold block mb-2">Confirmación</span>
-                        <h2 className="font-classic text-2xl uppercase tracking-widest">R.S.V.P</h2>
-                        <p className="mt-4 text-gray-500 italic">Por favor confirmar antes del 1 de Octubre</p>
-                    </div>
-
-                    <form className="bg-white p-8 md:p-12 shadow-2xl space-y-6 border border-gray-100" onSubmit={handleWhatsAppConfirm}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label htmlFor="name" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Nombre Completo</label>
-                                <input id="name" name="name" type="text" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold transition bg-transparent" placeholder="Tu Nombre" required />
-                            </div>
-                            <div>
-                                <label htmlFor="phone" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Teléfono</label>
-                                <input id="phone" name="phone" type="tel" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold transition bg-transparent" placeholder="55 1234 5678" />
-                            </div>
-                        </div>
-
-                        <div>
-                            <span className="block text-xs uppercase tracking-widest text-gray-500 mb-2">¿Asistirás?</span>
-                            <div className="flex space-x-6 mt-2">
-                                <label className="flex items-center space-x-2 cursor-pointer">
-                                    <input type="radio" name="attendance" className="accent-wedding-gold" defaultChecked />
-                                    <span className="text-sm font-light">Sí, con gusto asistiré</span>
-                                </label>
-                                <label className="flex items-center space-x-2 cursor-pointer">
-                                    <input type="radio" name="attendance" className="accent-wedding-gold" />
-                                    <span className="text-sm font-light">Lo siento, no podré asistir</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label htmlFor="seats" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Número de Asientos</label>
-                            <select id="seats" name="seats" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold bg-transparent">
-                                <option>1 Adulto</option>
-                                <option>2 Adultos</option>
-                                <option>Familia (4)</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label htmlFor="message" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Mensaje para los novios</label>
-                            <textarea id="message" name="message" rows={3} className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-wedding-gold bg-transparent resize-none" placeholder="Escribe tus buenos deseos..."></textarea>
-                        </div>
-
-                        <div className="text-center pt-6">
-                            <button type="submit" className="bg-wedding-dark text-white px-10 py-4 uppercase tracking-[0.2em] text-xs hover:bg-wedding-gold transition duration-500 w-full md:w-auto">
-                                <i className="fab fa-whatsapp mr-2"></i> Enviar Confirmación por WhatsApp
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </section>
-
-            {/* Footer */}
-            <footer className="bg-wedding-dark text-white py-12 text-center">
-                <div className="container mx-auto px-4">
-                    <h2 className="font-script text-5xl mb-6 text-wedding-gold">S & M</h2>
-                    <p className="font-classic text-sm tracking-widest uppercase mb-4">#BodaSofiaYMateo</p>
-                    <p className="text-gray-500 text-xs mt-8">
-                        Diseñado con amor para nuestra boda.<br />
-                        &copy; 2025. Todos los derechos reservados.
-                    </p>
-                </div>
-            </footer>
-        </div>
+            </div>
+        </>
     );
 }
