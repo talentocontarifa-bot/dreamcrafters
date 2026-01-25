@@ -322,7 +322,7 @@ export default function WeddingInvitation() {
                             </a>
                             <a href="#" className="group flex flex-col items-center gap-2">
                                 <span className="material-symbols-outlined text-primary/40 group-hover:text-primary transition-colors">auto_awesome</span>
-                                <span class="text-[8px] uppercase tracking-widest text-primary/0 group-hover:text-primary/40 transition-all -translate-y-2 group-hover:translate-y-0">Magia</span>
+                                <span className="text-[8px] uppercase tracking-widest text-primary/0 group-hover:text-primary/40 transition-all -translate-y-2 group-hover:translate-y-0">Magia</span>
                             </a>
                             <a href="#" className="group flex flex-col items-center gap-2">
                                 <span className="material-symbols-outlined text-primary/40 group-hover:text-primary transition-colors">favorite</span>
