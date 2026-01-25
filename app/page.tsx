@@ -392,7 +392,8 @@ export default function Home() {
       <header>
         <div className="container nav-wrap">
           <div className="logo">
-            <span style={{ fontSize: '30px' }}>⚡</span> DreamCrafters
+            <img src="/landing/d-icon.svg" alt="DreamCrafters Icon" style={{ height: '40px' }} />
+            <img src="/landing/logo-white.svg" alt="DreamCrafters Logo" style={{ height: '20px', marginLeft: '15px' }} />
           </div>
           <nav className="nav-links">
             <a href="#services">Servicios</a>
@@ -409,7 +410,7 @@ export default function Home() {
           <div className="container hero-grid">
             <div className="hero-content">
               <div style={{ marginBottom: '15px', color: 'var(--neon-yellow)' }}>SYSTEM STATUS: ONLINE</div>
-              <h1 className="glitch-text">Tus Eventos <br /><span className="text-cyan">Suben de Nivel</span></h1>
+              <h1 className="glitch-text" style={{ fontWeight: 900 }}>Tus Eventos <br /><span className="text-cyan">Suben de Nivel</span></h1>
               <p>
                 &gt; Inicializando protocolo de fiesta...<br />
                 Invitaciones digitales interactivas, mapas en tiempo real y confirmación instantánea. El futuro de tu evento empieza aquí.
@@ -420,7 +421,24 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="hero-visual holo-card-container">
+            <div className="hero-visual holo-card-container" style={{ position: 'relative' }}>
+              {/* ROBOT HERO (Al Frente) */}
+              <div style={{
+                position: 'absolute',
+                top: '-50px',
+                left: '-80px',
+                width: '140%',
+                zIndex: 50,
+                pointerEvents: 'none',
+                filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.5))'
+              }}>
+                <img
+                  src="/landing/hero-robot.webp"
+                  alt="DreamCrafters Robot"
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </div>
+
               <div className="holo-card">
                 <div className="holo-screen">
                   <div className="holo-content">
