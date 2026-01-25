@@ -603,34 +603,28 @@ export default function Home() {
                   [ EJECUTAR ]
                 </button>
               </form>
-              <option>Fiesta_Retro</option>
-              <option>Evento_Privado</option>
-            </select>
-            <button type="submit" className="btn btn-primary" style={{ width: '100%', fontSize: '18px' }}>
-              [ EJECUTAR ]
-            </button>
-          </form>
-        </div>
-      </div>
-    </section >
 
-      {/* Footer */ }
-      < footer >
-      <div className="container">
-        <b style={{ fontFamily: "'Orbitron', sans-serif", color: 'white', fontSize: '24px' }}>DREAMCRAFTERS</b>
-        <div style={{ marginTop: '10px' }}>© <span id="year"></span> SYSTEM_VER_2.0</div>
-        <div style={{ marginTop: '20px', fontSize: '16px' }}>
-          <a href="https://www.facebook.com/dreamcrafters.ia/" target="_blank" rel="noopener noreferrer" style={{ margin: '0 10px' }}>[ FACEBOOK ]</a>
-          <a href="https://www.tiktok.com/@dreamcrafters_mx" target="_blank" rel="noopener noreferrer" style={{ margin: '0 10px' }}>[ TIKTOK ]</a>
-        </div>
-      </div>
+            </div>
+          </div>
+        </section >
+
+        {/* Footer */}
+        < footer >
+          <div className="container">
+            <b style={{ fontFamily: "'Orbitron', sans-serif", color: 'white', fontSize: '24px' }}>DREAMCRAFTERS</b>
+            <div style={{ marginTop: '10px' }}>© <span id="year"></span> SYSTEM_VER_2.0</div>
+            <div style={{ marginTop: '20px', fontSize: '16px' }}>
+              <a href="https://www.facebook.com/dreamcrafters.ia/" target="_blank" rel="noopener noreferrer" style={{ margin: '0 10px' }}>[ FACEBOOK ]</a>
+              <a href="https://www.tiktok.com/@dreamcrafters_mx" target="_blank" rel="noopener noreferrer" style={{ margin: '0 10px' }}>[ TIKTOK ]</a>
+            </div>
+          </div>
         </footer >
 
       </main >
 
-    <div id="toast" className="toast">
-      &gt; MENSAJE TRANSMITIDO CON ÉXITO_
-    </div>
+      <div id="toast" className="toast">
+        &gt; MENSAJE TRANSMITIDO CON ÉXITO_
+      </div>
     </>
   );
 }
