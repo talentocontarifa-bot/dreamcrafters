@@ -101,7 +101,7 @@ export default function WeddingInvitation() {
                 {/* Navigation */}
                 <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-6 bg-background-inv/80 backdrop-blur-md border-b border-primary/10 transition-all duration-300" id="navbar">
                     <div className="flex items-center gap-3">
-                        <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>shield_with_heart</span>
+                        <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>volunteer_activism</span>
                         <span className="text-[10px] tracking-[0.4em] uppercase font-display text-primary">M &amp; E</span>
                     </div>
                     <button onClick={() => setIsPlaying(!isPlaying)} className={`size-10 flex items-center justify-center border border-primary/40 rounded-full hover:bg-primary/10 active:scale-95 transition-all group ${isPlaying ? 'bg-primary/20' : ''}`}>
@@ -233,7 +233,7 @@ export default function WeddingInvitation() {
                                 <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800&auto=format&fit=crop" alt="Momento 2" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" />
                             </div>
                             <div className="aspect-[3/4] overflow-hidden classic-frame group">
-                                <img src="https://images.unsplash.com/photo-1522673607200-1645062cd958?q=80&w=800&auto=format&fit=crop" alt="Momento 3" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" />
+                                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=800&auto=format&fit=crop" alt="Momento 3" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" />
                             </div>
                         </div>
                     </div>
