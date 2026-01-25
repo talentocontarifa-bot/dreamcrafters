@@ -412,7 +412,7 @@ export default function Home() {
               <img
                 src="/landing/logo-white.svg"
                 alt="DreamCrafters"
-                style={{ width: '300px', maxWidth: '80%', marginBottom: '30px', filter: 'brightness(0) invert(1)' }}
+                style={{ width: '300px', maxWidth: '80%', marginBottom: '30px', filter: 'brightness(0) invert(1)', display: 'block', margin: '0 auto 30px auto' }}
               />
               <h1 className="glitch-text" style={{ fontWeight: 900 }}>Tus Eventos <br /><span className="text-cyan">Suben de Nivel</span></h1>
               <p>
@@ -546,18 +546,24 @@ export default function Home() {
             </div>
 
             <div className="gallery-grid">
-              <div className="gallery-item">
-                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Cyberpunk City" className="gallery-img" />
-              </div>
-              <div className="gallery-item">
-                <img src="https://images.unsplash.com/photo-1563089145-599997674d42?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Neon Light" className="gallery-img" />
-              </div>
-              <div className="gallery-item">
-                <img src="https://images.unsplash.com/photo-1535498730771-e735b998cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Retrowave" className="gallery-img" />
-              </div>
-              <div className="gallery-item">
-                <img src="https://images.unsplash.com/photo-1504701954957-2010ec3bence?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Glitch Art" className="gallery-img" />
-              </div>
+              {/* Minecraft Invitation */}
+              <a
+                href="https://www.dreamcrafters.lat/invitacionminecraft/ian-level8"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="gallery-item"
+                style={{ display: 'block' }}
+              >
+                <img
+                  src="https://www.dreamcrafters.lat/sprites/title-fiesta.webp"
+                  alt="Minecraft Party Invitation"
+                  className="gallery-img"
+                  style={{ objectFit: 'contain', background: 'rgba(0,0,0,0.5)' }}
+                />
+                <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', padding: '10px', background: 'rgba(0,0,0,0.8)', color: 'white', textAlign: 'center', fontSize: '14px' }}>
+                  IAN LEVEL 8 - VER DEMO
+                </div>
+              </a>
             </div>
           </div>
         </section>
@@ -569,9 +575,17 @@ export default function Home() {
               <h2 className="text-cyan">¿Listo para Iniciar?</h2>
               <p style={{ marginBottom: '30px' }}>Ingresa tus datos para generar el código de tu invitación.</p>
 
-              <form onSubmit={(e) => { e.preventDefault(); showToast(); }}>
-                <input type="text" className="form-input" placeholder="> Nombre_Usuario" required />
-                <input type="text" className="form-input" placeholder="> Contacto (Email/Cel)" required />
+              <form onSubmit={(e) => {
+                e.preventDefault();
+                const nameEl = document.getElementById('userName') as HTMLInputElement;
+                const contactEl = document.getElementById('userContact') as HTMLInputElement;
+                if (nameEl && contactEl) {
+                  const msg = `Hola, soy ${nameEl.value}, contacto: ${contactEl.value}. Quiero iniciar un proyecto con DreamCrafters.`;
+                  window.open(`https://wa.me/529845828658?text=${encodeURIComponent(msg)}`, '_blank');
+                }
+              }}>
+                <input id="userName" type="text" className="form-input" placeholder="> Nombre_Usuario" required />
+                <input id="userContact" type="text" className="form-input" placeholder="> Contacto (Email/Cel)" required />
                 <select className="form-input" style={{ color: '#aaa' }}>
                   <option>&gt; Seleccionar_Modo...</option>
                   <option>Boda</option>
@@ -592,8 +606,8 @@ export default function Home() {
             <b style={{ fontFamily: "'Orbitron', sans-serif", color: 'white', fontSize: '24px' }}>DREAMCRAFTERS</b>
             <div style={{ marginTop: '10px' }}>© <span id="year"></span> SYSTEM_VER_2.0</div>
             <div style={{ marginTop: '20px', fontSize: '16px' }}>
-              <a href="#" style={{ margin: '0 10px' }}>[ INSTAGRAM ]</a>
-              <a href="#" style={{ margin: '0 10px' }}>[ FACEBOOK ]</a>
+              <a href="https://www.facebook.com/dreamcrafters.ia/" target="_blank" rel="noopener noreferrer" style={{ margin: '0 10px' }}>[ FACEBOOK ]</a>
+              <a href="https://www.tiktok.com/@dreamcrafters_mx" target="_blank" rel="noopener noreferrer" style={{ margin: '0 10px' }}>[ TIKTOK ]</a>
             </div>
           </div>
         </footer>
