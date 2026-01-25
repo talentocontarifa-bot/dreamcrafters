@@ -392,8 +392,8 @@ export default function Home() {
       <header>
         <div className="container nav-wrap">
           <div className="logo">
-            <img src="/landing/d-icon.svg" alt="DreamCrafters Icon" style={{ height: '40px' }} />
-            <img src="/landing/logo-white.svg" alt="DreamCrafters Logo" style={{ height: '20px', marginLeft: '15px' }} />
+            <img src="/landing/d-icon.svg" alt="DreamCrafters Icon" style={{ height: '40px', filter: 'brightness(0) invert(1)' }} />
+            <img src="/landing/logo-white.svg" alt="DreamCrafters Logo" style={{ height: '20px', marginLeft: '15px', filter: 'brightness(0) invert(1)' }} />
           </div>
           <nav className="nav-links">
             <a href="#services">Servicios</a>
@@ -425,9 +425,9 @@ export default function Home() {
               {/* ROBOT HERO (Al Frente) */}
               <div style={{
                 position: 'absolute',
-                top: '-50px',
-                left: '-80px',
-                width: '140%',
+                top: '-40px',
+                left: '-20px',
+                width: '110%',
                 zIndex: 50,
                 pointerEvents: 'none',
                 filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.5))'
