@@ -2,11 +2,33 @@
 
 import { useState, useEffect } from 'react';
 
+// Theme Definitions for Fail-Safe Switching
+const themes = {
+    midnight: {
+        '--inv-bg': '#1B1F3B',
+        '--inv-primary': '#D4AF37',
+        '--inv-accent': '#F5F5DC',
+        '--inv-text': '#e0e0e0',
+    },
+    botanical: {
+        '--inv-bg': '#FAF9F6',
+        '--inv-primary': '#8A9A5B',
+        '--inv-accent': '#DCAE96',
+        '--inv-text': '#5F7161',
+    },
+    modern: {
+        '--inv-bg': '#121212',
+        '--inv-primary': '#E2725B',
+        '--inv-accent': '#FFFFFF',
+        '--inv-text': '#D3D3D3',
+    }
+};
+
 export default function WeddingInvitation() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0 });
-    const [currentTheme, setCurrentTheme] = useState('midnight');
+    const [currentTheme, setCurrentTheme] = useState<keyof typeof themes>('midnight');
 
     // Scroll Reveal Animation
     useEffect(() => {
@@ -22,7 +44,7 @@ export default function WeddingInvitation() {
             }
         };
         window.addEventListener("scroll", reveal);
-        reveal(); // Trigger once on load
+        reveal();
         return () => window.removeEventListener("scroll", reveal);
     }, []);
 
@@ -45,7 +67,31 @@ export default function WeddingInvitation() {
 
     return (
         <>
+            {/* Force load fonts directly */}
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+            <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Fleur+De+Leah&display=swap" rel="stylesheet" />
+            <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
             <style jsx global>{`
+                .material-symbols-outlined {
+                    font-family: 'Material Symbols Outlined';
+                    font-weight: normal;
+                    font-style: normal;
+                    font-size: 24px;
+                    display: inline-block;
+                    line-height: 1;
+                    text-transform: none;
+                    letter-spacing: normal;
+                    word-wrap: normal;
+                    white-space: nowrap;
+                    direction: ltr;
+                }
+                .font-names { font-family: 'Fleur De Leah', cursive; }
+                .font-display { font-family: 'Cinzel', serif; }
+                .font-serif { font-family: 'Playfair Display', serif; }
+                .font-body { font-family: 'Cormorant Garamond', serif; }
+
                 .ornamental-border {
                     border: 1px solid rgba(197, 160, 89, 0.4);
                     outline: 4px solid transparent;
@@ -53,7 +99,7 @@ export default function WeddingInvitation() {
                     border-image: none;
                 }
                 .classic-frame {
-                    border: 2px solid var(--color-primary);
+                    border: 2px solid var(--inv-primary);
                     padding: 2px;
                     position: relative;
                 }
@@ -61,51 +107,59 @@ export default function WeddingInvitation() {
                     content: '';
                     position: absolute;
                     inset: 8px;
-                    border: 1px solid var(--color-primary);
+                    border: 1px solid var(--inv-primary);
                     opacity: 0.3;
                     pointer-events: none;
                 }
-                .hero-gradient {
-                    background: linear-gradient(to bottom, 
-                        rgba(var(--bg-rgb), 0.3) 0%, 
-                        rgba(var(--bg-rgb), 0.7) 50%, 
-                        var(--color-background-inv) 100%);
+                /* Use CSS Variables directly */
+                .theme-wrapper {
+                    background-color: var(--inv-bg);
+                    color: var(--inv-text);
                 }
+                .text-primary { color: var(--inv-primary) !important; }
+                .border-primary { border-color: var(--inv-primary) !important; }
+                .bg-primary { background-color: var(--inv-primary) !important; }
+                
+                .text-accent { color: var(--inv-accent) !important; }
+                
                 html { scroll-behavior: smooth; }
                 .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
                 .reveal.active { opacity: 1; transform: translateY(0); }
             `}</style>
 
-            {/* Page Wrapper with Dynamic Theme */}
-            <div data-theme={currentTheme} className="bg-background-inv text-text-inv font-body min-h-[100dvh] overflow-x-hidden selection:bg-primary/30 transition-colors duration-700">
+            {/* Page Wrapper with Dynamic inline styles for 100% reliability */}
+            <div
+                className="theme-wrapper font-body min-h-[100dvh] overflow-x-hidden selection:bg-purple-500/30 transition-colors duration-700"
+                style={themes[currentTheme] as React.CSSProperties}
+            >
 
                 {/* Theme Selector Widget */}
-                <div className="fixed top-1/2 right-4 z-[60] flex flex-col gap-3 -translate-y-1/2 bg-black/20 backdrop-blur-md p-3 rounded-full border border-white/10">
+                <div className="fixed top-1/2 right-4 z-[60] flex flex-col gap-3 -translate-y-1/2 bg-black/20 backdrop-blur-md p-3 rounded-full border border-white/10 shadow-2xl">
                     <button
                         onClick={() => setCurrentTheme('midnight')}
-                        className={`w-4 h-4 rounded-full bg-[#1B1F3B] border-2 transition-all ${currentTheme === 'midnight' ? 'border-[#D4AF37] scale-125' : 'border-transparent hover:scale-110'}`}
+                        className={`w-6 h-6 rounded-full bg-[#1B1F3B] border-2 transition-all ${currentTheme === 'midnight' ? 'border-[#D4AF37] scale-125 ring-2 ring-white/50' : 'border-transparent hover:scale-110'}`}
                         title="Midnight Classic"
                     />
                     <button
                         onClick={() => setCurrentTheme('botanical')}
-                        className={`w-4 h-4 rounded-full bg-[#8A9A5B] border-2 transition-all ${currentTheme === 'botanical' ? 'border-[#DCAE96] scale-125' : 'border-transparent hover:scale-110'}`}
+                        className={`w-6 h-6 rounded-full bg-[#8A9A5B] border-2 transition-all ${currentTheme === 'botanical' ? 'border-[#DCAE96] scale-125 ring-2 ring-white/50' : 'border-transparent hover:scale-110'}`}
                         title="Botanical Fresh"
                     />
                     <button
                         onClick={() => setCurrentTheme('modern')}
-                        className={`w-4 h-4 rounded-full bg-[#E2725B] border-2 transition-all ${currentTheme === 'modern' ? 'border-white scale-125' : 'border-transparent hover:scale-110'}`}
+                        className={`w-6 h-6 rounded-full bg-[#E2725B] border-2 transition-all ${currentTheme === 'modern' ? 'border-white scale-125 ring-2 ring-white/50' : 'border-transparent hover:scale-110'}`}
                         title="Modern Minimal"
                     />
                 </div>
 
                 {/* Navigation */}
-                <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-6 bg-background-inv/80 backdrop-blur-md border-b border-primary/10 transition-all duration-300" id="navbar">
+                <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-6 bg-black/10 backdrop-blur-md border-b border-white/5 transition-all duration-300" id="navbar">
                     <div className="flex items-center gap-3">
-                        <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>volunteer_activism</span>
-                        <span className="text-[10px] tracking-[0.4em] uppercase font-display text-primary">M &amp; E</span>
+                        <span className="material-symbols-outlined text-primary text-2xl">volunteer_activism</span>
+                        <span className="text-[12px] tracking-[0.4em] uppercase font-display text-primary font-bold">M &amp; E</span>
                     </div>
-                    <button onClick={() => setIsPlaying(!isPlaying)} className={`size-10 flex items-center justify-center border border-primary/40 rounded-full hover:bg-primary/10 active:scale-95 transition-all group ${isPlaying ? 'bg-primary/20' : ''}`}>
-                        <span className="material-symbols-outlined text-primary group-hover:animate-pulse" style={{ fontSize: '18px' }}>{isPlaying ? 'volume_up' : 'music_note'}</span>
+                    <button onClick={() => setIsPlaying(!isPlaying)} className={`size-10 flex items-center justify-center border border-primary/40 rounded-full hover:bg-white/10 active:scale-95 transition-all group ${isPlaying ? 'bg-primary/20' : ''}`}>
+                        <span className="material-symbols-outlined text-primary group-hover:animate-pulse" style={{ fontSize: '20px' }}>{isPlaying ? 'volume_up' : 'music_note'}</span>
                     </button>
                 </nav>
 
@@ -159,7 +213,7 @@ export default function WeddingInvitation() {
 
                 {/* Countdown */}
                 <section className="py-16 px-6 relative">
-                    <div className="border border-primary/30 p-8 max-w-2xl mx-auto bg-background-inv/50 backdrop-blur-sm relative z-10 reveal">
+                    <div className="border border-primary/30 p-8 max-w-2xl mx-auto bg-black/20 backdrop-blur-sm relative z-10 reveal">
                         <h3 className="text-center text-[10px] tracking-[0.5em] uppercase font-display text-primary mb-10">Cuenta Regresiva</h3>
                         <div className="grid grid-cols-3 gap-4">
                             <div className="text-center border-r border-primary/20">
@@ -206,15 +260,15 @@ export default function WeddingInvitation() {
                         <h4 className="text-primary text-[10px] tracking-[0.4em] uppercase font-display mb-10">Paleta de Color</h4>
                         <div className="flex justify-center gap-8 flex-wrap">
                             <div className="flex flex-col items-center gap-3">
-                                <div className="w-20 h-20 rounded-full shadow-xl border-4 border-white/10" style={{ backgroundColor: 'var(--color-background-inv)' }}></div>
+                                <div className="w-20 h-20 rounded-full shadow-xl border-4 border-white/10" style={{ backgroundColor: 'var(--inv-bg)' }}></div>
                                 <span className="text-[10px] uppercase tracking-widest text-accent">Fondo</span>
                             </div>
                             <div className="flex flex-col items-center gap-3">
-                                <div className="w-20 h-20 rounded-full shadow-xl border-4 border-white/10" style={{ backgroundColor: 'var(--color-primary)' }}></div>
+                                <div className="w-20 h-20 rounded-full shadow-xl border-4 border-white/10" style={{ backgroundColor: 'var(--inv-primary)' }}></div>
                                 <span className="text-[10px] uppercase tracking-widest text-accent">Principal</span>
                             </div>
                             <div className="flex flex-col items-center gap-3">
-                                <div className="w-20 h-20 rounded-full shadow-xl border-4 border-white/10" style={{ backgroundColor: 'var(--color-accent)' }}></div>
+                                <div className="w-20 h-20 rounded-full shadow-xl border-4 border-white/10" style={{ backgroundColor: 'var(--inv-accent)' }}></div>
                                 <span className="text-[10px] uppercase tracking-widest text-accent">Acento</span>
                             </div>
                         </div>
@@ -240,7 +294,7 @@ export default function WeddingInvitation() {
                 </section>
 
                 {/* Footer */}
-                <footer className="py-24 px-6 text-center bg-background-inv border-t border-primary/10">
+                <footer className="py-24 px-6 text-center border-t border-primary/10" style={{ backgroundColor: 'var(--inv-bg)' }}>
                     <div className="mb-16">
                         <p className="text-primary tracking-[0.8em] text-[10px] uppercase font-display mb-10 opacity-70">#MateoyElena2024</p>
                     </div>
@@ -251,9 +305,9 @@ export default function WeddingInvitation() {
                 {isModalOpen && (
                     <div id="rsvp-modal" className="fixed inset-0 z-[100] flex items-center justify-center px-4">
                         <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={toggleModal}></div>
-                        <div className="relative bg-background-inv border border-primary/40 p-8 md:p-12 max-w-lg w-full shadow-2xl">
+                        <div className="relative bg-[#1B1F3B] border border-primary/40 p-8 md:p-12 max-w-lg w-full shadow-2xl" style={{ backgroundColor: 'var(--inv-bg)' }}>
                             <button className="absolute top-4 right-4 text-primary/50 hover:text-primary" onClick={toggleModal}>
-                                <span className="material-symbols-outlined">close</span>
+                                <span className="material-symbols-outlined w-6 h-6">close</span>
                             </button>
                             <h3 className="font-display text-primary text-2xl uppercase tracking-widest mb-2 text-center">Confirmar</h3>
                             <p className="font-serif text-accent/60 italic text-center mb-8">Nos encantaría verte ahí</p>
@@ -270,7 +324,7 @@ export default function WeddingInvitation() {
                                         <option className="bg-black">3 Personas</option>
                                     </select>
                                 </div>
-                                <button type="submit" className="w-full bg-primary text-background-inv font-display text-[11px] tracking-[0.3em] py-4 uppercase font-bold hover:brightness-110 transition-all mt-4">
+                                <button type="submit" className="w-full bg-primary text-[#1B1F3B] font-display text-[11px] tracking-[0.3em] py-4 uppercase font-bold hover:brightness-110 transition-all mt-4">
                                     Enviar Confirmación
                                 </button>
                             </form>
