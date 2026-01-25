@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import Script from 'next/script';
-import Head from 'next/head';
+
 
 export default function WeddingInvitation() {
     const [isPlaying, setIsPlaying] = useState(false);
@@ -51,33 +50,6 @@ export default function WeddingInvitation() {
 
     return (
         <>
-            <Script src="https://cdn.tailwindcss.com?plugins=forms,container-queries" strategy="beforeInteractive" />
-            <Script id="tailwind-config" strategy="beforeInteractive">
-                {`
-          tailwind.config = {
-            darkMode: "class",
-            theme: {
-              extend: {
-                colors: {
-                  "primary": "#c5a059",
-                  "accent": "#e5e7eb",
-                  "background-dark": "#0a1128",
-                  "burgundy": "#4a0404",
-                },
-                fontFamily: {
-                  "display": ["Cinzel", "serif"],
-                  "serif": ["Playfair Display", "serif"],
-                  "body": ["Cormorant Garamond", "serif"]
-                },
-              },
-            },
-          }
-        `}
-            </Script>
-
-            {/* Font Links manually injected here or via next/font */}
-            <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet" />
-            <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
 
             <style jsx global>{`
         /* Custom Styles applied via styled-jsx to ensure they invoke after tailwind processing or work alongside */
