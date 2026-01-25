@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, Outfit } from "next/font/google";
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const bebasNeue = Bebas_Neue({
   variable: "--font-bebas",
@@ -39,6 +40,7 @@ export default function RootLayout({
         className={`${bebasNeue.variable} ${outfit.variable} antialiased`}
       >
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );
