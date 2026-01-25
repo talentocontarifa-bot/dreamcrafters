@@ -372,6 +372,18 @@ export default function Home() {
           .hero-grid { grid-template-columns: 1fr; text-align: center; }
           .hero-content p { margin: 0 auto 30px auto; border: none; }
           .nav-links { display: none; }
+          .hero-logo { margin: 0 auto 30px auto !important; }
+        }
+
+        .hero-logo {
+          width: 300px; max-width: 80%;
+          margin-bottom: 30px;
+          filter: brightness(0) invert(1);
+          display: block;
+        }
+        
+        .glitch-logo {
+          animation: glitch 5s infinite;
         }
         
         /* Toast */
@@ -540,9 +552,6 @@ export default function Home() {
 
             <div className="gallery-filter">
               <button className="filter-btn active">ALL</button>
-              <button className="filter-btn">WEDDINGS</button>
-              <button className="filter-btn">PARTIES</button>
-              <button className="filter-btn">CORPO</button>
             </div>
 
             <div className="gallery-grid">
@@ -578,45 +587,50 @@ export default function Home() {
               <form onSubmit={(e) => {
                 e.preventDefault();
                 const nameEl = document.getElementById('userName') as HTMLInputElement;
-                const contactEl = document.getElementById('userContact') as HTMLInputElement;
-                if (nameEl && contactEl) {
-                  const msg = `Hola, soy ${nameEl.value}, contacto: ${contactEl.value}. Quiero iniciar un proyecto con DreamCrafters.`;
+                const modeEl = document.getElementById('userMode') as HTMLSelectElement;
+                if (nameEl && modeEl) {
+                  const msg = `Hola, soy ${nameEl.value}. Me interesa: ${modeEl.value}.`;
                   window.open(`https://wa.me/529845828658?text=${encodeURIComponent(msg)}`, '_blank');
                 }
               }}>
                 <input id="userName" type="text" className="form-input" placeholder="> Nombre_Usuario" required />
-                <input id="userContact" type="text" className="form-input" placeholder="> Contacto (Email/Cel)" required />
-                <select className="form-input" style={{ color: '#aaa' }}>
-                  <option>&gt; Seleccionar_Modo...</option>
-                  <option>Boda</option>
-                  <option>Fiesta_Retro</option>
-                  <option>Evento_Privado</option>
+                <select id="userMode" className="form-input" style={{ color: '#aaa' }}>
+                  <option value="">&gt; Seleccionar_Modo...</option>
+                  <option value="Invitación Minecraft">Invitación Minecraft</option>
+                  <option value="Cotizar diseño personalizado">Cotizar diseño personalizado</option>
                 </select>
                 <button type="submit" className="btn btn-primary" style={{ width: '100%', fontSize: '18px' }}>
                   [ EJECUTAR ]
                 </button>
               </form>
-            </div>
-          </div>
-        </section>
-
-        {/* Footer */}
-        <footer>
-          <div className="container">
-            <b style={{ fontFamily: "'Orbitron', sans-serif", color: 'white', fontSize: '24px' }}>DREAMCRAFTERS</b>
-            <div style={{ marginTop: '10px' }}>© <span id="year"></span> SYSTEM_VER_2.0</div>
-            <div style={{ marginTop: '20px', fontSize: '16px' }}>
-              <a href="https://www.facebook.com/dreamcrafters.ia/" target="_blank" rel="noopener noreferrer" style={{ margin: '0 10px' }}>[ FACEBOOK ]</a>
-              <a href="https://www.tiktok.com/@dreamcrafters_mx" target="_blank" rel="noopener noreferrer" style={{ margin: '0 10px' }}>[ TIKTOK ]</a>
-            </div>
-          </div>
-        </footer>
-
-      </main>
-
-      <div id="toast" className="toast">
-        &gt; MENSAJE TRANSMITIDO CON ÉXITO_
+              <option>Fiesta_Retro</option>
+              <option>Evento_Privado</option>
+            </select>
+            <button type="submit" className="btn btn-primary" style={{ width: '100%', fontSize: '18px' }}>
+              [ EJECUTAR ]
+            </button>
+          </form>
+        </div>
       </div>
+    </section >
+
+      {/* Footer */ }
+      < footer >
+      <div className="container">
+        <b style={{ fontFamily: "'Orbitron', sans-serif", color: 'white', fontSize: '24px' }}>DREAMCRAFTERS</b>
+        <div style={{ marginTop: '10px' }}>© <span id="year"></span> SYSTEM_VER_2.0</div>
+        <div style={{ marginTop: '20px', fontSize: '16px' }}>
+          <a href="https://www.facebook.com/dreamcrafters.ia/" target="_blank" rel="noopener noreferrer" style={{ margin: '0 10px' }}>[ FACEBOOK ]</a>
+          <a href="https://www.tiktok.com/@dreamcrafters_mx" target="_blank" rel="noopener noreferrer" style={{ margin: '0 10px' }}>[ TIKTOK ]</a>
+        </div>
+      </div>
+        </footer >
+
+      </main >
+
+    <div id="toast" className="toast">
+      &gt; MENSAJE TRANSMITIDO CON ÉXITO_
+    </div>
     </>
   );
 }
