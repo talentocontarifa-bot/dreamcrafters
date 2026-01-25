@@ -164,7 +164,7 @@ export default function WeddingInvitation() {
                         <div className="w-full flex justify-center items-center gap-4 py-6">
                             <div className="h-[1px] flex-1 bg-primary/30"></div>
                             <p className="text-sm font-serif italic tracking-widest text-accent uppercase">Septiembre 14, 2024</p>
-                            <div class="h-[1px] flex-1 bg-primary/30"></div>
+                            <div className="h-[1px] flex-1 bg-primary/30"></div>
                         </div>
 
                         <p className="text-xl font-body italic opacity-80 leading-relaxed max-w-[300px] mx-auto text-accent/90">
