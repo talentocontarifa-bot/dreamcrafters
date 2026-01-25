@@ -393,7 +393,7 @@ export default function Home() {
         <div className="container nav-wrap">
           <div className="logo">
             <img src="/landing/d-icon.svg" alt="DreamCrafters Icon" style={{ height: '40px', filter: 'brightness(0) invert(1)' }} />
-            <img src="/landing/logo-white.svg" alt="DreamCrafters Logo" style={{ height: '20px', marginLeft: '15px', filter: 'brightness(0) invert(1)' }} />
+
           </div>
           <nav className="nav-links">
             <a href="#services">Servicios</a>
@@ -409,7 +409,11 @@ export default function Home() {
         <section className="hero">
           <div className="container hero-grid">
             <div className="hero-content">
-              <div style={{ marginBottom: '15px', color: 'var(--neon-yellow)' }}>SYSTEM STATUS: ONLINE</div>
+              <img
+                src="/landing/logo-white.svg"
+                alt="DreamCrafters"
+                style={{ width: '300px', maxWidth: '80%', marginBottom: '30px', filter: 'brightness(0) invert(1)' }}
+              />
               <h1 className="glitch-text" style={{ fontWeight: 900 }}>Tus Eventos <br /><span className="text-cyan">Suben de Nivel</span></h1>
               <p>
                 &gt; Inicializando protocolo de fiesta...<br />
@@ -478,20 +482,52 @@ export default function Home() {
             </div>
 
             <div className="feature-grid">
-              <div className="cyber-panel feature-card">
-                <div className="icon-box">🎨</div>
-                <h3>Diseño Custom</h3>
-                <p>Skins únicos para tu evento. Pixel art, Neón o Minimalista. Tú eliges el estilo gráfico.</p>
+              <div className="cyber-panel feature-card" style={{ display: 'flex', alignItems: 'center', gap: '15px', textAlign: 'left' }}>
+                <div style={{ fontSize: '30px' }}>⏳</div>
+                <div>
+                  <h3 style={{ fontSize: '20px', marginBottom: '5px', color: 'var(--neon-yellow)' }}>Countdown</h3>
+                  <p style={{ fontSize: '16px', margin: 0 }}>Cuenta regresiva al segundo.</p>
+                </div>
               </div>
-              <div className="cyber-panel feature-card">
-                <div className="icon-box">📡</div>
-                <h3>Data Link (RSVP)</h3>
-                <p>Confirmaciones instantáneas sincronizadas con tu base de datos. Cero lag, 100% velocidad.</p>
+
+              <div className="cyber-panel feature-card" style={{ display: 'flex', alignItems: 'center', gap: '15px', textAlign: 'left' }}>
+                <div style={{ fontSize: '30px' }}>📍</div>
+                <div>
+                  <h3 style={{ fontSize: '20px', marginBottom: '5px', color: 'var(--neon-yellow)' }}>Ubicación GPS</h3>
+                  <p style={{ fontSize: '16px', margin: 0 }}>Google Maps & Waze directo.</p>
+                </div>
               </div>
-              <div className="cyber-panel feature-card">
-                <div className="icon-box">📍</div>
-                <h3>Geo-Location</h3>
-                <p>Coordenadas precisas para Google Maps. Ningún invitado se perderá en el ciberespacio.</p>
+
+              <div className="cyber-panel feature-card" style={{ display: 'flex', alignItems: 'center', gap: '15px', textAlign: 'left' }}>
+                <div style={{ fontSize: '30px' }}>💬</div>
+                <div>
+                  <h3 style={{ fontSize: '20px', marginBottom: '5px', color: 'var(--neon-yellow)' }}>WhatsApp RSVP</h3>
+                  <p style={{ fontSize: '16px', margin: 0 }}>Confirmación en un click.</p>
+                </div>
+              </div>
+
+              <div className="cyber-panel feature-card" style={{ display: 'flex', alignItems: 'center', gap: '15px', textAlign: 'left' }}>
+                <div style={{ fontSize: '30px' }}>📅</div>
+                <div>
+                  <h3 style={{ fontSize: '20px', marginBottom: '5px', color: 'var(--neon-yellow)' }}>Agendar</h3>
+                  <p style={{ fontSize: '16px', margin: 0 }}>“Add to Calendar” automático.</p>
+                </div>
+              </div>
+
+              <div className="cyber-panel feature-card" style={{ display: 'flex', alignItems: 'center', gap: '15px', textAlign: 'left' }}>
+                <div style={{ fontSize: '30px' }}>✉️</div>
+                <div>
+                  <h3 style={{ fontSize: '20px', marginBottom: '5px', color: 'var(--neon-yellow)' }}>Mensajes</h3>
+                  <p style={{ fontSize: '16px', margin: 0 }}>Libro de firmas digital.</p>
+                </div>
+              </div>
+
+              <div className="cyber-panel feature-card" style={{ display: 'flex', alignItems: 'center', gap: '15px', textAlign: 'left' }}>
+                <div style={{ fontSize: '30px' }}>✨</div>
+                <div>
+                  <h3 style={{ fontSize: '20px', marginBottom: '5px', color: 'var(--neon-yellow)' }}>Y Mucho Más</h3>
+                  <p style={{ fontSize: '16px', margin: 0 }}>Spotify, Dresscode, Hoteles...</p>
+                </div>
               </div>
             </div>
           </div>
