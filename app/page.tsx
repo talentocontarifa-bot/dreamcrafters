@@ -1,630 +1,344 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export default function Home() {
+// --- COMPONENTS ---
 
-  // Script para el Toast y Glitch
-  const showToast = () => {
-    const t = document.getElementById('toast');
-    if (t) {
-      t.style.display = 'block';
-      setTimeout(() => {
-        t.style.display = 'none';
-      }, 3000);
-    }
-  };
+const Sparks = () => {
+  const [particles, setParticles] = useState<any[]>([]);
 
   useEffect(() => {
-    // Año dinámico en footer
-    const yearSpan = document.getElementById('year');
-    if (yearSpan) yearSpan.textContent = new Date().getFullYear().toString();
-
-    // Glitch effect random para galería
-    const images = document.querySelectorAll<HTMLImageElement>('.gallery-img');
-    const interval = setInterval(() => {
-      const randomImg = images[Math.floor(Math.random() * images.length)];
-      if (randomImg) {
-        randomImg.style.filter = 'hue-rotate(90deg) contrast(1.5)';
-        setTimeout(() => {
-          randomImg.style.filter = ''; // Reset
-        }, 200);
-      }
-    }, 2000);
-
-    return () => clearInterval(interval);
+    const newParticles = Array.from({ length: 40 }).map((_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 120}%`,
+      animationDuration: `${Math.random() * 5 + 5}s`,
+      animationDelay: `${Math.random() * 2}s`,
+      opacity: Math.random() * 0.7 + 0.1,
+      size: Math.random() * 3 + 1,
+    }));
+    setParticles(newParticles);
   }, []);
 
   return (
-    <>
-      {/* Styles Injected Locally to match the raw HTML request */}
-      <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=VT323&display=swap');
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className="absolute bg-white rounded-full animate-float-up"
+          style={{
+            left: p.left,
+            top: p.top,
+            width: `${p.size}px`,
+            height: `${p.size}px`,
+            opacity: p.opacity,
+            animation: `floatUp ${p.animationDuration} linear infinite`,
+            animationDelay: p.animationDelay,
+            boxShadow: `0 0 ${p.size * 2}px white`,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
 
-        :root{
-          --bg: #050510;
-          --text: #e0e0e0;
-          --neon-pink: #ff00ff;
-          --neon-cyan: #00ffff;
-          --neon-yellow: #ffff00;
-          --grid-color: rgba(255, 0, 255, 0.2);
-          
-          --glass-bg: rgba(10, 10, 20, 0.7);
-          --border-glow: 0 0 10px rgba(0, 255, 255, 0.5);
-          
-          --max-w: 1200px;
-        }
+const GridFloor = () => {
+  return (
+    <div className="absolute inset-0 z-0 flex items-end justify-center overflow-hidden opacity-40 pointer-events-none">
+      <div className="w-[200vw] h-[50vh] bg-transparent border-t border-fuchsia-500/30 relative perspective-grid">
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_0%,#000000_100%)] z-10"></div>
+      </div>
+    </div>
+  );
+};
 
-        /* Base Reset */
-        * { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-          margin: 0;
-          font-family: 'VT323', monospace; /* Retro styling */
-          font-size: 20px;
-          color: var(--text);
-          background-color: var(--bg);
-          overflow-x: hidden;
-          line-height: 1.4;
-        }
+const HoloRings = () => {
+  return (
+    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] -z-10 pointer-events-none opacity-60">
+      <div className="absolute inset-0 border border-dashed border-cyan-400/50 rounded-full animate-spin-slow"></div>
+      <div className="absolute inset-4 border border-fuchsia-500/40 rounded-full animate-spin-reverse-slower"></div>
+    </div>
+  );
+};
 
-        /* Retro Grid Background */
-        .retro-grid {
-          position: fixed;
-          top: 0; left: 0; width: 100vw; height: 100vh;
-          z-index: -1;
-          background: 
-            linear-gradient(transparent 65%, rgba(0,0,0,1) 95%), /* Fade out horizon */
-            linear-gradient(rgba(255, 0, 255, 0.3) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 0, 255, 0.3) 1px, transparent 1px);
-          background-size: 100% 100%, 40px 40px, 40px 40px;
-          background-position: center bottom;
-          transform: perspective(500px) rotateX(60deg) translateY(-100px) scale(3);
-          animation: gridMove 4s linear infinite;
-          opacity: 0.4;
-          pointer-events: none;
-        }
-        
-        .scanline {
-          position: fixed; top:0; left:0; width:100%; height:100%;
-          background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
-          background-size: 100% 4px;
-          z-index: 999;
-          pointer-events: none;
-          opacity: 0.3;
-        }
+const GlitchLogo = () => (
+  <div className="relative group w-full max-w-md mx-auto">
+    <img
+      src="/landing/logo-white.svg"
+      alt="DreamCrafters"
+      className="relative z-10 w-full h-auto filter brightness-0 invert drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+    />
+    <img
+      src="/landing/logo-white.svg"
+      alt="Glitch Layer 1"
+      className="absolute top-0 left-0 -z-10 w-full h-auto filter brightness-0 invert opacity-50 animate-glitch-1 mix-blend-screen"
+    />
+    <img
+      src="/landing/logo-white.svg"
+      alt="Glitch Layer 2"
+      className="absolute top-0 left-0 -z-10 w-full h-auto filter brightness-0 invert opacity-50 animate-glitch-2 mix-blend-screen"
+    />
+  </div>
+);
 
-        @keyframes gridMove {
-          0% { background-position: center 0, 0 0, 0 0; }
-          100% { background-position: center 0, 0 40px, 0 40px; }
-        }
+// --- MAIN PAGE ---
 
-        h1, h2, h3, h4 {
-          margin: 0;
-          font-family: 'Orbitron', sans-serif;
-          text-transform: uppercase;
-          letter-spacing: 2px;
-        }
-        h1 { 
-          font-size: clamp(40px, 6vw, 70px); 
-          text-shadow: 2px 2px 0px var(--neon-pink), -2px -2px 0px var(--neon-cyan);
-          margin-bottom: 20px;
-        }
-        h2 { 
-          font-size: clamp(28px, 4vw, 40px); margin-bottom: 12px; 
-          color: var(--neon-yellow);
-          text-shadow: 0 0 10px var(--neon-yellow);
-        }
-        
-        a { text-decoration: none; color: inherit; transition: all 0.2s; }
-        img { max-width: 100%; display: block; }
-        
-        .container {
-          width: min(var(--max-w), calc(100% - 40px));
-          margin: 0 auto;
-        }
+export default function Home() {
+  return (
+    <div className="min-h-screen flex flex-col relative overflow-hidden text-white selection:bg-fuchsia-500 selection:text-white font-sans bg-black">
 
-        /* UI Components: Cyberpunk Style */
-        .btn {
-          display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-          padding: 12px 28px;
-          font-family: 'Orbitron', sans-serif;
-          font-weight: 700;
-          font-size: 14px;
-          cursor: pointer;
-          text-transform: uppercase;
-          transition: all 0.2s;
-          position: relative;
-          clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-        }
-        .btn-primary {
-          background: var(--neon-cyan);
-          color: #000;
-          border: none;
-          box-shadow: 0 0 15px var(--neon-cyan);
-        }
-        .btn-primary:hover {
-          background: white;
-          box-shadow: 0 0 25px white;
-          transform: translateY(-2px);
-        }
-        .btn-outline {
-          background: transparent;
-          border: 2px solid var(--neon-pink);
-          color: var(--neon-pink);
-          box-shadow: 0 0 10px var(--neon-pink);
-        }
-        .btn-outline:hover {
-          background: var(--neon-pink);
-          color: #000;
-        }
+      {/* 1. LAYER: Background Deep Space */}
+      <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_30%,_#1a0b2e_0%,_#000000_100%)] z-0"></div>
+      <div className="fixed inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 z-0 mix-blend-overlay"></div>
 
-        /* Cyber Panels */
-        .cyber-panel {
-          background: rgba(0, 0, 0, 0.6);
-          border: 1px solid var(--neon-cyan);
-          padding: 20px;
-          position: relative;
-          box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
-        }
-        /* Decorative corners */
-        .cyber-panel::before {
-          content: ''; position: absolute; top: -1px; left: -1px; width: 20px; height: 20px;
-          border-top: 2px solid var(--neon-cyan); border-left: 2px solid var(--neon-cyan);
-        }
-        .cyber-panel::after {
-          content: ''; position: absolute; bottom: -1px; right: -1px; width: 20px; height: 20px;
-          border-bottom: 2px solid var(--neon-cyan); border-right: 2px solid var(--neon-cyan);
-        }
+      {/* 2. LAYER: Effects */}
+      <GridFloor />
+      <Sparks />
 
-        /* Header */
-        header {
-          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-          padding: 20px 0;
-          background: rgba(5, 5, 16, 0.9);
-          border-bottom: 1px solid rgba(255, 0, 255, 0.3);
-          backdrop-filter: blur(5px);
-        }
-        .nav-wrap { display: flex; justify-content: space-between; align-items: center; }
-        
-        .logo {
-          font-family: 'Orbitron', sans-serif;
-          font-size: 24px;
-          font-weight: 900;
-          color: white;
-          text-transform: uppercase;
-          letter-spacing: 3px;
-          display: flex; align-items: center; gap: 10px;
-        }
-        .logo span { color: var(--neon-pink); }
-
-        .nav-links { display: flex; gap: 32px; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
-        .nav-links a:hover { color: var(--neon-cyan); text-shadow: 0 0 8px var(--neon-cyan); }
-
-        /* Hero */
-        .hero {
-          min-height: 100vh;
-          display: flex; align-items: center;
-          padding-top: 100px;
-          position: relative;
-        }
-        .hero-grid {
-          display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
-        }
-        
-        .glitch-text {
-          position: relative;
-        }
-        /* Simple glitch effect using text-shadow shift */
-        .glitch-text:hover {
-          animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
-        }
-        @keyframes glitch {
-          0% { transform: translate(0); }
-          20% { transform: translate(-2px, 2px); }
-          40% { transform: translate(-2px, -2px); }
-          60% { transform: translate(2px, 2px); }
-          80% { transform: translate(2px, -2px); }
-          100% { transform: translate(0); }
-        }
-
-        .hero-content p {
-          font-size: 22px; color: #b0b0b0; margin-bottom: 32px; max-width: 500px;
-          border-left: 3px solid var(--neon-yellow);
-          padding-left: 20px;
-        }
-
-        /* Hologram Card */
-        .holo-card-container {
-          perspective: 1000px;
-        }
-        .holo-card {
-          background: rgba(20, 20, 40, 0.6);
-          border: 2px solid var(--neon-pink);
-          border-radius: 20px;
-          padding: 20px;
-          transform: rotateY(-15deg) rotateX(10deg);
-          box-shadow: 0 0 30px rgba(255, 0, 255, 0.4), inset 0 0 20px rgba(255, 0, 255, 0.2);
-          transition: transform 0.5s;
-          position: relative;
-        }
-        .holo-card:hover {
-          transform: rotateY(0deg) rotateX(0deg) scale(1.02);
-        }
-        .holo-screen {
-          background: linear-gradient(180deg, #1a0525, #000);
-          border: 1px solid #333;
-          border-radius: 10px;
-          overflow: hidden;
-          aspect-ratio: 9/16;
-          position: relative;
-        }
-        .holo-content {
-          padding: 30px 20px;
-          text-align: center;
-          height: 100%;
-          display: flex; flex-direction: column; justify-content: space-between;
-          background-image: 
-            radial-gradient(circle at 50% 20%, rgba(255,0,255,0.2), transparent 50%),
-            linear-gradient(0deg, transparent 24%, rgba(0, 255, 255, .05) 25%, rgba(0, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, .05) 75%, rgba(0, 255, 255, .05) 76%, transparent 77%, transparent);
-          background-size: 100% 100%, 100% 30px;
-        }
-
-        /* Features Grid */
-        section { padding: 100px 0; }
-        .feature-grid {
-          display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 30px;
-          margin-top: 50px;
-        }
-        .feature-card {
-          transition: transform 0.3s;
-        }
-        .feature-card:hover {
-          transform: translateY(-10px);
-          box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
-          background: rgba(0, 20, 20, 0.8);
-        }
-        .icon-box {
-          font-size: 40px; margin-bottom: 20px;
-          text-shadow: 0 0 10px var(--neon-cyan);
-        }
-
-        /* Gallery */
-        .gallery-filter {
-          display: flex; gap: 15px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap;
-        }
-        .filter-btn {
-          padding: 10px 25px;
-          background: #000;
-          border: 1px solid #555;
-          color: #888;
-          cursor: pointer;
-          font-family: 'Orbitron', sans-serif;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          transition: all 0.3s;
-        }
-        .filter-btn.active, .filter-btn:hover {
-          border-color: var(--neon-yellow);
-          color: var(--neon-yellow);
-          box-shadow: 0 0 10px var(--neon-yellow);
-        }
-
-        .gallery-grid {
-          display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-          gap: 20px;
-        }
-        .gallery-item {
-          aspect-ratio: 1/1;
-          position: relative;
-          overflow: hidden;
-          border: 2px solid transparent;
-          transition: all 0.3s;
-        }
-        .gallery-item:hover {
-          border-color: var(--neon-pink);
-          box-shadow: 0 0 20px var(--neon-pink);
-        }
-        .gallery-img {
-          width: 100%; height: 100%; object-fit: cover;
-          filter: grayscale(100%) contrast(1.2);
-          transition: all 0.3s;
-        }
-        .gallery-item:hover .gallery-img {
-          filter: grayscale(0%) contrast(1.1);
-          transform: scale(1.1);
-        }
-
-        /* Contact Form */
-        .form-input {
-          width: 100%; padding: 18px; margin-bottom: 15px;
-          background: rgba(0,0,0,0.8);
-          border: 1px solid #333;
-          border-left: 4px solid var(--neon-cyan);
-          color: var(--neon-cyan);
-          font-family: 'VT323', monospace;
-          font-size: 22px;
-        }
-        .form-input:focus {
-          outline: none;
-          border-color: var(--neon-pink);
-          box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
-        }
-        ::placeholder { color: #555; }
-
-        /* Footer */
-        footer { 
-          border-top: 2px solid var(--neon-cyan); 
-          background: black;
-          padding: 40px 0; 
-          margin-top: 50px;
-          text-align: center;
-          color: #666;
-        }
-
-        /* Utilities */
-        .text-pink { color: var(--neon-pink); text-shadow: 0 0 5px var(--neon-pink); }
-        .text-cyan { color: var(--neon-cyan); text-shadow: 0 0 5px var(--neon-cyan); }
-        
-        @media (max-width: 900px) {
-          .hero-grid { grid-template-columns: 1fr; text-align: center; }
-          .hero-content p { margin: 0 auto 30px auto; border: none; }
-          .nav-links { display: none; }
-          .hero-logo { margin: 0 auto 30px auto !important; }
-        }
-
-        .hero-logo {
-          width: 300px; max-width: 80%;
-          margin-bottom: 30px;
-          filter: brightness(0) invert(1);
-          display: block;
-        }
-        
-        .glitch-logo {
-          animation: glitch 5s infinite;
-        }
-        
-        /* Toast */
-        .toast {
-          position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-          background: black; border: 2px solid var(--neon-yellow); color: var(--neon-yellow);
-          padding: 15px 30px; font-family: 'VT323', monospace; font-size: 24px;
-          box-shadow: 0 0 15px var(--neon-yellow);
-          display: none; z-index: 2000;
-        }
-      `}</style>
-
-      {/* Retro Moving Grid */}
-      <div className="retro-grid"></div>
-      {/* CRT Scanline Effect */}
-      <div className="scanline"></div>
-
-      <header>
-        <div className="container nav-wrap">
-          <div className="logo">
-            <img src="/landing/d-icon.svg" alt="DreamCrafters Icon" style={{ height: '40px', filter: 'brightness(0) invert(1)' }} />
-
+      {/* NAV: Glass Header */}
+      <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-black/20 border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="h-6 md:h-8 w-auto opacity-80 hover:opacity-100 transition-opacity cursor-pointer">
+            <img src="/landing/d-icon.svg" alt="Dreamcrafters Icon" className="h-full w-auto filter brightness-0 invert" />
           </div>
-          <nav className="nav-links">
-            <a href="#services">Servicios</a>
-            <a href="#gallery">Galería</a>
-            <a href="#contact">Start_Project</a>
-          </nav>
-          <a href="#contact" className="btn btn-primary">Crear_Invitación</a>
+          <a href="https://wa.me/529845828658" target="_blank" className="hidden md:block bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold py-2 px-6 rounded-full text-[10px] md:text-xs tracking-widest uppercase transition-all hover:scale-105">
+            Contacto
+          </a>
         </div>
-      </header>
+      </nav>
 
-      <main>
-        {/* Hero Section */}
-        <section className="hero">
-          <div className="container hero-grid">
-            <div className="hero-content">
-              <img
-                src="/landing/logo-white.svg"
-                alt="DreamCrafters"
-                style={{ width: '300px', maxWidth: '80%', marginBottom: '30px', filter: 'brightness(0) invert(1)', display: 'block', margin: '0 auto 30px auto' }}
-              />
-              <h1 className="glitch-text" style={{ fontWeight: 900 }}>Tus Eventos <br /><span className="text-cyan">Suben de Nivel</span></h1>
-              <p>
-                &gt; Inicializando protocolo de fiesta...<br />
-                Invitaciones digitales interactivas, mapas en tiempo real y confirmación instantánea. El futuro de tu evento empieza aquí.
-              </p>
-              <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
-                <a href="#contact" className="btn btn-primary">INSERT COIN TO START</a>
-                <a href="#services" className="btn btn-outline">TUTORIAL</a>
+      {/* MAIN CONTENT */}
+      <main className="relative z-10 flex flex-col items-center w-full pt-32 pb-20">
+
+        {/* HERO SECTION */}
+        <section className="w-full max-w-6xl px-4 flex flex-col items-center text-center mb-32">
+
+          {/* Robot Floating */}
+          <div className="relative w-[280px] md:w-[350px] aspect-square flex items-center justify-center animate-float-slow mb-6">
+            <HoloRings />
+            <div className="absolute w-[60%] h-[60%] bg-fuchsia-600/20 rounded-full blur-[80px] -z-10 animate-pulse"></div>
+            <img src="/landing/hero-robot.webp" alt="Dreamcrafters Robot" className="w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] object-contain" />
+          </div>
+
+          {/* Headline */}
+          <div className="relative mb-8 w-full">
+            <GlitchLogo />
+          </div>
+
+          <h2 className="text-lg md:text-2xl font-light text-cyan-100/70 tracking-wide max-w-2xl mb-10 leading-relaxed px-4">
+            Transformamos tu evento en una <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-400 font-bold">experiencia inmersiva</span>.
+            <br className="hidden md:block" /> No es solo una invitación, es el inicio de la magia.
+          </h2>
+
+          {/* Main CTAs */}
+          <div className="flex flex-col md:flex-row gap-8 items-center">
+            <a
+              href="https://wa.me/529845828658"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative inline-flex items-center justify-center overflow-hidden rounded-full py-4 px-12 transition-all hover:scale-105 duration-300 shadow-[0_0_30px_rgba(124,58,237,0.3)] hover:shadow-[0_0_50px_rgba(124,58,237,0.5)]"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-90 group-hover:opacity-100 transition-opacity"></div>
+              <span className="relative font-bold text-lg tracking-[0.2em] uppercase text-white">
+                Cotiza tu Proyecto
+              </span>
+            </a>
+
+            <Link href="/kermesse_cumbres" className="text-xs text-white/50 hover:text-white uppercase tracking-widest border-b border-white/20 hover:border-white transition-all pb-1">
+              Ver Demo en Vivo
+            </Link>
+          </div>
+        </section>
+
+
+        {/* WHY US SECTION (Features) */}
+        <section className="w-full max-w-7xl px-4 mb-32">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Feature 1 */}
+            <div className="bg-white/5 backdrop-blur-sm border border-white/5 p-8 rounded-3xl hover:bg-white/10 transition-colors group">
+              <div className="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center mb-6 text-cyan-400 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(34,211,238,0.1)]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path><path d="M8.5 8.5v.01"></path><path d="M16 8.5v.01"></path><path d="M12 12.5v.01"></path><path d="M8.5 16.5v.01"></path><path d="M16 16.5v.01"></path></svg>
               </div>
+              <h3 className="text-xl font-bold text-white mb-3">100% Personalizado</h3>
+              <p className="text-white/50 text-sm leading-relaxed">Olvídate de las plantillas. Diseñamos cada pixel para tu temática, desde mundos de Minecraft hasta Galas Elegantes.</p>
             </div>
 
-            <div className="hero-visual holo-card-container" style={{ position: 'relative' }}>
-              {/* ROBOT HERO (Al Frente) */}
-              <div style={{
-                position: 'absolute',
-                top: '-40px',
-                left: '-20px',
-                width: '110%',
-                zIndex: 50,
-                pointerEvents: 'none',
-                filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.5))'
-              }}>
-                <img
-                  src="/landing/hero-robot.webp"
-                  alt="DreamCrafters Robot"
-                  style={{ width: '100%', height: 'auto', display: 'block' }}
-                />
+            {/* Feature 2 */}
+            <div className="bg-white/5 backdrop-blur-sm border border-white/5 p-8 rounded-3xl hover:bg-white/10 transition-colors group">
+              <div className="w-12 h-12 bg-fuchsia-500/10 rounded-xl flex items-center justify-center mb-6 text-fuchsia-400 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(232,121,249,0.1)]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
               </div>
+              <h3 className="text-xl font-bold text-white mb-3">Interactividad Total</h3>
+              <p className="text-white/50 text-sm leading-relaxed">Tus invitados no solo leen, interactúan. Mapas GPS, cuentas regresivas y música de fondo sincronizada.</p>
+            </div>
 
-              <div className="holo-card">
-                <div className="holo-screen">
-                  <div className="holo-content">
-                    <div style={{ borderBottom: '2px dashed var(--neon-cyan)', paddingBottom: '10px' }}>
-                      <small style={{ color: 'var(--neon-pink)' }}>NEW_EVENT DETECTED</small>
-                      <h2 style={{ fontSize: '32px', margin: '10px 0' }}>ISABELLA & MATEO</h2>
-                      <div style={{ fontSize: '18px', color: 'var(--neon-cyan)' }}>&gt;&gt; TULUM_BEACH_CLUB &lt;&lt;</div>
-                    </div>
-
-                    <div style={{ fontSize: '60px', lineHeight: 1 }}>👾</div>
-
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                      <div style={{ border: '1px solid #333', padding: '5px', fontSize: '16px' }}>
-                        DATE<br /><span style={{ color: 'white' }}>OCT 14</span>
-                      </div>
-                      <div style={{ border: '1px solid #333', padding: '5px', fontSize: '16px' }}>
-                        TIME<br /><span style={{ color: 'white' }}>18:00</span>
-                      </div>
-                    </div>
-
-                    <div style={{ background: 'var(--neon-pink)', color: 'black', padding: '10px', fontWeight: 'bold', marginTop: '15px', cursor: 'pointer' }}>
-                      [ PRESS TO RSVP ]
-                    </div>
-                  </div>
-                </div>
+            {/* Feature 3 */}
+            <div className="bg-white/5 backdrop-blur-sm border border-white/5 p-8 rounded-3xl hover:bg-white/10 transition-colors group">
+              <div className="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center mb-6 text-green-400 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(74,222,128,0.1)]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
               </div>
+              <h3 className="text-xl font-bold text-white mb-3">RSVP Inteligente</h3>
+              <p className="text-white/50 text-sm leading-relaxed">Gestiona tu lista sin estrés. Las confirmaciones llegan directo a tu WhatsApp con todos los detalles ordenados.</p>
             </div>
           </div>
         </section>
 
-        {/* Services */}
-        <section id="services">
-          <div className="container">
-            <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-              <h2 className="text-pink">Módulos de Sistema</h2>
-              <p>Potenciadores instalados para asegurar el éxito de la misión.</p>
-            </div>
+        {/* PROJECTS SHOWCASE */}
+        <section className="w-full max-w-6xl px-4 flex flex-col items-center mb-32">
+          <h2 className="text-xs md:text-sm font-bold text-indigo-400 tracking-[0.4em] uppercase mb-16 flex items-center gap-4 animate-pulse">
+            <span className="w-8 md:w-16 h-[1px] bg-indigo-500/50"></span>
+            Nuestras Creaciones
+            <span className="w-8 md:w-16 h-[1px] bg-indigo-500/50"></span>
+          </h2>
 
-            <div className="feature-grid">
-              <div className="cyber-panel feature-card" style={{ display: 'flex', alignItems: 'center', gap: '15px', textAlign: 'left' }}>
-                <div style={{ fontSize: '30px' }}>⏳</div>
-                <div>
-                  <h3 style={{ fontSize: '20px', marginBottom: '5px', color: 'var(--neon-yellow)' }}>Countdown</h3>
-                  <p style={{ fontSize: '16px', margin: 0 }}>Cuenta regresiva al segundo.</p>
-                </div>
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
+
+            {/* PROJECT 1: KERMESSE */}
+            <Link href="/kermesse_cumbres" className="group relative h-[350px] md:h-[450px] rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-cyan-500/20">
+              {/* Background Image */}
+              <div className="absolute inset-0 bg-black">
+                <img src="/kermesse_cumbres/coco_v2.webp" alt="Kermesse" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 group-hover:scale-110 transition-all duration-700" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
               </div>
 
-              <div className="cyber-panel feature-card" style={{ display: 'flex', alignItems: 'center', gap: '15px', textAlign: 'left' }}>
-                <div style={{ fontSize: '30px' }}>📍</div>
-                <div>
-                  <h3 style={{ fontSize: '20px', marginBottom: '5px', color: 'var(--neon-yellow)' }}>Ubicación GPS</h3>
-                  <p style={{ fontSize: '16px', margin: 0 }}>Google Maps & Waze directo.</p>
+              {/* Content */}
+              <div className="absolute bottom-0 left-0 p-8 md:p-10 w-full">
+                <div className="inline-block px-3 py-1 mb-4 rounded-full bg-cyan-500/20 border border-cyan-500/30 backdrop-blur-md">
+                  <span className="text-cyan-300 text-[10px] font-bold uppercase tracking-wider">Web App Escolar</span>
                 </div>
+                <h3 className="text-3xl md:text-4xl font-black text-white mb-2 uppercase italic tracking-wider">Kermesse Cumbres</h3>
+                <p className="text-gray-400 text-sm leading-relaxed line-clamp-2 mb-6 group-hover:text-gray-200 transition-colors">
+                  Una experiencia masiva con mapa interactivo, cronómetro en tiempo real y cartelera de actividades animada.
+                </p>
+                <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-widest group-hover:translate-x-2 transition-transform">
+                  Explorar <span className="text-lg">→</span>
+                </div>
+              </div>
+            </Link>
+
+            {/* PROJECT 2: MINECRAFT */}
+            <Link href="/invitacionminecraft/ian-level8" className="group relative h-[350px] md:h-[450px] rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-green-500/20">
+              {/* Background Image */}
+              <div className="absolute inset-0 bg-[#0a1a0a]">
+                <div className="absolute right-0 bottom-0 w-[80%] h-[80%] opacity-80 group-hover:scale-110 group-hover:rotate-3 transition-all duration-700">
+                  <img src="/sprites/creeper-3d.png" alt="Minecraft" className="w-full h-full object-contain object-bottom-right" />
+                </div>
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,_rgba(0,0,0,0)_0%,_#000000_100%)]"></div>
               </div>
 
-              <div className="cyber-panel feature-card" style={{ display: 'flex', alignItems: 'center', gap: '15px', textAlign: 'left' }}>
-                <div style={{ fontSize: '30px' }}>💬</div>
-                <div>
-                  <h3 style={{ fontSize: '20px', marginBottom: '5px', color: 'var(--neon-yellow)' }}>WhatsApp RSVP</h3>
-                  <p style={{ fontSize: '16px', margin: 0 }}>Confirmación en un click.</p>
+              {/* Content */}
+              <div className="absolute bottom-0 left-0 p-8 md:p-10 w-full">
+                <div className="inline-block px-3 py-1 mb-4 rounded-full bg-green-500/20 border border-green-500/30 backdrop-blur-md">
+                  <span className="text-green-300 text-[10px] font-bold uppercase tracking-wider">Invitación Gamer</span>
+                </div>
+                <h3 className="text-3xl md:text-4xl font-black text-white mb-2 uppercase italic tracking-wider">Ian Level 8</h3>
+                <p className="text-gray-400 text-sm leading-relaxed line-clamp-2 mb-6 group-hover:text-gray-200 transition-colors">
+                  Mundo 3D inmersivo estilo Minecraft. Los invitados exploran el bioma para encontrar los detalles de la fiesta.
+                </p>
+                <div className="flex items-center gap-2 text-green-400 text-xs font-bold uppercase tracking-widest group-hover:translate-x-2 transition-transform">
+                  Jugar Demo <span className="text-lg">→</span>
                 </div>
               </div>
+            </Link>
 
-              <div className="cyber-panel feature-card" style={{ display: 'flex', alignItems: 'center', gap: '15px', textAlign: 'left' }}>
-                <div style={{ fontSize: '30px' }}>📅</div>
-                <div>
-                  <h3 style={{ fontSize: '20px', marginBottom: '5px', color: 'var(--neon-yellow)' }}>Agendar</h3>
-                  <p style={{ fontSize: '16px', margin: 0 }}>“Add to Calendar” automático.</p>
-                </div>
-              </div>
-
-              <div className="cyber-panel feature-card" style={{ display: 'flex', alignItems: 'center', gap: '15px', textAlign: 'left' }}>
-                <div style={{ fontSize: '30px' }}>✉️</div>
-                <div>
-                  <h3 style={{ fontSize: '20px', marginBottom: '5px', color: 'var(--neon-yellow)' }}>Mensajes</h3>
-                  <p style={{ fontSize: '16px', margin: 0 }}>Libro de firmas digital.</p>
-                </div>
-              </div>
-
-              <div className="cyber-panel feature-card" style={{ display: 'flex', alignItems: 'center', gap: '15px', textAlign: 'left' }}>
-                <div style={{ fontSize: '30px' }}>✨</div>
-                <div>
-                  <h3 style={{ fontSize: '20px', marginBottom: '5px', color: 'var(--neon-yellow)' }}>Y Mucho Más</h3>
-                  <p style={{ fontSize: '16px', margin: 0 }}>Spotify, Dresscode, Hoteles...</p>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
 
-        {/* Gallery */}
-        <section id="gallery">
-          <div className="container">
-            <h2 style={{ textAlign: 'center', marginBottom: '30px' }}>Archivo de Misiones</h2>
 
-            <div className="gallery-filter">
-              <button className="filter-btn active">ALL</button>
-            </div>
-
-            <div className="gallery-grid">
-              {/* Minecraft Invitation */}
-              <a
-                href="https://www.dreamcrafters.lat/invitacionminecraft/ian-level8"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="gallery-item"
-                style={{ display: 'block' }}
-              >
-                <img
-                  src="https://www.dreamcrafters.lat/sprites/title-fiesta.webp"
-                  alt="Minecraft Party Invitation"
-                  className="gallery-img"
-                  style={{ objectFit: 'contain', background: 'rgba(0,0,0,0.5)' }}
-                />
-                <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', padding: '10px', background: 'rgba(0,0,0,0.8)', color: 'white', textAlign: 'center', fontSize: '14px' }}>
-                  IAN LEVEL 8 - VER DEMO
-                </div>
-              </a>
-            </div>
+        {/* FOOTER */}
+        <footer className="w-full text-center border-t border-white/5 pt-16 pb-8">
+          <div className="flex flex-col items-center gap-6 mb-8">
+            <img src="/landing/logo-white.svg" alt="Dreamcrafters" className="h-6 w-auto filter brightness-0 invert opacity-30" />
+            <p className="text-white/30 text-xs md:text-sm max-w-sm leading-relaxed">
+              Diseñamos el futuro de las celebraciones. <br />CDMX · Cancún · Monterrey
+            </p>
           </div>
-        </section>
 
-        {/* Contact CTA */}
-        <section id="contact">
-          <div className="container" style={{ maxWidth: '800px' }}>
-            <div className="cyber-panel" style={{ textAlign: 'center', padding: '60px' }}>
-              <h2 className="text-cyan">¿Listo para Iniciar?</h2>
-              <p style={{ marginBottom: '30px' }}>Ingresa tus datos para generar el código de tu invitación.</p>
-
-              <form onSubmit={(e) => {
-                e.preventDefault();
-                const nameEl = document.getElementById('userName') as HTMLInputElement;
-                const modeEl = document.getElementById('userMode') as HTMLSelectElement;
-                if (nameEl && modeEl) {
-                  const msg = `Hola, soy ${nameEl.value}. Me interesa: ${modeEl.value}.`;
-                  window.open(`https://wa.me/529845828658?text=${encodeURIComponent(msg)}`, '_blank');
-                }
-              }}>
-                <input id="userName" type="text" className="form-input" placeholder="> Nombre_Usuario" required />
-                <select id="userMode" className="form-input" style={{ color: '#aaa' }}>
-                  <option value="">&gt; Seleccionar_Modo...</option>
-                  <option value="Invitación Minecraft">Invitación Minecraft</option>
-                  <option value="Cotizar diseño personalizado">Cotizar diseño personalizado</option>
-                </select>
-                <button type="submit" className="btn btn-primary" style={{ width: '100%', fontSize: '18px' }}>
-                  [ EJECUTAR ]
-                </button>
-              </form>
-
-            </div>
+          {/* Socials */}
+          <div className="flex gap-8 justify-center mb-12 opacity-40">
+            <a href="https://wa.me/529845828658" className="text-white hover:text-white transition-colors hover:scale-110"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 5.242c-.121-.202-1.201-1.484-1.201-1.484-.337-.33-.507-.379-.657-.054-.161.348-.593 1.144-.725 1.255-.132.11-.264.135-.502.046-.7-.26-2.227-1.439-2.919-2.2-.569-.624-.316-.503-.453-.787-.046-.094.02-.191.077-.282.049-.079.135-.165.192-.262.131-.22.062-.439-.029-.624-.092-.186-.71-1.666-1.025-2.028-.215-.248-.386-.182-.507-.186-.109-.003-.228-.003-.357-.003s-.421.115-.623.332c-.201.218-.755.733-.755 1.789s.781 2.074.887 2.22c.106.145 1.536 2.341 3.718 3.284.519.224.925.358 1.24.457.518.163 1.019.204 1.409.117.439-.098 1.343-.548 1.531-1.078.188-.529.188-.985.133-1.078-.056-.094-.206-.151-.43-.263z" /></svg></a>
+            <a href="https://www.facebook.com/dreamcrafters.ia/" className="text-white hover:text-white transition-colors hover:scale-110"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" /></svg></a>
           </div>
-        </section>
 
-        {/* Footer */}
-        <footer>
-          <div className="container">
-            <b style={{ fontFamily: "'Orbitron', sans-serif", color: 'white', fontSize: '24px' }}>DREAMCRAFTERS</b>
-            <div style={{ marginTop: '10px' }}>© <span id="year"></span> SYSTEM_VER_2.0</div>
-            <div style={{ marginTop: '20px', fontSize: '16px' }}>
-              <a href="https://www.facebook.com/dreamcrafters.ia/" target="_blank" rel="noopener noreferrer" style={{ margin: '0 10px' }}>[ FACEBOOK ]</a>
-              <a href="https://www.tiktok.com/@dreamcrafters_mx" target="_blank" rel="noopener noreferrer" style={{ margin: '0 10px' }}>[ TIKTOK ]</a>
-            </div>
+          <div className="text-[10px] text-white/20 uppercase tracking-[0.3em]">
+            © 2026 DreamCrafters Inc.
           </div>
         </footer>
 
       </main>
 
-      <div id="toast" className="toast">
-        &gt; MENSAJE TRANSMITIDO CON ÉXITO_
-      </div>
-    </>
+      {/* Global & Animation Styles */}
+      <style jsx global>{`
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); transform: translate(-10px, 5px) skew(5deg); }
+            20% { clip-path: inset(60% 0 10% 0); transform: translate(10px, -5px) skew(-5deg); }
+            40% { clip-path: inset(40% 0 50% 0); transform: translate(-10px, 10px) skew(10deg); }
+            60% { clip-path: inset(80% 0 5% 0); transform: translate(10px, -10px) skew(-10deg); }
+            80% { clip-path: inset(10% 0 70% 0); transform: translate(-5px, 5px) skew(5deg); }
+            100% { clip-path: inset(30% 0 50% 0); transform: translate(5px, -5px) skew(-5deg); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(10% 0 60% 0); transform: translate(10px, -5px) skew(-5deg); }
+            20% { clip-path: inset(80% 0 5% 0); transform: translate(-10px, 10px) skew(5deg); }
+            40% { clip-path: inset(30% 0 20% 0); transform: translate(10px, 5px) skew(-10deg); }
+            60% { clip-path: inset(10% 0 80% 0); transform: translate(-5px, -10px) skew(10deg); }
+            80% { clip-path: inset(50% 0 30% 0); transform: translate(5px, 10px) skew(-5deg); }
+            100% { clip-path: inset(20% 0 70% 0); transform: translate(-10px, 5px) skew(5deg); }
+        }
+        
+        @keyframes flicker {
+            0%, 90% { opacity: 0; }
+            91%, 92% { opacity: 1; transform: scale(1.02); }
+            93%, 94% { opacity: 0; }
+            95%, 100% { opacity: 1; transform: scale(1.05) translateX(5px); }
+        }
+
+        .animate-glitch-1, .animate-glitch-2 {
+            animation: glitch-anim-1 2.5s infinite linear alternate-reverse;
+        }
+         .animate-glitch-2 {
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+          @keyframes floatUp {
+              0% { transform: translateY(110vh) translateX(0); opacity: 0; }
+              10% { opacity: 1; }
+              90% { opacity: 1; }
+              100% { transform: translateY(-20px) translateX(20px); opacity: 0; }
+          }
+          .animate-float-up {
+              will-change: transform, opacity;
+          }
+  
+          @keyframes subtleFloat {
+              0%, 100% { transform: translateY(0); }
+              50% { transform: translateY(-15px); }
+          }
+          .animate-float-slow {
+              animation: subtleFloat 6s ease-in-out infinite;
+          }
+  
+          @keyframes spin { 100% { transform: rotate(360deg); } }
+          @keyframes spinReverse { 100% { transform: rotate(-360deg); } }
+          
+          .animate-spin-slow { animation: spin 10s linear infinite; }
+          .animate-spin-reverse-slower { animation: spinReverse 15s linear infinite; }
+          .animate-pulse-slow { animation: pulse 4s ease-in-out infinite; }
+  
+          .perspective-grid {
+              transform: perspective(500px) rotateX(60deg);
+              background-image: linear-gradient(to right, rgba(213, 0, 249, 0.2) 1px, transparent 1px),
+                                linear-gradient(to bottom, rgba(213, 0, 249, 0.2) 1px, transparent 1px);
+              background-size: 40px 40px;
+              animation: gridMove 20s linear infinite;
+          }
+          @keyframes gridMove {
+              0% { background-position: 0 0; }
+              100% { background-position: 0 400px; }
+          }
+      `}</style>
+
+    </div>
   );
 }
