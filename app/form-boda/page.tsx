@@ -102,12 +102,10 @@ export default function WeddingOrderForm() {
             setLoading(false);
 
             // WhatsApp Message
-            const message = `💍 *NUEVO PEDIDO COMPLETÍSIMO* 💍%0A%0A` +
+            const message = `💍 *NUEVO PEDIDO BODA* 💍%0A%0A` +
                 `*Novios:* ${formData.groomName} & ${formData.brideName}%0A` +
                 `*Fecha:* ${formData.eventDate}%0A` +
-                `*Galería:* ${galleryImages.length} fotos adjuntadas%0A` +
-                `*Extras:* Mesa de regalos, Música y Dress Code incluidos.%0A%0A` +
-                `_Revisa el panel de admin para ver todos los detalles y archivos._`;
+                `_¡Gracias por su confianza!_`;
 
             window.open(`https://wa.me/529845828658?text=${message}`, '_blank');
 
@@ -125,12 +123,15 @@ export default function WeddingOrderForm() {
     if (success) {
         return (
             <div className="min-h-screen bg-[#1B1F3B] text-[#D4AF37] flex flex-col items-center justify-center p-6 text-center font-serif">
-                <span className="material-symbols-outlined text-6xl mb-6 animate-bounce">verified</span>
-                <h1 className="text-4xl mb-4">¡Pedido Completo Recibido!</h1>
-                <p className="text-[#F5F5DC] mb-8 max-w-md">Hemos recibido toda la información, incluyendo la galería de fotos y detalles del evento. Te contactaremos pronto.</p>
+                <span className="material-symbols-outlined text-6xl mb-6 animate-bounce">favorite</span>
+                <h1 className="text-4xl mb-4">¡Gracias por su Confianza!</h1>
+                <p className="text-[#F5F5DC] mb-8 max-w-md">
+                    Hemos recibido su información con éxito. <br />
+                    Nuestro equipo creativo comenzará a trabajar en su experiencia memorable. <br />
+                    <em className="text-sm opacity-70 mt-4 block">"La magia está en los detalles."</em>
+                </p>
                 <div className="flex gap-4">
-                    <button onClick={() => window.location.reload()} className="classic-btn">Nuevo Pedido</button>
-                    <a href="/admin-pedidos" className="classic-btn bg-[#D4AF37] text-[#1B1F3B]! hover:text-white!">Ir a Admin</a>
+                    <button onClick={() => window.location.reload()} className="classic-btn">Enviar Otro</button>
                 </div>
             </div>
         );
@@ -203,7 +204,7 @@ export default function WeddingOrderForm() {
                             </div>
                             <div>
                                 <label className="form-label">Hora Inicio</label>
-                                <input type="time" name="eventTime" required className="form-input" onChange={handleChange} />
+                                <input type="time" name="eventTime" className="form-input" onChange={handleChange} />
                             </div>
                         </div>
 
@@ -343,6 +344,11 @@ export default function WeddingOrderForm() {
                     </div>
 
                 </form>
+
+                <div className="mt-20 text-center opacity-30 text-[10px] uppercase tracking-widest font-display pb-4">
+                    <p>Powered by DreamCrafters &copy; {new Date().getFullYear()}</p>
+                    <p className="mt-1">Creating Memorable Experiences</p>
+                </div>
             </div>
         </div>
     );

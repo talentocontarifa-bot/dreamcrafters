@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { db } from '@/lib/firebase';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query, deleteDoc, doc } from 'firebase/firestore';
 
 export default function AdminPedidos() {
     const [pedidos, setPedidos] = useState<any[]>([]);
@@ -9,24 +9,38 @@ export default function AdminPedidos() {
     const [auth, setAuth] = useState(false);
     const [password, setPassword] = useState('');
 
+    const fetchPedidos = async () => {
+        try {
+            const q = query(collection(db, "wedding_orders"), orderBy("createdAt", "desc"));
+            const querySnapshot = await getDocs(q);
+            const orders = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setPedidos(orders);
+        } catch (error) {
+            console.error("Error al obtener pedidos:", error);
+            alert("No se pudieron cargar los pedidos. Verifica los permisos de Firebase.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         if (auth) {
-            const fetchPedidos = async () => {
-                try {
-                    const q = query(collection(db, "wedding_orders"), orderBy("createdAt", "desc"));
-                    const querySnapshot = await getDocs(q);
-                    const orders = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    setPedidos(orders);
-                } catch (error) {
-                    console.error("Error al obtener pedidos:", error);
-                    alert("No se pudieron cargar los pedidos. Verifica los permisos de Firebase.");
-                } finally {
-                    setLoading(false);
-                }
-            };
             fetchPedidos();
         }
     }, [auth]);
+
+    const handleDelete = async (id: string) => {
+        if (confirm('¿Estás seguro de ELIMINAR este pedido? No se puede deshacer.')) {
+            try {
+                await deleteDoc(doc(db, "wedding_orders", id));
+                setPedidos(prev => prev.filter(p => p.id !== id));
+            } catch (error) {
+                console.error("Error eliminando:", error);
+                alert("Error al eliminar.");
+            }
+        }
+    };
+
 
     if (!auth) {
         return (
@@ -75,6 +89,8 @@ export default function AdminPedidos() {
                                 <th className="p-4">Multimedia</th>
                                 <th className="p-4">Contacto</th>
                                 <th className="p-4">Foto</th>
+                                <th className="p-4"></th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -128,8 +144,12 @@ export default function AdminPedidos() {
                                                 </a>
                                             )}
                                             {p.galleryUrls?.length > 0 && (
-                                                <div className="w-8 h-8 rounded-full bg-green-100 text-green-700 border border-green-300 flex items-center justify-center text-xs font-bold" title={`${p.galleryUrls.length} fotos en galería`}>
-                                                    +{p.galleryUrls.length}
+                                                <div className="flex flex-wrap gap-1 max-w-[80px]">
+                                                    {p.galleryUrls.map((url: string, i: number) => (
+                                                        <a key={i} href={url} target="_blank" title={`Ver Foto Galería ${i + 1}`} className="w-6 h-6 rounded bg-green-100 text-green-700 border border-green-300 flex items-center justify-center text-[10px] font-bold hover:bg-green-200 cursor-pointer transition">
+                                                            {i + 1}
+                                                        </a>
+                                                    ))}
                                                 </div>
                                             )}
                                         </div>
@@ -156,6 +176,12 @@ export default function AdminPedidos() {
                                         ) : (
                                             <span className="text-gray-300 text-xs italic">Sin portada</span>
                                         )}
+                                    </td>
+                                    {/* Actions */}
+                                    <td className="p-4">
+                                        <button onClick={() => handleDelete(p.id)} className="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-full transition" title="Eliminar Pedido">
+                                            <span className="material-symbols-outlined">delete</span>
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
