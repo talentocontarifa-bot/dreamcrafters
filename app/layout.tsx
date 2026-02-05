@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, Outfit } from "next/font/google";
-import "./globals.css";
+import "./wedding.css";
+// Force rebuild CSS cache
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const bebasNeue = Bebas_Neue({
