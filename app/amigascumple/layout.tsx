@@ -21,6 +21,9 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
     title: "Picnic Birthday Invitation",
     description: "Te invito a mi cumpleaños!",
+    openGraph: {
+        images: ['/main-photo.jpeg'],
+    },
 };
 
 export default function BirthdayLayout({

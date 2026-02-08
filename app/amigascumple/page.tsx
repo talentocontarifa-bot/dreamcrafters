@@ -217,7 +217,7 @@ export default function BirthdayInvitation() {
                             Casa #18, Jardines 6
                         </p>
 
-                        <a href="https://maps.google.com" target="_blank" className="inline-block bg-[#e11d48] hover:bg-rose-700 text-white text-sm font-bold uppercase tracking-wider py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all">
+                        <a href="https://www.google.com/maps?q=21.086050033569336,-86.8862533569336&z=17&hl=es" target="_blank" className="inline-block bg-[#e11d48] hover:bg-rose-700 text-white text-sm font-bold uppercase tracking-wider py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all">
                             <div className="flex items-center gap-2">
                                 <span className="material-symbols-outlined font-normal text-base">map</span>
                                 Ver en Google Maps
@@ -242,16 +242,31 @@ export default function BirthdayInvitation() {
                             target="_blank"
                             className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white px-8 py-3 rounded-full font-bold text-sm shadow-md transition-colors hover:shadow-xl transform hover:-translate-y-1 duration-300"
                         >
-                            <span className="material-symbols-outlined text-lg">chat</span>
+                            <span className="material-symbols-outlined font-normal text-lg">chat</span>
                             Confirmar Asistencia
                         </a>
                     </div>
+                </div>
+
+                {/* DreamCrafters Footer */}
+                <div className="text-center pb-20 pt-10">
+                    <a href="/" className="inline-flex flex-col items-center gap-2 group opacity-60 hover:opacity-100 transition-opacity">
+                        <span className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Invitación creada por</span>
+                        <div className="flex items-center gap-2 text-rose-400 font-display text-xl">
+                            <span className="text-2xl">✨</span>
+                            DreamCrafters
+                            <span className="text-2xl">✨</span>
+                        </div>
+                    </a>
                 </div>
 
             </div>
 
             {/* Footer Gingham Strip */}
             <div className="fixed bottom-0 left-0 w-full h-4 bg-gingham-red z-50 border-t border-rose-200"></div>
+
+            {/* Force load Material Symbols */}
+            <style dangerouslySetInnerHTML={{ __html: `@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');` }} />
         </main>
     );
 }
