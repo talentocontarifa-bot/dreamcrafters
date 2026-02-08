@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Pacifico, Quicksand, Playfair_Display } from "next/font/google";
-import "../../wedding.css";
+import "../wedding.css";
 
 const pacifico = Pacifico({
     weight: "400",
