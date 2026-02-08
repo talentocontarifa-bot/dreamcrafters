@@ -96,25 +96,25 @@ export default function BirthdayInvitation() {
                         {/* Date Time Row */}
                         <div className="flex justify-center items-center gap-6 mt-8 animate-pop-in" style={{ animationDelay: '1s' }}>
                             {/* Date Box */}
-                            <div className="bg-primary text-white rounded-2xl p-3 w-20 h-20 flex flex-col items-center justify-center shadow-md transform -rotate-3 hover:rotate-0 transition-transform hover:scale-110 duration-300">
-                                <span className="text-[10px] font-bold uppercase tracking-wider opacity-90">FEB</span>
-                                <span className="text-3xl font-bold leading-none">14</span>
+                            <div className="bg-[#e11d48] text-white rounded-2xl p-3 w-24 h-24 flex flex-col items-center justify-center shadow-md transform -rotate-3 hover:rotate-0 transition-transform hover:scale-110 duration-300">
+                                <span className="text-xs font-bold uppercase tracking-wider opacity-90">FEB</span>
+                                <span className="text-4xl md:text-5xl font-bold leading-none">14</span>
                             </div>
 
                             {/* Basket Icon */}
-                            <span className="material-symbols-outlined text-amber-600 text-4xl transform hover:scale-110 transition-transform cursor-pointer animate-bounce">
+                            <span className="material-symbols-outlined font-normal text-amber-600 text-5xl transform hover:scale-110 transition-transform cursor-pointer animate-bounce">
                                 shopping_basket
                             </span>
 
                             {/* Time Box */}
-                            <div className="bg-primary text-white rounded-2xl p-3 w-20 h-20 flex flex-col items-center justify-center shadow-md transform rotate-3 hover:rotate-0 transition-transform hover:scale-110 duration-300">
-                                <span className="text-[10px] font-bold uppercase tracking-wider opacity-90">HORA:</span>
-                                <span className="text-xl font-bold leading-none mt-1">5:00</span>
-                                <span className="text-[10px] font-bold uppercase tracking-wider opacity-90">P.M.</span>
+                            <div className="bg-[#e11d48] text-white rounded-2xl p-3 w-24 h-24 flex flex-col items-center justify-center shadow-md transform rotate-3 hover:rotate-0 transition-transform hover:scale-110 duration-300">
+                                <span className="text-xs font-bold uppercase tracking-wider opacity-90">HORA:</span>
+                                <span className="text-2xl md:text-3xl font-bold leading-none mt-1">5:00</span>
+                                <span className="text-xs font-bold uppercase tracking-wider opacity-90">P.M.</span>
                             </div>
                         </div>
 
-                        <p className="text-sm font-semibold text-zinc-500 mt-2">14 de Febrero</p>
+                        <p className="text-lg font-semibold text-zinc-500 mt-4">14 de Febrero</p>
                     </div>
                 </div>
 
@@ -123,21 +123,21 @@ export default function BirthdayInvitation() {
                     <div className="bg-white rounded-full shadow-lg py-4 px-8 flex items-center justify-between max-w-sm mx-auto relative border border-rose-50">
                         {/* Days */}
                         <div className="text-center w-16">
-                            <span className="text-[10px] uppercase text-zinc-400 font-bold tracking-wide">Días:</span>
-                            <span className="block text-3xl font-bold text-primary">{timeLeft.days.toString().padStart(2, '0')}</span>
+                            <span className="text-xs uppercase text-zinc-400 font-bold tracking-wide">Días:</span>
+                            <span className="block text-3xl font-bold text-[#e11d48]">{timeLeft.days.toString().padStart(2, '0')}</span>
                         </div>
 
                         {/* Center Circle Wrapper */}
                         <div className="relative -my-12">
-                            <div className="w-32 h-32 bg-white rounded-full flex flex-col items-center justify-center border-[6px] border-primary/10 shadow-xl relative z-20">
+                            <div className="w-36 h-36 bg-white rounded-full flex flex-col items-center justify-center border-[6px] border-rose-100 shadow-xl relative z-20">
                                 {/* Progress Ring approximation */}
-                                <div className="absolute inset-0 rounded-full border-[4px] border-primary border-t-transparent animate-spin-slow"></div>
+                                <div className="absolute inset-0 rounded-full border-[4px] border-[#e11d48] border-t-transparent animate-spin-slow"></div>
 
-                                <div className="text-center z-10 bg-white rounded-full w-24 h-24 flex flex-col items-center justify-center">
+                                <div className="text-center z-10 bg-white rounded-full w-28 h-28 flex flex-col items-center justify-center">
                                     <div className="flex items-baseline gap-1">
-                                        <span className="text-3xl font-bold text-primary">{timeLeft.hours.toString().padStart(2, '0')}</span>
-                                        <span className="text-xl font-bold text-primary">:</span>
-                                        <span className="text-3xl font-bold text-primary">{timeLeft.minutes.toString().padStart(2, '0')}</span>
+                                        <span className="text-4xl font-bold text-[#e11d48]">{timeLeft.hours.toString().padStart(2, '0')}</span>
+                                        <span className="text-2xl font-bold text-[#e11d48]">:</span>
+                                        <span className="text-4xl font-bold text-[#e11d48]">{timeLeft.minutes.toString().padStart(2, '0')}</span>
                                     </div>
                                     <span className="text-[10px] uppercase text-zinc-400 font-bold flex gap-4 mt-1">
                                         <span>Horas</span>
@@ -147,16 +147,16 @@ export default function BirthdayInvitation() {
                             </div>
 
                             {/* Label below circle */}
-                            <div className="absolute -bottom-8 left-0 right-0 text-center animate-pulse">
-                                <p className="font-display text-primary text-sm transform -rotate-2">Falta muy poco...</p>
-                                <p className="text-[10px] text-rose-400 font-bold uppercase tracking-wider">¡Es el gran día!</p>
+                            <div className="absolute -bottom-10 left-0 right-0 text-center animate-pulse">
+                                <p className="font-display text-[#e11d48] text-base transform -rotate-2">Falta muy poco...</p>
+                                <p className="text-xs text-rose-400 font-bold uppercase tracking-wider">¡Es el gran día!</p>
                             </div>
                         </div>
 
                         {/* Seconds */}
                         <div className="text-center w-16">
-                            <span className="text-[10px] uppercase text-zinc-400 font-bold tracking-wide">Secs:</span>
-                            <span className="block text-3xl font-bold text-primary">{timeLeft.seconds.toString().padStart(2, '0')}</span>
+                            <span className="text-xs uppercase text-zinc-400 font-bold tracking-wide">Secs:</span>
+                            <span className="block text-3xl font-bold text-[#e11d48]">{timeLeft.seconds.toString().padStart(2, '0')}</span>
                         </div>
                     </div>
                 </div>
@@ -165,19 +165,19 @@ export default function BirthdayInvitation() {
                 {/* Gallery Section - Carousel Style */}
                 <div className="relative bg-[#fdfaf5] border-2 border-[#e6dcc3] rounded-[2rem] p-6 shadow-lg animate-pop-in" style={{ animationDelay: '1.4s' }}>
                     {/* Corner Swirls (CSS Shapes) */}
-                    <div className="absolute top-4 left-4 w-16 h-16 border-t-4 border-l-4 border-primary/20 rounded-tl-3xl"></div>
-                    <div className="absolute top-4 right-4 w-16 h-16 border-t-4 border-r-4 border-primary/20 rounded-tr-3xl"></div>
-                    <div className="absolute bottom-4 left-4 w-16 h-16 border-b-4 border-l-4 border-primary/20 rounded-bl-3xl"></div>
-                    <div className="absolute bottom-4 right-4 w-16 h-16 border-b-4 border-r-4 border-primary/20 rounded-br-3xl"></div>
+                    <div className="absolute top-4 left-4 w-16 h-16 border-t-4 border-l-4 border-rose-200 rounded-tl-3xl"></div>
+                    <div className="absolute top-4 right-4 w-16 h-16 border-t-4 border-r-4 border-rose-200 rounded-tr-3xl"></div>
+                    <div className="absolute bottom-4 left-4 w-16 h-16 border-b-4 border-l-4 border-rose-200 rounded-bl-3xl"></div>
+                    <div className="absolute bottom-4 right-4 w-16 h-16 border-b-4 border-r-4 border-rose-200 rounded-br-3xl"></div>
 
                     <div className="text-center mb-8 relative">
-                        <h2 className="font-display text-3xl text-zinc-700">Mis Momentos</h2>
-                        <div className="w-16 h-1 bg-primary/20 mx-auto mt-2 rounded-full"></div>
-                        <p className="text-xs text-zinc-400 mt-2 italic">(Desliza para ver más)</p>
+                        <h2 className="font-display text-4xl text-zinc-700">Mis Momentos</h2>
+                        <div className="w-16 h-1 bg-rose-200 mx-auto mt-2 rounded-full"></div>
+                        <p className="text-sm text-zinc-400 mt-2 italic">(Desliza para ver más)</p>
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <div className="flex-1 flex gap-4 overflow-x-auto no-scrollbar py-6 px-4 snap-x snap-mandatory scroll-smooth">
+                        <div className="flex-1 flex gap-6 overflow-x-auto no-scrollbar py-8 px-4 snap-x snap-mandatory scroll-smooth">
                             {[
                                 "/WhatsApp Image 2026-02-07 at 8.06.13 PM.jpeg",
                                 "/WhatsApp Image 2026-02-07 at 8.06.13 PM (1).jpeg",
@@ -186,7 +186,7 @@ export default function BirthdayInvitation() {
                                 "/WhatsApp Image 2026-02-07 at 8.06.15 PM.jpeg",
                             ].map((src, idx) => {
                                 return (
-                                    <div key={idx} className="min-w-[200px] aspect-[4/5] bg-white p-3 pb-8 shadow-lg transform hover:-translate-y-2 transition-transform duration-300 snap-center rounded-sm shrink-0 rotate-1 focus:rotate-0">
+                                    <div key={idx} className="w-64 aspect-[4/5] bg-white p-3 pb-8 shadow-lg transform hover:-translate-y-2 transition-transform duration-300 snap-center rounded-sm shrink-0 rotate-1 focus:rotate-0">
                                         <div className="w-full h-full bg-zinc-100 overflow-hidden relative group">
                                             <img src={src} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                             <div className="absolute inset-0 bg-rose-500/0 group-hover:bg-rose-500/10 transition-colors duration-300"></div>
@@ -203,36 +203,36 @@ export default function BirthdayInvitation() {
                 {/* Location Section - Wood Sign Style */}
                 <div className="relative bg-[#fdfaf5] border-2 border-[#e6dcc3] rounded-[2rem] p-6 shadow-lg mb-20 text-center animate-pop-in" style={{ animationDelay: '1.6s' }}>
                     {/* Corner Swirls (CSS Shapes) */}
-                    <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-primary/30 rounded-tl-2xl"></div>
-                    <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-primary/30 rounded-tr-2xl"></div>
+                    <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-rose-200 rounded-tl-2xl"></div>
+                    <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-rose-200 rounded-tr-2xl"></div>
 
-                    <div className="border border-dashed border-primary/20 rounded-xl p-8 bg-wood-pattern/30">
-                        <div className="flex items-center justify-center gap-2 mb-2 text-primary animate-bounce">
-                            <span className="material-symbols-outlined text-sm">location_on</span>
-                            <span className="text-xs font-bold uppercase tracking-widest">Ubicación</span>
+                    <div className="border border-dashed border-rose-200 rounded-xl p-8 bg-wood-pattern/30">
+                        <div className="flex items-center justify-center gap-2 mb-2 text-[#e11d48] animate-bounce">
+                            <span className="material-symbols-outlined font-normal text-base">location_on</span>
+                            <span className="text-sm font-bold uppercase tracking-widest">Ubicación</span>
                         </div>
 
-                        <p className="font-display text-xl md:text-2xl text-zinc-700 leading-relaxed max-w-xs mx-auto mb-6">
+                        <p className="font-display text-2xl md:text-3xl text-zinc-700 leading-relaxed max-w-xs mx-auto mb-6">
                             Mza. 23, Lt. 22, Calle Jaguar 02,<br />
                             Casa #18, Jardines 6
                         </p>
 
-                        <a href="https://maps.google.com" target="_blank" className="inline-block bg-primary hover:bg-rose-700 text-white text-xs font-bold uppercase tracking-wider py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all">
+                        <a href="https://maps.google.com" target="_blank" className="inline-block bg-[#e11d48] hover:bg-rose-700 text-white text-sm font-bold uppercase tracking-wider py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all">
                             <div className="flex items-center gap-2">
-                                <span className="material-symbols-outlined text-sm">map</span>
+                                <span className="material-symbols-outlined font-normal text-base">map</span>
                                 Ver en Google Maps
                             </div>
                         </a>
                     </div>
 
                     <div className="mt-8 space-y-4">
-                        <p className="font-handwriting text-xs md:text-sm text-zinc-500 italic px-8">
+                        <p className="font-handwriting text-sm md:text-base text-zinc-500 italic px-8">
                             ¡Prepárate para una tarde llena de juegos, comida deliciosa y mucha diversión al aire libre!
                         </p>
 
-                        <div className="h-px w-1/2 bg-primary/10 mx-auto"></div>
+                        <div className="h-px w-1/2 bg-rose-200 mx-auto"></div>
 
-                        <p className="text-[10px] uppercase font-bold text-zinc-400">
+                        <p className="text-xs uppercase font-bold text-zinc-400">
                             Por favor, confirma tu asistencia antes del 10 de Febrero
                         </p>
 
