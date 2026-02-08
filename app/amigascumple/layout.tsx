@@ -30,12 +30,6 @@ export default function BirthdayLayout({
 }>) {
     return (
         <div className={`picnic-scope ${pacifico.variable} ${quicksand.variable} ${playfair.variable} antialiased bg-wood-pattern font-body min-h-screen text-zinc-800`}>
-            <head>
-                <link
-                    rel="stylesheet"
-                    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-                />
-            </head>
             {children}
         </div>
     );
