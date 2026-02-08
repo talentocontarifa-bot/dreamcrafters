@@ -29,7 +29,7 @@ export default function BirthdayLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div className={`${pacifico.variable} ${quicksand.variable} ${playfair.variable} antialiased bg-wood-pattern font-body min-h-screen`}>
+        <div className={`picnic-scope ${pacifico.variable} ${quicksand.variable} ${playfair.variable} antialiased bg-wood-pattern font-body min-h-screen text-zinc-800`}>
             <head>
                 <link
                     rel="stylesheet"
