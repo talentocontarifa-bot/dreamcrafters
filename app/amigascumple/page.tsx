@@ -179,6 +179,7 @@ export default function BirthdayInvitation() {
                     <div className="flex items-center gap-2">
                         <div className="flex-1 flex gap-6 overflow-x-auto no-scrollbar py-8 px-4 snap-x snap-mandatory scroll-smooth">
                             {[
+                                "/gallery-new.jpeg",
                                 "/WhatsApp Image 2026-02-07 at 8.06.13 PM.jpeg",
                                 "/WhatsApp Image 2026-02-07 at 8.06.13 PM (1).jpeg",
                                 "/WhatsApp Image 2026-02-07 at 8.06.13 PM (2).jpeg",
