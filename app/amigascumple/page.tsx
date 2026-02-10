@@ -59,7 +59,7 @@ export default function BirthdayInvitation() {
                 // Scroll one card width (approx 280px)
                 scrollContainer.scrollBy({ left: 280, behavior: 'smooth' });
             }
-        }, 3000); // Scroll every 3 seconds
+        }, 2000); // Scroll every 2 seconds
 
         return () => clearInterval(scrollInterval);
     }, [isPaused]);
