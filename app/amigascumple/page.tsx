@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function BirthdayInvitation() {
     const [timeLeft, setTimeLeft] = useState({
@@ -10,8 +10,11 @@ export default function BirthdayInvitation() {
         seconds: 0,
     });
 
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const [isPaused, setIsPaused] = useState(false);
+
     useEffect(() => {
-        // Force Light Mode for this specific "Picnic" look as per reference which is very bright/airy
+        // Force Light Mode
         document.documentElement.classList.remove("dark");
 
         const targetDate = new Date("February 14, 2026 17:00:00").getTime();
@@ -40,6 +43,26 @@ export default function BirthdayInvitation() {
 
         return () => clearInterval(interval);
     }, []);
+
+    // Auto-scroll effect
+    useEffect(() => {
+        const scrollContainer = scrollContainerRef.current;
+        if (!scrollContainer) return;
+
+        const scrollInterval = setInterval(() => {
+            if (isPaused) return;
+
+            if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth - 10) {
+                // If reached end, smooth scroll back to start
+                scrollContainer.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                // Scroll one card width (approx 280px)
+                scrollContainer.scrollBy({ left: 280, behavior: 'smooth' });
+            }
+        }, 3000); // Scroll every 3 seconds
+
+        return () => clearInterval(scrollInterval);
+    }, [isPaused]);
 
     return (
         <main className="min-h-screen bg-wood-pattern font-body text-zinc-800 overflow-x-hidden pb-12 relative">
@@ -177,7 +200,14 @@ export default function BirthdayInvitation() {
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <div className="flex-1 flex gap-6 overflow-x-auto no-scrollbar py-8 px-4 snap-x snap-mandatory scroll-smooth">
+                        <div
+                            ref={scrollContainerRef}
+                            onMouseEnter={() => setIsPaused(true)}
+                            onMouseLeave={() => setIsPaused(false)}
+                            onTouchStart={() => setIsPaused(true)}
+                            onTouchEnd={() => setIsPaused(false)}
+                            className="flex-1 flex gap-6 overflow-x-auto no-scrollbar py-8 px-4 snap-x snap-mandatory scroll-smooth"
+                        >
                             {[
                                 "/gallery-new.jpeg",
                                 "/WhatsApp Image 2026-02-07 at 8.06.13 PM.jpeg",
