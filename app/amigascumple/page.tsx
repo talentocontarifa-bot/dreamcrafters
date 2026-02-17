@@ -1,5 +1,6 @@
 "use client";
 
+// Force rebuild 2026-02-16
 import { useEffect, useState, useRef } from "react";
 
 export default function BirthdayInvitation() {
