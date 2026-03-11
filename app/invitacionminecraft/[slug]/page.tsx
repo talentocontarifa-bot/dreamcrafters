@@ -232,6 +232,18 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
                     0% { transform: rotate(-15deg); }
                     100% { transform: rotate(15deg); }
                 }
+                @keyframes enderWalk {
+                    0% { opacity: 1; }
+                    49% { opacity: 1; }
+                    50% { opacity: 0; }
+                    100% { opacity: 0; }
+                }
+                @keyframes enderWalkAlt {
+                    0% { opacity: 0; }
+                    49% { opacity: 0; }
+                    50% { opacity: 1; }
+                    100% { opacity: 1; }
+                }
             `}</style>
             
             <div
@@ -273,20 +285,6 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
                         <div className={`relative ${hitAnim ? 'filter drop-shadow-[0_0_20px_#ff0000] brightness-200 sepia-[100%] hue-rotate-[-50deg] saturate-200' : 'hover:brightness-125 transition-all'}`}>
                             {/* Sprite Animation Tick Logic via CSS Steps or Inline State */}
                             <div className="w-32 md:w-48 h-48 md:h-64 relative">
-                                <style jsx>{`
-                                    @keyframes enderWalk {
-                                        0% { opacity: 1; }
-                                        49% { opacity: 1; }
-                                        50% { opacity: 0; }
-                                        100% { opacity: 0; }
-                                    }
-                                    @keyframes enderWalkAlt {
-                                        0% { opacity: 0; }
-                                        49% { opacity: 0; }
-                                        50% { opacity: 1; }
-                                        100% { opacity: 1; }
-                                    }
-                                `}</style>
                                 {/* Frame 1 */}
                                 <img 
                                     src="/sprites/enderman_1.webp" 
