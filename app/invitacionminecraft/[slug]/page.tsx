@@ -244,14 +244,6 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
                     50% { opacity: 1; }
                     100% { opacity: 1; }
                 }
-                @keyframes danyDance {
-                    0%, 49.99% { opacity: 1; }
-                    50%, 100% { opacity: 0; }
-                }
-                @keyframes danyDanceAlt {
-                    0%, 49.99% { opacity: 0; }
-                    50%, 100% { opacity: 1; }
-                }
             `}</style>
             
             <div
@@ -367,6 +359,16 @@ function HeroSection({ config }: { config: PartyConfig }) {
 
                 {/* CONTAINER FOR STEVE & NAME OVERLAP */}
                 <div className="relative w-full flex flex-col items-center justify-center pt-24 mb-6">
+                    <style jsx global>{`
+                        @keyframes danyDance {
+                            0%, 49.99% { opacity: 1; }
+                            50%, 100% { opacity: 0; }
+                        }
+                        @keyframes danyDanceAlt {
+                            0%, 49.99% { opacity: 0; }
+                            50%, 100% { opacity: 1; }
+                        }
+                    `}</style>
 
                     {/* 1. Dany Sprite (Background Layer - Behind Name) */}
                     <div className="absolute top-4 z-0 opacity-100 scale-100 md:scale-125 origin-bottom">
