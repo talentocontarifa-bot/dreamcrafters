@@ -244,6 +244,18 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
                     50% { opacity: 1; }
                     100% { opacity: 1; }
                 }
+                @keyframes danyDance {
+                    0% { opacity: 1; }
+                    49% { opacity: 1; }
+                    50% { opacity: 0; }
+                    100% { opacity: 0; }
+                }
+                @keyframes danyDanceAlt {
+                    0% { opacity: 0; }
+                    49% { opacity: 0; }
+                    50% { opacity: 1; }
+                    100% { opacity: 1; }
+                }
             `}</style>
             
             <div
@@ -360,15 +372,30 @@ function HeroSection({ config }: { config: PartyConfig }) {
                 {/* CONTAINER FOR STEVE & NAME OVERLAP */}
                 <div className="relative w-full flex flex-col items-center justify-center pt-24 mb-6">
 
-                    {/* 1. Steve (Background Layer - Behind Name) */}
-                    <div className="steve-dancer absolute top-0 z-0 opacity-90 scale-110 origin-bottom"></div>
+                    {/* 1. Dany Sprite (Background Layer - Behind Name) */}
+                    <div className="absolute top-0 z-0 opacity-100 scale-125 md:scale-150 origin-bottom">
+                        <div className="w-56 h-80 md:w-64 md:h-96 relative">
+                            <img 
+                                src="/sprites/Dany_1.webp" 
+                                className="absolute inset-0 w-full h-full object-contain image-pixelated drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]" 
+                                style={{ animation: 'danyDance 0.8s infinite' }}
+                                alt="Dany Frame 1"
+                            />
+                            <img 
+                                src="/sprites/Daniel_2.webp" 
+                                className="absolute inset-0 w-full h-full object-contain image-pixelated drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]" 
+                                style={{ animation: 'danyDanceAlt 0.8s infinite' }}
+                                alt="Dany Frame 2"
+                            />
+                        </div>
+                    </div>
 
-                    {/* 2. Name (Foreground Layer - On top of Steve) */}
+                    {/* 2. Name (Foreground Layer - On top of Dany) */}
                     <motion.div
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ delay: 0.3 }}
-                        className="relative z-10 w-full px-4 mt-16 md:mt-24"
+                        className="relative z-10 w-full px-4 mt-24 md:mt-32"
                     >
                         <h1 
                             className="text-5xl md:text-8xl text-white text-center font-bold tracking-wider relative break-words"
