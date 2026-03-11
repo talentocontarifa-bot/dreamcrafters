@@ -467,6 +467,30 @@ function InventorySection({ config }: { config: PartyConfig }) {
 
                 </div>
             </motion.div>
+
+            {/* AVISO IMPORTANTE (ALBERCADA, ETC) */}
+            {config.customMessage && (
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    className="mt-12 bg-[#ffeb3b] border-4 border-[#fbc02d] border-b-[#c89626] border-r-[#c89626] p-4 text-center text-black font-bold max-w-3xl mx-auto shadow-[0_10px_20px_rgba(0,0,0,0.5)] transform -rotate-1 relative"
+                >
+                    {/* Corners */}
+                    <div className="absolute -top-3 -left-3 w-6 h-6 bg-[#333] border-2 border-[#111]"></div>
+                    <div className="absolute -top-3 -right-3 w-6 h-6 bg-[#333] border-2 border-[#111]"></div>
+                    <div className="absolute -bottom-3 -left-3 w-6 h-6 bg-[#333] border-2 border-[#111]"></div>
+                    <div className="absolute -bottom-3 -right-3 w-6 h-6 bg-[#333] border-2 border-[#111]"></div>
+                    
+                    <p className="text-xl md:text-2xl drop-shadow-sm mb-3 mt-2" style={{ fontFamily: 'var(--font-press-start)' }}>
+                        ⚠️ AVISO IMPORTANTE
+                    </p>
+                    <div className="bg-white/50 border-2 border-dashed border-[#c89626] py-3 px-4">
+                        <p className="font-vt323 text-3xl md:text-4xl leading-none">{config.customMessage}</p>
+                    </div>
+                </motion.div>
+            )}
+
         </section>
     );
 }

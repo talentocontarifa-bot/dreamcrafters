@@ -10,6 +10,7 @@ export type PartyConfig = {
     musicUrl: string;
     targetDate: string;
     whatsappPhone: string;
+    customMessage?: string;
 };
 
 export const DB: Record<string, PartyConfig> = {
@@ -33,5 +34,15 @@ export const DB: Record<string, PartyConfig> = {
         targetDate: '2026-10-12T17:00:00',
         whatsappPhone: '5555555555'
     },
-    // Alejandro deleted as requested
+    'daniel7': {
+        name: 'DANIEL', age: 7, date: '15 MAR',
+        fullDate: '2026-03-15',
+        time: '3:00 PM',
+        locationName: 'Albercada (Ejemplo)', locationAddress: 'Dirección de Ejemplo 123',
+        mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11342.115844477815!2d-86.84074697395048!3d21.16198942006798!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f4c2b04fbb3a2fb%3A0xea83de662b2ac30a!2sCanc%C3%BAn%2C%20Q.R.!5e0!3m2!1sen!2smx!4v1710500000000!5m2!1sen!2smx',
+        musicUrl: 'https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg',
+        targetDate: '2026-03-15T15:00:00',
+        whatsappPhone: '529983407244',
+        customMessage: '¡Es albercada! No olvides traer tu traje de baño 🩱🏊‍♂️'
+    }
 };
