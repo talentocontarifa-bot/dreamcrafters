@@ -245,16 +245,12 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
                     100% { opacity: 1; }
                 }
                 @keyframes danyDance {
-                    0% { opacity: 1; }
-                    49% { opacity: 1; }
-                    50% { opacity: 0; }
-                    100% { opacity: 0; }
+                    0%, 49.99% { opacity: 1; }
+                    50%, 100% { opacity: 0; }
                 }
                 @keyframes danyDanceAlt {
-                    0% { opacity: 0; }
-                    49% { opacity: 0; }
-                    50% { opacity: 1; }
-                    100% { opacity: 1; }
+                    0%, 49.99% { opacity: 0; }
+                    50%, 100% { opacity: 1; }
                 }
             `}</style>
             
@@ -373,8 +369,8 @@ function HeroSection({ config }: { config: PartyConfig }) {
                 <div className="relative w-full flex flex-col items-center justify-center pt-24 mb-6">
 
                     {/* 1. Dany Sprite (Background Layer - Behind Name) */}
-                    <div className="absolute top-0 z-0 opacity-100 scale-125 md:scale-150 origin-bottom">
-                        <div className="w-56 h-80 md:w-64 md:h-96 relative">
+                    <div className="absolute top-4 z-0 opacity-100 scale-100 md:scale-125 origin-bottom">
+                        <div className="w-48 h-64 md:w-56 md:h-80 relative">
                             <img 
                                 src="/sprites/Dany_1.webp" 
                                 className="absolute inset-0 w-full h-full object-contain image-pixelated drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]" 
