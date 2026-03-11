@@ -121,6 +121,19 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
     const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
     const [isSwinging, setIsSwinging] = useState(false);
     const [isBreaking, setIsBreaking] = useState(false); // Guard against spam clicks
+    const [enderPos, setEnderPos] = useState({ x: 50, y: 50 });
+
+    // Wander around automatically
+    useEffect(() => {
+        if (isBreaking) return;
+        const interval = setInterval(() => {
+            setEnderPos(prev => ({
+                x: Math.max(15, Math.min(85, prev.x + (Math.random() * 20 - 10))),
+                y: Math.max(20, Math.min(60, prev.y + (Math.random() * 10 - 5)))
+            }));
+        }, 1500);
+        return () => clearInterval(interval);
+    }, [isBreaking]);
 
     useEffect(() => {
         const move = (e: MouseEvent | TouchEvent) => {
@@ -143,14 +156,20 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
     }, []);
 
     const playHitSound = () => {
+        // We do classic hurt + Enderman teleport generic sound
         const audio = new Audio('https://www.myinstants.com/media/sounds/classic_hurt.mp3');
         audio.currentTime = 0;
         audio.volume = 0.6;
         audio.play().catch(() => { });
+
+        // Enderman TP sound proxy
+        const tp = new Audio('https://www.myinstants.com/media/sounds/enderman-teleport.mp3');
+        tp.volume = 0.4;
+        tp.play().catch(() => { });
     };
 
-    const spawnParticles = (x: number, y: number, amount: number, isExplosion: boolean = false) => {
-        const colors = ['#facc15', '#ef4444', '#3b82f6', '#22c55e', '#ffffff'];
+    const spawnParticles = (x: number, y: number, amount: number, isExplosion: boolean = false, customColors?: string[]) => {
+        const colors = customColors || ['#facc15', '#ef4444', '#3b82f6', '#22c55e', '#ffffff'];
         for (let i = 0; i < amount; i++) {
             const p = document.createElement('div');
             p.style.cssText = `position:fixed; width:${Math.random() * 8 + 4}px; height:${Math.random() * 8 + 4}px; background:${colors[Math.floor(Math.random() * colors.length)]}; left:${x}px; top:${y}px; z-index:100; pointer-events:none;`;
@@ -189,23 +208,32 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
         setHitAnim(true);
         setTimeout(() => setHitAnim(false), 150);
 
-        const damageOverlay = document.querySelectorAll('.damage-overlay');
-        const opacity = (10 - (hp - 1)) / 10;
-        damageOverlay.forEach((el) => (el as HTMLElement).style.opacity = opacity.toString());
-
-        spawnParticles(clientX, clientY, 5);
+        spawnParticles(clientX, clientY, 15, false, ['#a811cf', '#d63dd6', '#111111']);
 
         if (hp <= 1) {
             setIsBreaking(true); // Lock interactions
-            spawnParticles(window.innerWidth / 2, window.innerHeight / 2, 60, true);
+            spawnParticles(window.innerWidth / 2, window.innerHeight / 2, 80, true, ['#a811cf', '#d63dd6', '#111111', '#ffffff']);
+            // The handleUnlock (in parent) plays the TNT explosion
             setTimeout(onUnlock, 800);
         } else {
             setHp(h => h - 1);
+            // Teleport the Enderman to dodge
+            setEnderPos({
+                x: Math.random() * 70 + 15, // 15% to 85%
+                y: Math.random() * 40 + 20  // 20% to 60%
+            });
         }
     };
 
     return (
         <div className="text-center w-full h-full flex flex-col items-center justify-center relative overflow-hidden backdrop-blur-sm cursor-none">
+            <style jsx global>{`
+                @keyframes enderSwing {
+                    0% { transform: rotate(-15deg); }
+                    100% { transform: rotate(15deg); }
+                }
+            `}</style>
+            
             <div
                 className={`sword-cursor ${isSwinging ? 'sword-swing' : ''}`}
                 style={{ left: cursorPos.x, top: cursorPos.y, display: cursorPos.x < 0 ? 'none' : 'block' }}
@@ -219,50 +247,80 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
                 />
             </div>
 
-            {/* <div className="fixed top-24 text-2xl z-40"> MOVED BELOW </div> */}
+            {/* AVISO DEL ENDERMAN */}
+            <div className="fixed top-32 z-40 w-full text-center pointer-events-none animate-pulse">
+                <p className="bg-black/60 text-[#a811cf] font-vt323 text-3xl md:text-4xl border-2 border-[#a811cf] px-6 py-2 inline-block shadow-[0_0_15px_rgba(168,17,207,0.5)]">
+                    💥 ¡CAZA AL ENDERMAN! 💥
+                </p>
+            </div>
 
-            <div className="scene">
-                <div className="pivot-group">
-                    <div className="rope"></div>
+            {/* ENDERMAN COMPONENT */}
+            {!isBreaking && (
+                <div 
+                    className="absolute z-30 transition-all duration-300 ease-out"
+                    style={{ 
+                        left: `${enderPos.x}%`, 
+                        top: `${enderPos.y}%`, 
+                        transform: `translate(-50%, -50%) ${hitAnim ? 'scale(0.9) rotate(-5deg)' : ''}` 
+                    }}
+                >
                     <div
-                        className={`cube-pinata ${hitAnim ? 'hit-anim flash-red' : ''}`}
+                        className="cursor-none relative pt-10" 
                         onMouseDown={handleClick}
                         onTouchStart={handleClick}
                     >
-                        <div className="face-pinata top texture-bee-top"></div>
-                        <div className="face-pinata bottom texture-bee-bottom">
-                            <div className="fringe f1"></div><div className="fringe f2"></div>
-                            <div className="fringe f3"></div><div className="fringe f4"></div>
+                        {/* Spritesheet based Enderman Body */}
+                        <div className={`relative ${hitAnim ? 'filter drop-shadow-[0_0_20px_#ff0000] brightness-200 sepia-[100%] hue-rotate-[-50deg] saturate-200' : 'hover:brightness-125 transition-all'}`}>
+                            {/* Sprite Animation Tick Logic via CSS Steps or Inline State */}
+                            <div className="w-32 md:w-48 h-48 md:h-64 relative">
+                                <style jsx>{`
+                                    @keyframes enderWalk {
+                                        0% { opacity: 1; }
+                                        49% { opacity: 1; }
+                                        50% { opacity: 0; }
+                                        100% { opacity: 0; }
+                                    }
+                                    @keyframes enderWalkAlt {
+                                        0% { opacity: 0; }
+                                        49% { opacity: 0; }
+                                        50% { opacity: 1; }
+                                        100% { opacity: 1; }
+                                    }
+                                `}</style>
+                                {/* Frame 1 */}
+                                <img 
+                                    src="/sprites/enderman_1.webp" 
+                                    className="absolute inset-0 w-full h-full object-contain image-pixelated" 
+                                    style={{ animation: 'enderWalk 0.8s infinite' }}
+                                    alt="Enderman Frame 1"
+                                />
+                                {/* Frame 2 */}
+                                <img 
+                                    src="/sprites/enderman_2.webp" 
+                                    className="absolute inset-0 w-full h-full object-contain image-pixelated" 
+                                    style={{ animation: 'enderWalkAlt 0.8s infinite' }}
+                                    alt="Enderman Frame 2"
+                                />
+                            </div>
+                            
+                            {/* Ambient Particles around the Sprite */}
+                            <div className="absolute inset-0 overflow-visible pointer-events-none">
+                                <div className="absolute w-2 h-2 bg-[#d87fdf] blur-[1px] left-0 top-10 animate-ping"></div>
+                                <div className="absolute w-1 h-1 bg-[#ffb6ff] blur-[1px] right-0 top-0 animate-ping" style={{animationDelay: '0.5s'}}></div>
+                                <div className="absolute w-2 h-2 bg-[#a811cf] blur-[1px] top-32 left-8 animate-ping" style={{animationDelay: '1s'}}></div>
+                            </div>
                         </div>
-                        <div className="face-pinata front texture-bee-face"><div className="damage-overlay"></div></div>
-                        <div className="face-pinata back texture-bee-side"><div className="damage-overlay"></div></div>
-                        <div className="face-pinata right texture-bee-side"><div className="damage-overlay"></div></div>
-                        <div className="face-pinata left texture-bee-side"><div className="damage-overlay"></div></div>
-                        <div className="wing wing-left"></div>
-                        <div className="wing wing-right"></div>
                     </div>
                 </div>
-            </div>
+            )}
 
-            {/* Hearts moved here - Positioned higher to maintain clearance */}
-            <div className="fixed bottom-44 z-40 text-center w-full pointer-events-none transform scale-125 md:scale-150">
+            {/* Hearts */}
+            <div className="fixed bottom-32 z-40 text-center w-full pointer-events-none transform scale-125 md:scale-150">
                 {Array.from({ length: 5 }).map((_, i) => (
                     <PixelHeart key={i} filled={i < Math.ceil(hp / 2)} />
                 ))}
             </div>
 
-            <div className="fixed bottom-12 z-40 animate-pulse w-full px-4">
-                <button
-                    onClick={(e) => handleClick(e as any)}
-                    className="active:scale-95 transition-transform w-[180px] md:w-[240px] mx-auto block cursor-none focus:outline-none"
-                >
-                    <img
-                        src="/sprites/btn-break-pinata.jpg?v=3"
-                        alt="¡ROMPE LA PIÑATA!"
-                        className="w-full drop-shadow-[0_4px_0_#000] border-4 border-black rounded-lg image-pixelated"
-                    />
-                </button>
-            </div>
         </div>
     );
 }
