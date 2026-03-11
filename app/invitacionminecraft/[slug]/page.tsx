@@ -259,13 +259,6 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
                 />
             </div>
 
-            {/* AVISO DEL ENDERMAN */}
-            <div className="fixed top-32 z-40 w-full text-center pointer-events-none animate-pulse">
-                <p className="bg-black/60 text-[#a811cf] font-vt323 text-3xl md:text-4xl border-2 border-[#a811cf] px-6 py-2 inline-block shadow-[0_0_15px_rgba(168,17,207,0.5)]">
-                    💥 ¡CAZA AL ENDERMAN! 💥
-                </p>
-            </div>
-
             {/* ENDERMAN COMPONENT */}
             {!isBreaking && (
                 <div 
@@ -284,7 +277,7 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
                         {/* Spritesheet based Enderman Body */}
                         <div className={`relative ${hitAnim ? 'filter drop-shadow-[0_0_20px_#ff0000] brightness-200 sepia-[100%] hue-rotate-[-50deg] saturate-200' : 'hover:brightness-125 transition-all'}`}>
                             {/* Sprite Animation Tick Logic via CSS Steps or Inline State */}
-                            <div className="w-32 md:w-48 h-48 md:h-64 relative">
+                            <div className="w-48 md:w-64 h-72 md:h-96 relative">
                                 {/* Frame 1 */}
                                 <img 
                                     src="/sprites/enderman_1.webp" 
@@ -313,10 +306,17 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
             )}
 
             {/* Hearts */}
-            <div className="fixed bottom-32 z-40 text-center w-full pointer-events-none transform scale-125 md:scale-150">
+            <div className="fixed bottom-36 md:bottom-32 z-40 text-center w-full pointer-events-none transform scale-125 md:scale-150">
                 {Array.from({ length: 5 }).map((_, i) => (
                     <PixelHeart key={i} filled={i < Math.ceil(hp / 2)} />
                 ))}
+            </div>
+
+            {/* AVISO DEL ENDERMAN (MOVIDO DEBAJO DE LOS CORAZONES) */}
+            <div className="fixed bottom-12 md:bottom-16 z-40 w-full text-center pointer-events-none animate-pulse px-4">
+                <p className="bg-black/80 text-[#a811cf] font-vt323 text-2xl md:text-4xl border-2 border-[#a811cf] px-6 py-2 inline-block shadow-[0_0_15px_rgba(168,17,207,0.5)]">
+                    💥 ¡CAZA AL ENDERMAN! 💥
+                </p>
             </div>
 
         </div>
