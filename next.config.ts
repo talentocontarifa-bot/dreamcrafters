@@ -21,6 +21,11 @@ const nextConfig: NextConfig = {
       {
         source: '/camila_spa',
         destination: '/camila_spa/index.html',
+      },
+      // Daniel Minecraft invitation rewrite
+      {
+        source: '/daniel7',
+        destination: '/invitacionminecraft/daniel7',
       }
     ]
   }
