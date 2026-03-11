@@ -312,13 +312,18 @@ function HeroSection({ config }: { config: PartyConfig }) {
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ delay: 0.3 }}
-                        className="relative z-10 w-full px-4 mt-16"
+                        className="relative z-10 w-full px-4 mt-16 md:mt-24"
                     >
-                        <img
-                            src="/sprites/name-lucas.webp?v=1"
-                            alt={config.name}
-                            className="w-full max-w-[340px] md:max-w-2xl mx-auto image-pixelated drop-shadow-[8px_8px_0_rgba(0,0,0,0.8)]"
-                        />
+                        <h1 
+                            className="text-5xl md:text-8xl text-white text-center font-bold tracking-wider relative break-words"
+                            style={{ 
+                                fontFamily: 'var(--font-press-start)',
+                                WebkitTextStroke: '2px black',
+                                textShadow: '4px 4px 0 #777, 6px 6px 0 #444, 8px 8px 0 #222, 10px 10px 0 #000, 15px 15px 20px rgba(0,0,0,0.8)'
+                            }}
+                        >
+                            {config.name}
+                        </h1>
                     </motion.div>
                 </div>
 
@@ -474,19 +479,26 @@ function InventorySection({ config }: { config: PartyConfig }) {
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    className="mt-12 bg-[#ffeb3b] border-4 border-[#fbc02d] border-b-[#c89626] border-r-[#c89626] p-4 text-center text-black font-bold max-w-3xl mx-auto shadow-[0_10px_20px_rgba(0,0,0,0.5)] transform -rotate-1 relative"
+                    className="mt-12 p-4 text-center max-w-3xl mx-auto transform -rotate-1 relative overflow-hidden group cursor-pointer shadow-[0_15px_30px_rgba(0,0,0,0.8)]"
                 >
-                    {/* Corners */}
-                    <div className="absolute -top-3 -left-3 w-6 h-6 bg-[#333] border-2 border-[#111]"></div>
-                    <div className="absolute -top-3 -right-3 w-6 h-6 bg-[#333] border-2 border-[#111]"></div>
-                    <div className="absolute -bottom-3 -left-3 w-6 h-6 bg-[#333] border-2 border-[#111]"></div>
-                    <div className="absolute -bottom-3 -right-3 w-6 h-6 bg-[#333] border-2 border-[#111]"></div>
-                    
-                    <p className="text-xl md:text-2xl drop-shadow-sm mb-3 mt-2" style={{ fontFamily: 'var(--font-press-start)' }}>
-                        ⚠️ AVISO IMPORTANTE
-                    </p>
-                    <div className="bg-white/50 border-2 border-dashed border-[#c89626] py-3 px-4">
-                        <p className="font-vt323 text-3xl md:text-4xl leading-none">{config.customMessage}</p>
+                    {/* Enchanted Glint Effect (Moves on hover) */}
+                    <div className="absolute top-0 left-[-100%] w-[50%] h-full bg-gradient-to-r from-transparent via-[#b829ff]/60 to-transparent skew-x-[-20deg] group-hover:left-[200%] transition-all duration-[1200ms] pointer-events-none z-30 mix-blend-screen"></div>
+
+                    {/* Obsidian/Bedrock texture wrapper */}
+                    <div className="absolute inset-0 bg-[#2a2a2a] border-[6px] border-[#111] z-0">
+                         {/* Subtle noise/texture */}
+                         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_2px,transparent_2px)] [background-size:12px_12px]"></div>
+                    </div>
+
+                    <div className="relative z-10 p-4 md:p-6 border-[4px] border-[#444] border-t-[#666] border-l-[#666] bg-[#222]/90 flex flex-col items-center">
+                        <p className="text-xl md:text-3xl text-[#ffaa00] drop-shadow-[2px_2px_0_#000] mb-4 mt-2 font-bold tracking-widest flex items-center gap-3" style={{ fontFamily: 'var(--font-press-start)' }}>
+                            <span className="animate-pulse text-2xl">⚡</span> 
+                            AVISO IMPORTANTE 
+                            <span className="animate-pulse text-2xl">⚡</span>
+                        </p>
+                        <div className="bg-[#111] w-full border-[4px] border-[#000] border-b-[#333] border-r-[#333] py-5 px-6 shadow-inner">
+                            <p className="font-vt323 text-3xl md:text-5xl leading-relaxed text-[#a8ff52] drop-shadow-[1px_1px_0_#000] tracking-wide">{config.customMessage}</p>
+                        </div>
                     </div>
                 </motion.div>
             )}
