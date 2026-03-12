@@ -331,11 +331,13 @@ function CreeperComponent() {
 
     // This handles which side it spawns from.
     const [movingRight, setMovingRight] = useState(true);
+    const [mounted, setMounted] = useState(false);
 
-    // Initial random assignment
+    // Single run on mount for hydration safety
     useEffect(() => {
         setMovingRight(Math.random() > 0.5);
-    }, [respawnCount]);
+        setMounted(true);
+    }, []);
 
     const handleClick = () => {
         if (isExploding) return;
@@ -351,8 +353,8 @@ function CreeperComponent() {
 
             setTimeout(() => {
                 setHp(5);
+                setMovingRight(Math.random() > 0.5); // Randomize direction again before re-rendering
                 setRespawnCount(prev => prev + 1);
-                // `movingRight` will re-eval through the useEffect depending on respawnCount
                 setIsExploding(false);
             }, 3000); // Wait 3 seconds to respawn
         } else {
@@ -372,7 +374,7 @@ function CreeperComponent() {
         }
     };
 
-    if (isExploding) return null; // Hide while respawning
+    if (isExploding || !mounted) return null; // Hide while respawning or hydrating
 
     // Every respawn adds 60 degrees of hue rotation
     const hueShift = respawnCount * 60;
@@ -385,7 +387,7 @@ function CreeperComponent() {
     return (
         <div className="fixed bottom-0 left-0 w-full h-0 z-50 pointer-events-none">
             <motion.div
-                key={respawnCount}
+                key={respawnCount} // Forces framer-motion to completely reset/respawn
                 initial={{ x: startX }}
                 animate={{ x: endX }}
                 transition={{ duration: 15, ease: "linear", repeat: Infinity }}
