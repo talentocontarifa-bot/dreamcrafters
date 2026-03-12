@@ -20,7 +20,7 @@ export async function generateMetadata(
         openGraph: {
             title: `¡Fiesta de ${config.name}! 🎮`,
             description: `Celebrando sus ${config.age} años al estilo Minecraft.`,
-            images: ['/sprites/title-fiesta.webp?v=1'], // Static logo for now, could be dynamic per client if we had their specific asset map
+            images: [config.ogImage || '/sprites/title-fiesta.webp?v=1'], // Use fallback or specific config image
         },
     };
 }

@@ -11,6 +11,7 @@ export type PartyConfig = {
     targetDate: string;
     whatsappPhone: string;
     customMessage?: string;
+    ogImage?: string;
 };
 
 export const DB: Record<string, PartyConfig> = {
@@ -43,6 +44,7 @@ export const DB: Record<string, PartyConfig> = {
         musicUrl: 'https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg',
         targetDate: '2026-03-15T15:00:00',
         whatsappPhone: '529983407244',
-        customMessage: '¡Es albercada! No olvides traer tu traje de baño 🩱🏊‍♂️'
+        customMessage: '¡Es albercada! No olvides traer tu traje de baño 🩱🏊‍♂️',
+        ogImage: '/sprites/preview-daniel.webp'
     }
 };
