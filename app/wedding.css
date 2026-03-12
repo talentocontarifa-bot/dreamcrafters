@@ -422,22 +422,22 @@ h6 {
 @keyframes creeper-screen-move {
     0% {
         left: -300px;
-        transform: scaleX(1);
+        transform: scaleX(-1);
     }
 
     49% {
         left: 100vw;
-        transform: scaleX(1);
+        transform: scaleX(-1);
     }
 
     50% {
         left: 100vw;
-        transform: scaleX(-1);
+        transform: scaleX(1);
     }
 
     100% {
         left: -300px;
-        transform: scaleX(-1);
+        transform: scaleX(1);
     }
 }
 

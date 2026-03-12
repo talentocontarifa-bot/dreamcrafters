@@ -329,14 +329,6 @@ function CreeperComponent() {
     const [respawnCount, setRespawnCount] = useState(0);
     const [isExploding, setIsExploding] = useState(false);
 
-    // Randomly face left or right
-    const [facingRight, setFacingRight] = useState(false);
-
-    // Initial random facing
-    useEffect(() => {
-        setFacingRight(Math.random() > 0.5);
-    }, []);
-
     const handleClick = () => {
         if (isExploding) return; // Prevent hits while exploding
 
@@ -355,7 +347,6 @@ function CreeperComponent() {
             setTimeout(() => {
                 setHp(5);
                 setRespawnCount(prev => prev + 1);
-                setFacingRight(Math.random() > 0.5); // Randomize direction again
                 setIsExploding(false);
             }, 3000); // Wait 3 seconds to respawn
         } else {
@@ -380,14 +371,12 @@ function CreeperComponent() {
 
     // Every respawn adds 60 degrees of hue rotation
     const hueShift = respawnCount * 60;
-    // Combine hue rotation and mirroring/facing right
-    const transformStyle = facingRight ? `scaleX(-1) hue-rotate(${hueShift}deg)` : `hue-rotate(${hueShift}deg)`;
 
     return (
         <div
             onClick={handleClick}
             className={`creeper-walker creeper-interactive ${hit ? 'creeper-hit scale-110 drop-shadow-[0_0_15px_#ff0000]' : ''}`}
-            style={{ filter: transformStyle }}
+            style={{ filter: `hue-rotate(${hueShift}deg)` }}
         >
         </div>
     );
@@ -621,16 +610,16 @@ function InventorySection({ config }: { config: PartyConfig }) {
 
 function InventoryItem({ icon, top, bottom, highlight }: any) {
     return (
-        <div className={`flex items-center gap-3 md:gap-4 group w-full ${highlight ? 'transform md:scale-105 origin-left' : ''}`}>
+        <div className="flex items-center gap-0 w-full hover:-translate-y-1 transition-transform">
             {/* Ícono Izquierdo */}
-            <div className={`shrink-0 bg-[#1a1a1a] border-2 border-[#555] border-t-[#000] border-l-[#000] flex items-center justify-center shadow-[inset_0_0_5px_rgba(0,0,0,0.8)] transition-colors ${highlight ? 'w-16 h-16 md:w-20 md:h-20 group-hover:bg-[#ffb300]/20' : 'w-12 h-12 md:w-14 md:h-14 group-hover:bg-[#222]'}`}>
-                <span className={`filter drop-shadow-sm grayscale-[0.1] ${highlight ? 'text-3xl md:text-4xl' : 'text-xl md:text-2xl'}`}>{icon}</span>
+            <div className={`shrink-0 bg-[#1a1a1a] border-[3px] border-[#555] border-b-[#222] border-r-[#222] flex items-center justify-center shadow-[inset_0_0_8px_rgba(0,0,0,0.8)] transition-colors ${highlight ? 'w-20 h-20 md:w-24 md:h-24 group-hover:bg-[#ffb300]/20' : 'w-16 h-16 md:w-20 md:h-20 group-hover:bg-[#222]'}`}>
+                <span className={`filter drop-shadow-sm grayscale-[0.1] ${highlight ? 'text-4xl md:text-5xl' : 'text-3xl md:text-4xl'}`}>{icon}</span>
             </div>
             
             {/* Contenedor de Texto */}
-            <div className={`flex-1 min-w-0 bg-[#1a1a1a] border-2 border-[#555] border-t-[#000] border-l-[#000] px-3 md:px-4 py-2 flex flex-col justify-center shadow-[inset_0_0_5px_rgba(0,0,0,0.8)] ${highlight ? 'border-l-[#ffb300] bg-gradient-to-r from-[#282828] to-[#1a1a1a]' : ''}`}>
-                <p className={`${highlight ? 'text-[#ffb300]' : 'text-[#a7a7a7]'} text-[10px] md:text-xs truncate leading-tight tracking-wider font-bold mb-1`} style={{ fontFamily: 'var(--font-press-start)' }}>{top}</p>
-                <p className={`text-[#eee] font-vt323 ${highlight ? 'text-2xl md:text-4xl text-[#fff]' : 'text-lg md:text-xl'} break-words whitespace-normal leading-tight`}>{bottom}</p>
+            <div className={`flex-1 min-w-0 bg-[#2a2a2a] border-[3px] border-l-0 border-[#555] border-b-[#222] border-r-[#222] px-3 md:px-5 flex flex-col justify-center shadow-[inset_0_0_8px_rgba(0,0,0,0.8)] ${highlight ? 'h-20 md:h-24 bg-gradient-to-r from-[#333] to-[#2a2a2a]' : 'h-16 md:h-20'}`}>
+                <p className={`${highlight ? 'text-[#ffb300]' : 'text-[#a7a7a7]'} text-[10px] md:text-xs truncate leading-tight tracking-wider font-bold mb-1 uppercase drop-shadow-[1px_1px_0_#000]`} style={{ fontFamily: 'var(--font-press-start)' }}>{top}</p>
+                <p className={`text-[#eee] font-vt323 ${highlight ? 'text-3xl md:text-5xl text-[#fff]' : 'text-2xl md:text-3xl'} truncate leading-none drop-shadow-[2px_2px_0_#000]`}>{bottom}</p>
             </div>
         </div>
     );
