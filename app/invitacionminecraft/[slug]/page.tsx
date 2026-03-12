@@ -377,16 +377,16 @@ function CreeperComponent() {
     // Every respawn adds 60 degrees of hue rotation
     const hueShift = respawnCount * 60;
     
-    // El sprite por defecto mira hacia la izq (scaleX(1)).
+    // El sprite por defecto mira hacia la izq.
     // Si queremos que se dirija hacia la derecha (movingRight = true), aplicamos scaleX(-1) para que voltee a la derecha.
-    const lookScale = movingRight ? -1 : 1;
     const startX = movingRight ? "-250px" : "105vw";
     const endX = movingRight ? "105vw" : "-250px";
 
     return (
         <div className="fixed bottom-0 left-0 w-full h-0 z-50 pointer-events-none">
             <motion.div
-                initial={{ x: startX, scaleX: lookScale }}
+                key={respawnCount}
+                initial={{ x: startX }}
                 animate={{ x: endX }}
                 transition={{ duration: 15, ease: "linear", repeat: Infinity }}
                 className="absolute bottom-0 pointer-events-auto"
@@ -396,7 +396,8 @@ function CreeperComponent() {
                     className={`w-[200px] h-[200px] md:w-[240px] md:h-[240px] bg-[url('/sprites/creeper-3d.png')] bg-contain bg-no-repeat transition-all cursor-[url('/sprites/sword-custom.png'),_auto] ${hit ? 'drop-shadow-[0_0_15px_#ff0000] scale-110 sepia-[100%] hue-rotate-[-50deg] saturate-200 brightness-150' : 'hover:brightness-110'}`}
                     style={{ 
                         filter: `hue-rotate(${hueShift}deg)`,
-                        animation: 'gentle-bounce 1s infinite alternate'
+                        animation: 'gentle-bounce 1s infinite alternate',
+                        transform: movingRight ? 'scaleX(-1)' : 'scaleX(1)'
                     }}
                 />
             </motion.div>
