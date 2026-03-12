@@ -329,28 +329,33 @@ function CreeperComponent() {
     const [respawnCount, setRespawnCount] = useState(0);
     const [isExploding, setIsExploding] = useState(false);
 
+    // This handles which side it spawns from.
+    const [movingRight, setMovingRight] = useState(true);
+
+    // Initial random assignment
+    useEffect(() => {
+        setMovingRight(Math.random() > 0.5);
+    }, [respawnCount]);
+
     const handleClick = () => {
-        if (isExploding) return; // Prevent hits while exploding
+        if (isExploding) return;
 
         if (hp <= 1) {
-            // Trigger explosion
             setIsExploding(true);
             
             const explosion = new Audio('https://www.myinstants.com/media/sounds/minecraft-tnt-explosion.mp3');
             explosion.volume = 0.8;
             explosion.play().catch(() => { });
 
-            // Spawn localized particles/confetti
             confetti({ particleCount: 100, spread: 100, origin: { y: 0.9, x: 0.5 }, colors: ['#5fb346', '#000000', '#ffffff', '#ff0000'] });
 
-            // Respawn logic
             setTimeout(() => {
                 setHp(5);
                 setRespawnCount(prev => prev + 1);
+                // `movingRight` will re-eval through the useEffect depending on respawnCount
                 setIsExploding(false);
             }, 3000); // Wait 3 seconds to respawn
         } else {
-            // Normal hit
             setHp(h => h - 1);
             
             const audio = new Audio('https://www.myinstants.com/media/sounds/classic_hurt.mp3');
@@ -371,13 +376,30 @@ function CreeperComponent() {
 
     // Every respawn adds 60 degrees of hue rotation
     const hueShift = respawnCount * 60;
+    
+    // El sprite por defecto mira hacia la izq (scaleX(1)).
+    // Si queremos que se dirija hacia la derecha (movingRight = true), aplicamos scaleX(-1) para que voltee a la derecha.
+    const lookScale = movingRight ? -1 : 1;
+    const startX = movingRight ? "-250px" : "105vw";
+    const endX = movingRight ? "105vw" : "-250px";
 
     return (
-        <div
-            onClick={handleClick}
-            className={`creeper-walker creeper-interactive ${hit ? 'creeper-hit scale-110 drop-shadow-[0_0_15px_#ff0000]' : ''}`}
-            style={{ filter: `hue-rotate(${hueShift}deg)` }}
-        >
+        <div className="fixed bottom-0 left-0 w-full h-0 z-50 pointer-events-none">
+            <motion.div
+                initial={{ x: startX, scaleX: lookScale }}
+                animate={{ x: endX }}
+                transition={{ duration: 15, ease: "linear", repeat: Infinity }}
+                className="absolute bottom-0 pointer-events-auto"
+            >
+                <div
+                    onClick={handleClick}
+                    className={`w-[200px] h-[200px] md:w-[240px] md:h-[240px] bg-[url('/sprites/creeper-3d.png')] bg-contain bg-no-repeat transition-all cursor-[url('/sprites/sword-custom.png'),_auto] ${hit ? 'drop-shadow-[0_0_15px_#ff0000] scale-110 sepia-[100%] hue-rotate-[-50deg] saturate-200 brightness-150' : 'hover:brightness-110'}`}
+                    style={{ 
+                        filter: `hue-rotate(${hueShift}deg)`,
+                        animation: 'gentle-bounce 1s infinite alternate'
+                    }}
+                />
+            </motion.div>
         </div>
     );
 }
