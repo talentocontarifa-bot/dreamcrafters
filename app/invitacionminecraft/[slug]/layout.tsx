@@ -2,14 +2,15 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import { DB } from '../data';
 
 type Props = {
-    params: { slug: string };
+    params: Promise<{ slug: string }>;
 };
 
 export async function generateMetadata(
     { params }: Props,
     parent: ResolvingMetadata
 ): Promise<Metadata> {
-    const slug = params.slug || 'demo';
+    const resolvedParams = await params;
+    const slug = resolvedParams.slug || 'demo';
     // Fallback to Ian if slug not found, just like the page logic
     const config = DB[slug] || DB['ian-level8'];
 
