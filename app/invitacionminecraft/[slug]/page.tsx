@@ -395,7 +395,9 @@ function HeroSection({ config }: { config: PartyConfig }) {
                         transition={{ delay: 0.3 }}
                         className="relative z-10 w-full px-4 mt-24 md:mt-32"
                     >
-                        <h1 
+                        <motion.h1 
+                            animate={{ scale: [1, 1.03, 1], y: [0, -5, 0] }}
+                            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                             className="text-5xl md:text-8xl text-white text-center font-bold tracking-wider relative break-words"
                             style={{ 
                                 fontFamily: 'var(--font-press-start)',
@@ -404,7 +406,7 @@ function HeroSection({ config }: { config: PartyConfig }) {
                             }}
                         >
                             {config.name}
-                        </h1>
+                        </motion.h1>
                     </motion.div>
                 </div>
 
@@ -415,9 +417,14 @@ function HeroSection({ config }: { config: PartyConfig }) {
                     transition={{ delay: 0.5 }}
                     className="inline-block bg-[#000]/70 backdrop-blur-md px-8 py-6 md:px-12 md:py-10 border-4 border-white transform -skew-x-12 z-20 shadow-[0_0_20px_rgba(95,179,70,0.8)] min-w-[300px] flex items-center justify-center -mt-4"
                 >
-                    <h2 className="text-4xl md:text-7xl text-[#5fb346] drop-shadow-[4px_4px_0_#000] stroke-black transform skew-x-12 font-bold tracking-widest leading-none mt-2 whitespace-nowrap" style={{ fontFamily: 'var(--font-press-start)' }}>
+                    <motion.h2 
+                        animate={{ rotate: [-2, 2, -2], scale: [1, 1.05, 1] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                        className="text-4xl md:text-7xl text-[#5fb346] drop-shadow-[4px_4px_0_#000] stroke-black transform skew-x-12 font-bold tracking-widest leading-none mt-2 whitespace-nowrap" 
+                        style={{ fontFamily: 'var(--font-press-start)' }}
+                    >
                         CUMPLE {config.age}
-                    </h2>
+                    </motion.h2>
                 </motion.div>
             </div>
         </section>
