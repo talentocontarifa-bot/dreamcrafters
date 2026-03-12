@@ -39,7 +39,7 @@ export const DB: Record<string, PartyConfig> = {
         fullDate: '2026-03-15',
         time: '3:00 PM',
         locationName: 'Albercada (Ejemplo)', locationAddress: 'Dirección de Ejemplo 123',
-        mapUrl: 'https://maps.google.com/maps?q=21.1813299,-86.8829305&hl=es&z=17&output=embed',
+        mapUrl: 'https://maps.app.goo.gl/E6GfQD7hyDLyAjBV9',
         musicUrl: 'https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg',
         targetDate: '2026-03-15T15:00:00',
         whatsappPhone: '529983407244',

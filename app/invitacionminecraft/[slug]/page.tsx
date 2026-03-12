@@ -522,32 +522,21 @@ function InventorySection({ config }: { config: PartyConfig }) {
                 <div className="absolute -bottom-2 -left-2 w-4 h-4 bg-[#555] border-2 border-[#111] z-20"></div>
                 <div className="absolute -bottom-2 -right-2 w-4 h-4 bg-[#555] border-2 border-[#111] z-20"></div>
 
-                <div className="bg-[#373737] p-6 md:p-8 grid grid-cols-1 md:grid-cols-3 gap-8 border-2 border-[#555] border-b-[#222] border-r-[#222]">
+                <div className="bg-[#373737] p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 border-2 border-[#555] border-b-[#222] border-r-[#222]">
 
                     <div className="flex flex-col gap-3">
                         <div className="bg-[#5c4033] text-[#ddd] text-sm md:text-base px-3 py-2 inline-block w-fit border border-[#3e2723] font-bold tracking-widest mb-1 shadow-md">UBICACIÓN</div>
-                        <div className="p-4 bg-[#444] border-[3px] border-[#222] border-b-[#555] border-r-[#555] shadow-inner space-y-4">
-                            <InventoryItem icon="🗺️" top="ZONA" bottom="Mapa del Mundo" />
+                        <div className="p-5 bg-[#444] border-[3px] border-[#222] border-b-[#555] border-r-[#555] shadow-inner space-y-6 flex flex-col justify-center h-full">
                             <InventoryItem icon="📍" top="LUGAR" bottom={config.locationName} />
                             <InventoryItem icon="🏡" top="DIRECCIÓN" bottom={config.locationAddress} />
                         </div>
                     </div>
 
                     <div className="flex flex-col gap-3">
-                        <div className="bg-[#388e3c] text-[#ddd] text-sm md:text-base px-3 py-2 inline-block w-fit border border-[#1b5e20] font-bold tracking-widest mb-1 shadow-md">TIEMPO</div>
-                        <div className="p-4 bg-[#444] border-[3px] border-[#222] border-b-[#555] border-r-[#555] shadow-inner space-y-4">
-                            <InventoryItem icon="📅" top="FECHA" bottom={config.date} />
-                            <InventoryItem icon="⏰" top="HORA DE INICIO" bottom={config.time} />
-                            <InventoryItem icon="⏱️" top="DURACIÓN" bottom="Hasta el anochecer" />
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col gap-3">
-                        <div className="bg-[#6a1b9a] text-[#ddd] text-sm md:text-base px-3 py-2 inline-block w-fit border border-[#4a148c] font-bold tracking-widest mb-1 shadow-md">LOOT</div>
-                        <div className="p-4 bg-[#444] border-[3px] border-[#222] border-b-[#555] border-r-[#555] shadow-inner space-y-4">
-                            <InventoryItem icon="🎂" top="COMIDA" bottom="Pastel y Bloques" />
-                            <InventoryItem icon="🎁" top="REGALOS" bottom="Mesa de crafteo" />
-                            <InventoryItem icon="👕" top="ARMADURA" bottom="Casual / Steve" />
+                        <div className="bg-[#388e3c] text-[#ddd] text-sm md:text-base px-3 py-2 inline-block w-fit border border-[#1b5e20] font-bold tracking-widest mb-1 shadow-md">FECHA Y HORA</div>
+                        <div className="p-5 bg-[#444] border-[3px] border-[#222] border-b-[#555] border-r-[#555] shadow-inner space-y-6 flex flex-col justify-center h-full">
+                            <InventoryItem icon="📅" top="DÍA Y MES" bottom={config.date} highlight={true} />
+                            <InventoryItem icon="⏰" top="HORA DE LLEGADA" bottom={config.time} highlight={true} />
                         </div>
                     </div>
 
@@ -588,15 +577,15 @@ function InventorySection({ config }: { config: PartyConfig }) {
     );
 }
 
-function InventoryItem({ icon, top, bottom }: any) {
+function InventoryItem({ icon, top, bottom, highlight }: any) {
     return (
-        <div className="flex items-center gap-4 group">
-            <div className="w-14 h-14 min-w-[3.5rem] bg-[#1a1a1a] border-2 border-[#555] border-t-[#000] border-l-[#000] flex items-center justify-center shadow-[inset_0_0_5px_rgba(0,0,0,0.8)] group-hover:bg-[#222] transition-colors">
-                <span className="text-2xl filter drop-shadow-sm grayscale-[0.1]">{icon}</span>
+        <div className={`flex items-center gap-4 group ${highlight ? 'transform scale-105 origin-left' : ''}`}>
+            <div className={`bg-[#1a1a1a] border-2 border-[#555] border-t-[#000] border-l-[#000] flex items-center justify-center shadow-[inset_0_0_5px_rgba(0,0,0,0.8)] transition-colors ${highlight ? 'w-20 h-20 min-w-[5rem] group-hover:bg-[#ffb300]/20' : 'w-14 h-14 min-w-[3.5rem] group-hover:bg-[#222]'}`}>
+                <span className={`filter drop-shadow-sm grayscale-[0.1] ${highlight ? 'text-4xl' : 'text-2xl'}`}>{icon}</span>
             </div>
-            <div className="flex-1 bg-[#1a1a1a] h-14 border-2 border-[#555] border-t-[#000] border-l-[#000] px-4 flex flex-col justify-center shadow-[inset_0_0_5px_rgba(0,0,0,0.8)]">
-                <p className="text-[#a7a7a7] text-xs truncate leading-tight tracking-wider" style={{ fontFamily: 'var(--font-press-start)' }}>{top}</p>
-                <p className="text-[#eee] font-vt323 text-xl truncate leading-none mt-1">{bottom}</p>
+            <div className={`flex-1 bg-[#1a1a1a] border-2 border-[#555] border-t-[#000] border-l-[#000] px-4 flex flex-col justify-center shadow-[inset_0_0_5px_rgba(0,0,0,0.8)] ${highlight ? 'min-h-[5rem] border-l-[#ffb300] bg-gradient-to-r from-[#282828] to-[#1a1a1a]' : 'h-14'}`}>
+                <p className={`${highlight ? 'text-[#ffb300]' : 'text-[#a7a7a7]'} text-xs truncate leading-tight tracking-wider font-bold`} style={{ fontFamily: 'var(--font-press-start)' }}>{top}</p>
+                <p className={`text-[#eee] font-vt323 ${highlight ? 'text-4xl text-[#fff]' : 'text-xl'} truncate leading-none mt-1`}>{bottom}</p>
             </div>
         </div>
     );
