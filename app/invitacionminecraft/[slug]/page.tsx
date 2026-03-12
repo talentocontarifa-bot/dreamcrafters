@@ -329,6 +329,14 @@ function CreeperComponent() {
     const [respawnCount, setRespawnCount] = useState(0);
     const [isExploding, setIsExploding] = useState(false);
 
+    // Randomly face left or right
+    const [facingRight, setFacingRight] = useState(false);
+
+    // Initial random facing
+    useEffect(() => {
+        setFacingRight(Math.random() > 0.5);
+    }, []);
+
     const handleClick = () => {
         if (isExploding) return; // Prevent hits while exploding
 
@@ -347,6 +355,7 @@ function CreeperComponent() {
             setTimeout(() => {
                 setHp(5);
                 setRespawnCount(prev => prev + 1);
+                setFacingRight(Math.random() > 0.5); // Randomize direction again
                 setIsExploding(false);
             }, 3000); // Wait 3 seconds to respawn
         } else {
@@ -371,19 +380,15 @@ function CreeperComponent() {
 
     // Every respawn adds 60 degrees of hue rotation
     const hueShift = respawnCount * 60;
+    // Combine hue rotation and mirroring/facing right
+    const transformStyle = facingRight ? `scaleX(-1) hue-rotate(${hueShift}deg)` : `hue-rotate(${hueShift}deg)`;
 
     return (
         <div
             onClick={handleClick}
             className={`creeper-walker creeper-interactive ${hit ? 'creeper-hit scale-110 drop-shadow-[0_0_15px_#ff0000]' : ''}`}
-            style={{ filter: `hue-rotate(${hueShift}deg)` }}
+            style={{ filter: transformStyle }}
         >
-             {/* Tiny HP bar overlay just for fun */}
-             <div className="absolute -top-4 w-full h-2 bg-black flex gap-px p-[1px]">
-                {Array.from({ length: 5 }).map((_, i) => (
-                    <div key={i} className={`h-full flex-1 ${i < hp ? 'bg-red-500' : 'bg-transparent'}`}></div>
-                ))}
-             </div>
         </div>
     );
 }
@@ -571,7 +576,7 @@ function InventorySection({ config }: { config: PartyConfig }) {
 
                     <div className="flex flex-col gap-3 w-full max-w-lg">
                         <div className="bg-[#388e3c] text-[#ddd] text-sm md:text-base px-3 py-2 inline-block w-fit border border-[#1b5e20] font-bold tracking-widest mb-1 shadow-md mx-auto">FECHA Y HORA</div>
-                        <div className="p-5 bg-[#444] border-[3px] border-[#222] border-b-[#555] border-r-[#555] shadow-inner space-y-6 flex flex-col justify-center h-full">
+                        <div className="p-4 md:p-6 bg-[#444] border-[3px] border-[#222] border-b-[#555] border-r-[#555] shadow-inner space-y-6 flex flex-col justify-center w-full">
                             <InventoryItem icon="📅" top="DÍA Y MES" bottom={config.date} highlight={true} />
                             <InventoryItem icon="⏰" top="HORA DE LLEGADA" bottom={config.time} highlight={true} />
                         </div>
@@ -586,7 +591,7 @@ function InventorySection({ config }: { config: PartyConfig }) {
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    className="mt-12 p-4 text-center max-w-3xl mx-auto transform -rotate-1 relative overflow-hidden group cursor-pointer shadow-[0_15px_30px_rgba(0,0,0,0.8)]"
+                    className="mt-12 p-3 md:p-4 text-center max-w-3xl mx-auto transform -rotate-1 relative overflow-hidden group cursor-pointer shadow-[0_15px_30px_rgba(0,0,0,0.8)]"
                 >
                     {/* Enchanted Glint Effect (Moves on hover) */}
                     <div className="absolute top-0 left-[-100%] w-[50%] h-full bg-gradient-to-r from-transparent via-[#b829ff]/60 to-transparent skew-x-[-20deg] group-hover:left-[200%] transition-all duration-[1200ms] pointer-events-none z-30 mix-blend-screen"></div>
@@ -597,14 +602,14 @@ function InventorySection({ config }: { config: PartyConfig }) {
                          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_2px,transparent_2px)] [background-size:12px_12px]"></div>
                     </div>
 
-                    <div className="relative z-10 p-4 md:p-6 border-[4px] border-[#444] border-t-[#666] border-l-[#666] bg-[#222]/90 flex flex-col items-center">
-                        <p className="text-xl md:text-3xl text-[#ffaa00] drop-shadow-[2px_2px_0_#000] mb-4 mt-2 font-bold tracking-widest flex items-center gap-3" style={{ fontFamily: 'var(--font-press-start)' }}>
-                            <span className="animate-pulse text-2xl">⚡</span> 
+                    <div className="relative z-10 p-3 md:p-6 border-[4px] border-[#444] border-t-[#666] border-l-[#666] bg-[#222]/90 flex flex-col items-center">
+                        <p className="text-lg md:text-3xl text-[#ffaa00] drop-shadow-[2px_2px_0_#000] mb-4 mt-2 font-bold tracking-widest flex items-center gap-2 md:gap-3" style={{ fontFamily: 'var(--font-press-start)' }}>
+                            <span className="animate-pulse text-xl md:text-2xl">⚡</span> 
                             AVISO IMPORTANTE 
-                            <span className="animate-pulse text-2xl">⚡</span>
+                            <span className="animate-pulse text-xl md:text-2xl">⚡</span>
                         </p>
-                        <div className="bg-[#111] w-full border-[4px] border-[#000] border-b-[#333] border-r-[#333] py-5 px-6 shadow-inner">
-                            <p className="font-vt323 text-3xl md:text-5xl leading-relaxed text-[#a8ff52] drop-shadow-[1px_1px_0_#000] tracking-wide">{config.customMessage}</p>
+                        <div className="bg-[#111] w-full border-[4px] border-[#000] border-b-[#333] border-r-[#333] py-4 px-3 md:py-5 md:px-6 shadow-inner text-center">
+                            <p className="font-vt323 text-2xl md:text-5xl leading-relaxed text-[#a8ff52] drop-shadow-[1px_1px_0_#000] tracking-wide break-words">{config.customMessage}</p>
                         </div>
                     </div>
                 </motion.div>
@@ -616,13 +621,16 @@ function InventorySection({ config }: { config: PartyConfig }) {
 
 function InventoryItem({ icon, top, bottom, highlight }: any) {
     return (
-        <div className={`flex items-center gap-4 group ${highlight ? 'transform scale-105 origin-left' : ''}`}>
-            <div className={`bg-[#1a1a1a] border-2 border-[#555] border-t-[#000] border-l-[#000] flex items-center justify-center shadow-[inset_0_0_5px_rgba(0,0,0,0.8)] transition-colors ${highlight ? 'w-20 h-20 min-w-[5rem] group-hover:bg-[#ffb300]/20' : 'w-14 h-14 min-w-[3.5rem] group-hover:bg-[#222]'}`}>
-                <span className={`filter drop-shadow-sm grayscale-[0.1] ${highlight ? 'text-4xl' : 'text-2xl'}`}>{icon}</span>
+        <div className={`flex items-center gap-3 md:gap-4 group w-full ${highlight ? 'transform md:scale-105 origin-left' : ''}`}>
+            {/* Ícono Izquierdo */}
+            <div className={`shrink-0 bg-[#1a1a1a] border-2 border-[#555] border-t-[#000] border-l-[#000] flex items-center justify-center shadow-[inset_0_0_5px_rgba(0,0,0,0.8)] transition-colors ${highlight ? 'w-16 h-16 md:w-20 md:h-20 group-hover:bg-[#ffb300]/20' : 'w-12 h-12 md:w-14 md:h-14 group-hover:bg-[#222]'}`}>
+                <span className={`filter drop-shadow-sm grayscale-[0.1] ${highlight ? 'text-3xl md:text-4xl' : 'text-xl md:text-2xl'}`}>{icon}</span>
             </div>
-            <div className={`flex-1 bg-[#1a1a1a] border-2 border-[#555] border-t-[#000] border-l-[#000] px-4 flex flex-col justify-center shadow-[inset_0_0_5px_rgba(0,0,0,0.8)] ${highlight ? 'min-h-[5rem] border-l-[#ffb300] bg-gradient-to-r from-[#282828] to-[#1a1a1a]' : 'h-14'}`}>
-                <p className={`${highlight ? 'text-[#ffb300]' : 'text-[#a7a7a7]'} text-xs truncate leading-tight tracking-wider font-bold`} style={{ fontFamily: 'var(--font-press-start)' }}>{top}</p>
-                <p className={`text-[#eee] font-vt323 ${highlight ? 'text-4xl text-[#fff]' : 'text-xl'} truncate leading-none mt-1`}>{bottom}</p>
+            
+            {/* Contenedor de Texto */}
+            <div className={`flex-1 min-w-0 bg-[#1a1a1a] border-2 border-[#555] border-t-[#000] border-l-[#000] px-3 md:px-4 py-2 flex flex-col justify-center shadow-[inset_0_0_5px_rgba(0,0,0,0.8)] ${highlight ? 'border-l-[#ffb300] bg-gradient-to-r from-[#282828] to-[#1a1a1a]' : ''}`}>
+                <p className={`${highlight ? 'text-[#ffb300]' : 'text-[#a7a7a7]'} text-[10px] md:text-xs truncate leading-tight tracking-wider font-bold mb-1`} style={{ fontFamily: 'var(--font-press-start)' }}>{top}</p>
+                <p className={`text-[#eee] font-vt323 ${highlight ? 'text-2xl md:text-4xl text-[#fff]' : 'text-lg md:text-xl'} break-words whitespace-normal leading-tight`}>{bottom}</p>
             </div>
         </div>
     );
