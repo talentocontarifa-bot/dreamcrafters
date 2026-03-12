@@ -325,28 +325,66 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
 
 function CreeperComponent() {
     const [hit, setHit] = useState(false);
+    const [hp, setHp] = useState(5);
+    const [respawnCount, setRespawnCount] = useState(0);
+    const [isExploding, setIsExploding] = useState(false);
 
     const handleClick = () => {
-        // Play hit sound
-        const audio = new Audio('https://www.myinstants.com/media/sounds/classic_hurt.mp3');
-        audio.currentTime = 0;
-        audio.volume = 0.6;
-        audio.play().catch(() => { });
+        if (isExploding) return; // Prevent hits while exploding
 
-        // Play Fuse sound? maybe
-        const fuse = new Audio('https://www.myinstants.com/media/sounds/creeper-fuse.mp3');
-        fuse.volume = 0.4;
-        fuse.play().catch(() => { });
+        if (hp <= 1) {
+            // Trigger explosion
+            setIsExploding(true);
+            
+            const explosion = new Audio('https://www.myinstants.com/media/sounds/minecraft-tnt-explosion.mp3');
+            explosion.volume = 0.8;
+            explosion.play().catch(() => { });
 
-        setHit(true);
-        setTimeout(() => setHit(false), 200);
+            // Spawn localized particles/confetti
+            confetti({ particleCount: 100, spread: 100, origin: { y: 0.9, x: 0.5 }, colors: ['#5fb346', '#000000', '#ffffff', '#ff0000'] });
+
+            // Respawn logic
+            setTimeout(() => {
+                setHp(5);
+                setRespawnCount(prev => prev + 1);
+                setIsExploding(false);
+            }, 3000); // Wait 3 seconds to respawn
+        } else {
+            // Normal hit
+            setHp(h => h - 1);
+            
+            const audio = new Audio('https://www.myinstants.com/media/sounds/classic_hurt.mp3');
+            audio.currentTime = 0;
+            audio.volume = 0.6;
+            audio.play().catch(() => { });
+
+            const fuse = new Audio('https://www.myinstants.com/media/sounds/creeper-fuse.mp3');
+            fuse.volume = 0.4;
+            fuse.play().catch(() => { });
+
+            setHit(true);
+            setTimeout(() => setHit(false), 200);
+        }
     };
+
+    if (isExploding) return null; // Hide while respawning
+
+    // Every respawn adds 60 degrees of hue rotation
+    const hueShift = respawnCount * 60;
 
     return (
         <div
             onClick={handleClick}
-            className={`creeper-walker creeper-interactive ${hit ? 'creeper-hit' : ''}`}
-        ></div>
+            className={`creeper-walker creeper-interactive ${hit ? 'creeper-hit scale-110 drop-shadow-[0_0_15px_#ff0000]' : ''}`}
+            style={{ filter: `hue-rotate(${hueShift}deg)` }}
+        >
+             {/* Tiny HP bar overlay just for fun */}
+             <div className="absolute -top-4 w-full h-2 bg-black flex gap-px p-[1px]">
+                {Array.from({ length: 5 }).map((_, i) => (
+                    <div key={i} className={`h-full flex-1 ${i < hp ? 'bg-red-500' : 'bg-transparent'}`}></div>
+                ))}
+             </div>
+        </div>
     );
 }
 
@@ -529,18 +567,10 @@ function InventorySection({ config }: { config: PartyConfig }) {
                 <div className="absolute -bottom-2 -left-2 w-4 h-4 bg-[#555] border-2 border-[#111] z-20"></div>
                 <div className="absolute -bottom-2 -right-2 w-4 h-4 bg-[#555] border-2 border-[#111] z-20"></div>
 
-                <div className="bg-[#373737] p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 border-2 border-[#555] border-b-[#222] border-r-[#222]">
+                <div className="bg-[#373737] p-6 md:p-8 flex justify-center border-2 border-[#555] border-b-[#222] border-r-[#222]">
 
-                    <div className="flex flex-col gap-3">
-                        <div className="bg-[#5c4033] text-[#ddd] text-sm md:text-base px-3 py-2 inline-block w-fit border border-[#3e2723] font-bold tracking-widest mb-1 shadow-md">UBICACIÓN</div>
-                        <div className="p-5 bg-[#444] border-[3px] border-[#222] border-b-[#555] border-r-[#555] shadow-inner space-y-6 flex flex-col justify-center h-full">
-                            <InventoryItem icon="📍" top="LUGAR" bottom={config.locationName} />
-                            <InventoryItem icon="🏡" top="DIRECCIÓN" bottom={config.locationAddress} />
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col gap-3">
-                        <div className="bg-[#388e3c] text-[#ddd] text-sm md:text-base px-3 py-2 inline-block w-fit border border-[#1b5e20] font-bold tracking-widest mb-1 shadow-md">FECHA Y HORA</div>
+                    <div className="flex flex-col gap-3 w-full max-w-lg">
+                        <div className="bg-[#388e3c] text-[#ddd] text-sm md:text-base px-3 py-2 inline-block w-fit border border-[#1b5e20] font-bold tracking-widest mb-1 shadow-md mx-auto">FECHA Y HORA</div>
                         <div className="p-5 bg-[#444] border-[3px] border-[#222] border-b-[#555] border-r-[#555] shadow-inner space-y-6 flex flex-col justify-center h-full">
                             <InventoryItem icon="📅" top="DÍA Y MES" bottom={config.date} highlight={true} />
                             <InventoryItem icon="⏰" top="HORA DE LLEGADA" bottom={config.time} highlight={true} />
