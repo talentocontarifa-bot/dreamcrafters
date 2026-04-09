@@ -15,21 +15,24 @@
   <body>
      <!-- PRELOADER / GAME SCREEN -->
     <div id="game-view" class="view active">
-      <!-- We use the provided preloader image as background -->
-      <div class="preloader-overlay">
-         <!-- Bouncing Luma/Star Mascot -->
-         <img src="/invitacionmario/Luma.webp" class="bouncing-luma" alt="Mascot">
-         <h1 class="pixel-text glow-shift" id="start-game-text">INICIAR MISIÓN</h1>
-         <h2 class="pixel-text" style="font-size: 2rem; color: #ffdc3b; text-shadow: 0 0 15px #ffdc3b; animation: pulseGlow 1.5s infinite alternate; margin-top: 20px;">¡HAZ CLICK O TOCA PARA EMPEZAR!</h2>
-         
-         <div class="mission-brief glow-box slide-in-up mt-4">
-            <h2 class="pixel-text">REPORTE DE MISIÓN</h2>
-            <p>Consigue 100 puntos para descubrir el evento.</p>
-         </div>
-      </div>
+      <!-- We use the provided preloader image as background, but CSS overlay to make it dark/interactive -->
+      <div id="game-bg"></div>
       
-      <!-- Canvas for runner game -->
-      <canvas id="gameCanvas"></canvas>
+      <!-- Canvas fills the entire screen for parallax & dino game -->
+      <canvas id="game-canvas"></canvas>
+
+      <!-- The UI Overlay before starting -->
+      <div id="game-ui-intro" class="game-ui fade-out-on-start" style="display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 5vh; z-index: 10; position: relative;">
+        <img src="/invitacionmario/Lumalee.webp" class="lumalee-star pulse" alt="Lumalee" style="margin-bottom: 0; width: 80px;">
+        <h1 class="start-mission-text" style="font-size: 2.8rem; margin: 15px 0;">INICIAR MISIÓN</h1>
+        <h2 style="font-size: 1.6rem; color: #ffdc3b; text-shadow: 0 0 15px #ffdc3b; animation: pulseGlow 1.5s infinite alternate; margin-bottom: 25px; font-family: var(--font-ui); letter-spacing: 1px;">¡HAZ CLICK O TOCA PARA EMPEZAR!</h2>
+        
+        <!-- Score target -->
+        <div class="mission-briefing" style="padding: 15px 25px; margin-top: 0; width: auto; max-width: 90%;">
+          <h2 class="briefing-title" style="font-size: 1rem; margin-bottom: 5px;">REPORTE DE MISIÓN</h2>
+          <p class="briefing-p highlight-p" style="font-size: 0.95rem; font-weight: bold; margin: 0;">Consigue <span id="target-score">100</span> puntos para descubrir el evento.</p>
+        </div>
+      </div>
       
       <!-- In-game HUD (visible while playing) -->
       <div id="game-hud" class="hidden pixel-hud">
