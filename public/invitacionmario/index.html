@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>¡Cosmic Celebration!</title>
+    <title>Â¡Cosmic Celebration!</title>
     <!-- Fonts: Use a bold cinematic font and a technical font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Rajdhani:wght@500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script type="module" crossorigin src="/invitacionmario/assets/index-NL9gX_hg.js"></script>
-    <link rel="stylesheet" crossorigin href="/invitacionmario/assets/index-DBl5OBMV.css">
+    <script type="module" crossorigin src="/invitacionmario/assets/index-BWQDrIRV.js"></script>
+    <link rel="stylesheet" crossorigin href="/invitacionmario/assets/index-DA_soj-s.css">
   </head>
   <body>
 
@@ -25,20 +25,19 @@
       <!-- The UI Overlay before starting -->
       <div id="game-ui-intro" class="game-ui fade-out-on-start">
         <img src="/invitacionmario/Lumalee.webp" class="lumalee-star pulse" alt="Lumalee" style="margin-bottom: 0; width: 80px;">
-        <h1 class="start-mission-text" style="font-size: 2.8rem; margin: 5px 0;">INICIAR MISIÓN</h1>
+        <h1 class="start-mission-text" style="font-size: 2.8rem; margin: 5px 0;">INICIAR MISIÃ“N</h1>
         <p class="use-space-text" style="font-size: 0.8rem; margin-bottom: 25px;">USA <span class="highlight">[ESPACIO]</span> O TOCA PARA SALTAR</p>
         
         <!-- Score target -->
         <div class="mission-briefing" style="padding: 15px 25px; margin-top: 0; width: auto; max-width: 90%;">
-          <h2 class="briefing-title" style="font-size: 1rem; margin-bottom: 5px;">REPORTE DE MISIÓN</h2>
-          <p class="briefing-p highlight-p" style="font-size: 0.95rem; font-weight: bold; margin: 0;">Consigue <span id="target-score">50</span> puntos para descubrir el evento.</p>
+          <h2 class="briefing-title" style="font-size: 1rem; margin-bottom: 5px;">REPORTE DE MISIÃ“N</h2>
+          <p class="briefing-p highlight-p" style="font-size: 0.95rem; font-weight: bold; margin: 0;">Consigue <span id="target-score">100</span> puntos para descubrir el evento.</p>
         </div>
       </div>
 
       <!-- In-game Hud (Retro Pixel Art style) -->
       <div id="game-hud" class="hidden pixel-hud">
-        <div class="hud-item hud-big"><span class="hud-icon">⭐</span> x<span id="current-score" class="hud-num">00</span>/50</div>
-        <div class="hud-item hud-big"><span class="hud-icon">🪙</span> x<span id="coins" class="hud-num">00</span></div>
+        <div class="hud-item hud-big"><img src="/invitacionmario/Mario_coin.webp" style="height:35px; width:35px; vertical-align:middle; margin-right:5px; margin-top:-5px;" /> <span id="current-score" class="hud-num">000</span> / 100 PTS</div>
         <div class="hud-skip">
             <button id="skip-btn" class="pixel-btn">SKIP</button>
         </div>
@@ -47,7 +46,7 @@
       <!-- Action Marquee for Game -->
       <div id="game-marquee" class="bottom-marquee hidden">
          <div class="marquee-content">
-            ⭐ LOGRALO, VENCE A TODOS LOS ENEMIGOS Y DESCUBRE EL SECRETO ESTELAR ⭐ ¡TÚ ERES EL ELEGIDO! ⭐
+            â­ LOGRALO, VENCE A TODOS LOS ENEMIGOS Y DESCUBRE EL SECRETO ESTELAR â­ Â¡TÃš ERES EL ELEGIDO! â­
          </div>
       </div>
     </div>
@@ -63,15 +62,15 @@
         <!-- Hero Content -->
         <header class="text-center slide-in-up" style="position: relative;">
           <div class="hero-content">
-            <img src="/invitacionmario/feliz_cumpleanos.webp" class="hero-title-img" alt="Feliz Cumpleaños">
+            <img src="/invitacionmario/feliz_cumpleanos.webp" class="hero-title-img" alt="Feliz CumpleaÃ±os">
             <h1 class="mario-galaxy-name">DARIO</h1>
-            <h2 class="neon-age-text">¡CUMPLE 6 AÑOS!</h2>
+            <h2 class="neon-age-text">Â¡CUMPLE 6 AÃ‘OS!</h2>
           </div>
         </header>
 
         <!-- EVENT DATE -->
         <div class="text-center slide-in-up delay-1" style="margin-bottom: 20px;">
-           <h3 class="neon-date">SÁBADO 24 DE MAYO 2026</h3>
+           <h3 class="neon-date">SÃBADO 24 DE MAYO 2026</h3>
         </div>
 
         <!-- PANEL 1: COUNTDOWN -->
@@ -81,7 +80,7 @@
              <div class="countdown-box glow-box">
                 <div class="time-col">
                   <span class="time-num" id="days">00</span>
-                  <span class="time-label">DÍAS</span>
+                  <span class="time-label">DÃAS</span>
                 </div>
                 <div class="time-sep">:</div>
                 <div class="time-col">
@@ -95,8 +94,8 @@
                 </div>
              </div>
              <div style="display:flex; flex-direction:column; gap:10px; flex:1">
-               <button class="scifi-btn" style="min-height: 48px;">📅 AGENDAR</button>
-               <button class="scifi-btn scifi-btn-secondary" style="min-height: 48px;">WHATSAPP 📱</button>
+               <button class="scifi-btn" style="min-height: 48px;">ðŸ“… AGENDAR</button>
+               <button class="scifi-btn scifi-btn-secondary" style="min-height: 48px;">WHATSAPP ðŸ“±</button>
              </div>
           </div>
         </section>
@@ -109,14 +108,14 @@
              
              <!-- Map Button -->
              <div style="text-align: center; margin: 25px 0;">
-                <button id="btn-open-map" class="scifi-btn scifi-btn-large" style="width: 100%; background: linear-gradient(90deg, #48e2ff, #a95aff);">UBICACIÓN EN MAPA 📍</button>
+                <button id="btn-open-map" class="scifi-btn scifi-btn-large" style="width: 100%; background: linear-gradient(90deg, #48e2ff, #a95aff);">UBICACIÃ“N EN MAPA ðŸ“</button>
              </div>
              
              <div class="coords-row" style="flex-direction: column; align-items: center; gap: 20px;">
                <img src="/invitacionmario/Map_icon.webp" alt="Map Icon" style="width: 80px; margin-bottom: -10px;">
                <div style="text-align: center;">
-                 <span class="info-label" style="font-size: 1.2rem; display:block; margin-bottom: 5px;">BASE ESTELAR (LOCACIÓN)</span>
-                 <span class="info-value" style="font-size: 1.5rem; text-shadow: 0 0 10px #ffdc3b;">Salón "Estrella", Av. Galaxia Sur 123</span>
+                 <span class="info-label" style="font-size: 1.2rem; display:block; margin-bottom: 5px;">BASE ESTELAR (LOCACIÃ“N)</span>
+                 <span class="info-value" style="font-size: 1.5rem; text-shadow: 0 0 10px #ffdc3b;">SalÃ³n "Estrella", Av. Galaxia Sur 123</span>
                </div>
                <div style="text-align: center;">
                  <span class="info-label" style="font-size: 1.2rem; display:block; margin-bottom: 5px;">HORA DEL EVENTO</span>
@@ -133,8 +132,8 @@
              <div class="tab-inner">TRAJE ESPACIAL</div>
              <img src="/invitacionmario/Yoshi.webp" alt="Yoshi" style="width: 140px; margin-bottom: 20px; filter: drop-shadow(0 0 15px #48e2ff66);">
              <p style="font-size:0.9rem; color:#d0d0e0; margin-bottom: 20px;">
-                ¡Festejaremos al puro estilo cósmico! <strong>¡Por favor no olvides traer tu traje de baño, toalla y bloqueador!</strong> Porque nos espera una increíble y divertida <strong>Piscina Intecgaláctica (albercada)</strong>.<br><br>
-                <strong style="color:var(--yellow)">¡Habrá power-ups acuáticos para todos!</strong>
+                Â¡Festejaremos al puro estilo cÃ³smico! <strong>Â¡Por favor no olvides traer tu traje de baÃ±o, toalla y bloqueador!</strong> Porque nos espera una increÃ­ble y divertida <strong>Piscina IntecgalÃ¡ctica (albercada)</strong>.<br><br>
+                <strong style="color:var(--yellow)">Â¡HabrÃ¡ power-ups acuÃ¡ticos para todos!</strong>
              </p>
           </div>
         </section>
@@ -147,7 +146,7 @@
              
              <div class="input-row">
                <div class="input-group">
-                 <label>NOMBRE DEL HÉROE</label>
+                 <label>NOMBRE DEL HÃ‰ROE</label>
                  <input type="text" placeholder="Tu nombre..." class="scifi-input">
                </div>
                <div class="input-group">
@@ -157,7 +156,7 @@
              </div>
              
              <div class="slider-group mt-4">
-               <label>STAR BITS (ACOMPAÑANTES)</label>
+               <label>STAR BITS (ACOMPAÃ‘ANTES)</label>
                <div class="custom-slider-container">
                  <input type="range" min="1" max="5" value="3" class="scifi-slider" id="guestCount">
                  <span class="slider-val" id="guestCountOut">3</span>
@@ -165,7 +164,7 @@
              </div>
              
              <div class="text-center mt-6 row2">
-               <button class="scifi-btn scifi-btn-large" style="flex:2">SÍ, ASISTIRÉ 🚀</button>
+               <button class="scifi-btn scifi-btn-large" style="flex:2">SÃ, ASISTIRÃ‰ ðŸš€</button>
                <button class="scifi-btn scifi-btn-large" style="flex:1; background: #333; box-shadow:none; border-color:#555">NO PUEDO</button>
              </div>
           </div>
@@ -174,7 +173,7 @@
         <!-- DREAMCRAFTERS FOOTER -->
         <div class="dc-footer text-center slide-in-up delay-3">
            <p class="dc-powered">POWERED BY DREAMCRAFTERS</p>
-           <a href="https://wa.me/529845828658?text=Hola,%20me%20interesa%20una%20invitación%20estilo%20Mario%20Galaxy!" target="_blank" class="dc-action">PIDE TU INVITACIÓN AHORA</a>
+           <a href="https://wa.me/529845828658?text=Hola,%20me%20interesa%20una%20invitaciÃ³n%20estilo%20Mario%20Galaxy!" target="_blank" class="dc-action">PIDE TU INVITACIÃ“N AHORA</a>
         </div>
 
       </div>
