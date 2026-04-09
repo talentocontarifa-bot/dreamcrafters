@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Rajdhani:wght@500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script type="module" crossorigin src="/invitacionmario/assets/index-BSPeQrTt.js"></script>
-    <link rel="stylesheet" crossorigin href="/invitacionmario/assets/index-DMxOgPv7.css">
+    <script type="module" crossorigin src="/invitacionmario/assets/index-Byx99dXL.js"></script>
+    <link rel="stylesheet" crossorigin href="/invitacionmario/assets/index-w_M8TyV_.css">
   </head>
   <body>
 
@@ -37,11 +37,8 @@
 
       <!-- In-game Hud (Retro Pixel Art style) -->
       <div id="game-hud" class="hidden pixel-hud">
-        <div class="hud-item"><span class="hud-icon">👨🏻‍🔧</span> x 3</div>
-        <div class="hud-item"><span class="hud-icon">⭐</span> x<span id="current-score" class="hud-num">00</span></div>
-        <div class="hud-item"><span class="hud-icon">🌟</span> x<span id="stars-total" class="hud-num">50</span></div>
-        <div class="hud-item"><span class="hud-icon">🪙</span> x<span id="coins" class="hud-num">00</span></div>
-        <div class="hud-item"><span class="hud-icon" style="color:red">❤️</span></div>
+        <div class="hud-item hud-big"><span class="hud-icon">⭐</span> x<span id="current-score" class="hud-num">00</span>/50</div>
+        <div class="hud-item hud-big"><span class="hud-icon">🪙</span> x<span id="coins" class="hud-num">00</span></div>
         <div class="hud-skip">
             <button id="skip-btn" class="pixel-btn">SKIP</button>
         </div>
@@ -64,12 +61,18 @@
       
       <div class="container pb-10 mt-10">
         <!-- Hero Content -->
-        <header class="text-center slide-in-up">
+        <header class="text-center slide-in-up" style="position: relative;">
           <div class="hero-content">
             <img src="/invitacionmario/feliz_cumpleanos.webp" class="hero-title-img" alt="Feliz Cumpleaños">
             <h1 class="mario-galaxy-name">DARIO</h1>
+            <h2 class="neon-age-text">¡CUMPLE 5 AÑOS!</h2>
           </div>
         </header>
+
+        <!-- EVENT DATE -->
+        <div class="text-center slide-in-up delay-1" style="margin-bottom: 20px;">
+           <h3 class="neon-date">SÁBADO 24 DE MAYO 2026</h3>
+        </div>
 
         <!-- PANEL 1: COUNTDOWN -->
         <section class="scifi-panel slide-in-up delay-1">
