@@ -5,6 +5,8 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase"; // Verifica que este path coincida con tu proyecto
 
 export default function AdminMarioPage() {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [passwordInput, setPasswordInput] = useState("");
     const [status, setStatus] = useState("");
     const [link, setLink] = useState("");
     
@@ -55,6 +57,42 @@ export default function AdminMarioPage() {
             setStatus("Error al guardar en Firebase. Revisa consola.");
         }
     };
+
+    const handleLogin = (e: React.FormEvent) => {
+        e.preventDefault();
+        // Contraseña provisional hardcoreada para el MVP.
+        const masterPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "RufinoAdmin2026";
+        if (passwordInput === masterPassword) {
+            setIsAuthenticated(true);
+        } else {
+            alert("Contraseña incorrecta");
+        }
+    };
+
+    if (!isAuthenticated) {
+        return (
+            <div className="min-h-screen bg-black flex flex-col items-center justify-center p-4">
+                <div className="bg-gray-900 border border-cyan-500/50 rounded-xl p-8 shadow-[0_0_20px_#48e2ff40] max-w-sm w-full">
+                    <h1 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 mb-6 uppercase text-center">
+                        Acceso Restringido
+                    </h1>
+                    <form onSubmit={handleLogin} className="flex flex-col gap-4">
+                        <input 
+                            type="password" 
+                            placeholder="Contraseña"
+                            value={passwordInput}
+                            onChange={(e) => setPasswordInput(e.target.value)}
+                            className="bg-black/50 border border-gray-700 rounded p-3 text-white focus:outline-none focus:border-cyan-400 text-center"
+                            required
+                        />
+                        <button type="submit" className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold p-3 rounded">
+                            ENTRAR
+                        </button>
+                    </form>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-black text-white p-8 font-sans">
