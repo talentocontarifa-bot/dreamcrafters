@@ -23,7 +23,10 @@ export default function AdminMarioPage() {
         timeLabel: "16:00 - 20:00 PM",
         targetScore: "50",
         whatsappNumber: "521234567890",
-        mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3732.923485642878!2d-103.38885142491517!3d20.67261948088921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8428b0304f5e7141%3A0x15f79ee89d978a3f!2sGlorieta%20La%20Minerva!5e0!3m2!1sen!2smx!4v1712711018596!5m2!1sen!2smx"
+        mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3732.923485642878!2d-103.38885142491517!3d20.67261948088921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8428b0304f5e7141%3A0x15f79ee89d978a3f!2sGlorieta%20La%20Minerva!5e0!3m2!1sen!2smx!4v1712711018596!5m2!1sen!2smx",
+        countdownDate: "2026-05-30T16:00",
+        directivesTitle: "TRAJE ESPACIAL",
+        directivesText: "¡Festejaremos al puro estilo cósmico! ¡Por favor no olvides traer tu traje de baño, toalla y bloqueador! Porque nos espera una increíble y divertida Piscina Intergaláctica (albercada).\n\n¡Habrá power-ups acuáticos para todos!"
     };
 
     const [formData, setFormData] = useState({...defaultForm});
@@ -77,7 +80,10 @@ export default function AdminMarioPage() {
             timeLabel: inv.timeLabel || "",
             targetScore: inv.targetScore ? String(inv.targetScore) : "50",
             whatsappNumber: inv.whatsappNumber || "",
-            mapEmbed: inv.mapEmbed || ""
+            mapEmbed: inv.mapEmbed || "",
+            countdownDate: inv.countdownDate || "2026-05-30T16:00",
+            directivesTitle: inv.directivesTitle || "TRAJE ESPACIAL",
+            directivesText: inv.directivesText || ""
         });
         setIsEditing(true);
         setStatus("Modo edición activo. Modifica los campos y presiona 'Actualizar Invitación'");
@@ -124,6 +130,9 @@ export default function AdminMarioPage() {
                 targetScore: parseInt(formData.targetScore, 10),
                 whatsappNumber: formData.whatsappNumber,
                 mapEmbed: formData.mapEmbed,
+                countdownDate: formData.countdownDate,
+                directivesTitle: formData.directivesTitle,
+                directivesText: formData.directivesText,
                 updatedAt: new Date()
             });
 
@@ -210,6 +219,11 @@ export default function AdminMarioPage() {
                             <input type="text" name="date" value={formData.date} onChange={handleChange} className="bg-black/50 border border-gray-700 rounded p-3 text-white focus:outline-none focus:border-cyan-400" />
                         </div>
 
+                        <div className="flex flex-col gap-1 items-start">
+                            <label className="text-cyan-400 text-xs font-bold tracking-widest uppercase">Fecha Exacta Contador (AÑO-MES-DIA y HORA)</label>
+                            <input type="datetime-local" name="countdownDate" value={formData.countdownDate} onChange={handleChange} className="bg-black/50 border border-gray-700 rounded p-3 text-white focus:outline-none focus:border-cyan-400" />
+                        </div>
+
                         <div className="flex flex-col gap-1">
                             <label className="text-cyan-400 text-xs font-bold tracking-widest uppercase">Dirección Corta</label>
                             <input type="text" name="addressLabel" value={formData.addressLabel} onChange={handleChange} className="bg-black/50 border border-gray-700 rounded p-3 text-white focus:outline-none focus:border-cyan-400" />
@@ -233,6 +247,18 @@ export default function AdminMarioPage() {
                         <div className="flex flex-col gap-1">
                             <label className="text-cyan-400 text-xs font-bold tracking-widest uppercase">Google Maps Embed Src</label>
                             <input type="text" name="mapEmbed" value={formData.mapEmbed} onChange={handleChange} className="bg-black/50 border border-gray-700 rounded p-3 text-white text-xs focus:outline-none focus:border-cyan-400" />
+                        </div>
+
+                        <hr className="border-gray-700 my-4" />
+
+                        <div className="flex flex-col gap-1">
+                            <label className="text-cyan-400 text-xs font-bold tracking-widest uppercase">Título Directivas (Opcional)</label>
+                            <input type="text" name="directivesTitle" value={formData.directivesTitle} onChange={handleChange} className="bg-black/50 border border-gray-700 rounded p-3 text-white focus:outline-none focus:border-cyan-400" />
+                        </div>
+
+                        <div className="flex flex-col gap-1">
+                            <label className="text-cyan-400 text-xs font-bold tracking-widest uppercase">Texto Directivas (Código de Vestimenta/Avisos)</label>
+                            <textarea name="directivesText" value={formData.directivesText} onChange={(e) => setFormData({...formData, directivesText: e.target.value})} rows={4} className="bg-black/50 border border-gray-700 rounded p-3 text-white focus:outline-none focus:border-cyan-400 resize-none" />
                         </div>
 
                         <div className="flex gap-4 mt-6">
