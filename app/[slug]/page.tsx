@@ -35,6 +35,7 @@ export default async function InvitationPage({
         if (data.timeLabel) queryParams.set("timeLabel", data.timeLabel);
         if (data.mapEmbed) queryParams.set("mapEmbed", data.mapEmbed);
         if (data.targetScore) queryParams.set("targetScore", data.targetScore.toString());
+        if (data.whatsappNumber) queryParams.set("whatsappNumber", data.whatsappNumber);
 
         const iframeUrl = `/invitacionmario/index.html?${queryParams.toString()}`;
 

@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Rajdhani:wght@500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script type="module" crossorigin src="/invitacionmario/assets/index-CibIz3P1.js"></script>
+    <script type="module" crossorigin src="/invitacionmario/assets/index-BHYYUwad.js"></script>
     <link rel="stylesheet" crossorigin href="/invitacionmario/assets/index-60WHwaE6.css">
   </head>
   <body>
@@ -143,11 +143,11 @@
              <div class="input-row">
                <div class="input-group">
                  <label>NOMBRE DEL HÉROE</label>
-                 <input type="text" placeholder="Tu nombre..." class="scifi-input">
+                 <input type="text" placeholder="Tu nombre..." class="scifi-input" id="guestNameInput">
                </div>
                <div class="input-group">
                  <label>EQUIPO ESPECIAL (ALERGIAS)</label>
-                 <input type="text" placeholder="Ninguna..." class="scifi-input">
+                 <input type="text" placeholder="Ninguna..." class="scifi-input" id="guestAllergiesInput">
                </div>
              </div>
              
@@ -160,8 +160,8 @@
              </div>
              
              <div class="text-center mt-6 row2">
-               <button class="scifi-btn scifi-btn-large" style="flex:2">SÍ, ASISTIRÉ 🚀</button>
-               <button class="scifi-btn scifi-btn-large" style="flex:1; background: #333; box-shadow:none; border-color:#555">NO PUEDO</button>
+               <button id="btn-rsvp-yes" class="scifi-btn scifi-btn-large" style="flex:2">SÍ, ASISTIRÉ 🚀</button>
+               <button id="btn-rsvp-no" class="scifi-btn scifi-btn-large" style="flex:1; background: #333; box-shadow:none; border-color:#555">NO PUEDO</button>
              </div>
           </div>
         </section>

@@ -18,6 +18,7 @@ export default function AdminMarioPage() {
         addressLabel: "Salón Estrella, Av. Galaxia Sur 123",
         timeLabel: "16:00 - 20:00 PM",
         targetScore: "50",
+        whatsappNumber: "521234567890",
         mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3732.923485642878!2d-103.38885142491517!3d20.67261948088921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8428b0304f5e7141%3A0x15f79ee89d978a3f!2sGlorieta%20La%20Minerva!5e0!3m2!1sen!2smx!4v1712711018596!5m2!1sen!2smx"
     });
 
@@ -45,6 +46,7 @@ export default function AdminMarioPage() {
                 addressLabel: formData.addressLabel,
                 timeLabel: formData.timeLabel,
                 targetScore: parseInt(formData.targetScore, 10),
+                whatsappNumber: formData.whatsappNumber,
                 mapEmbed: formData.mapEmbed,
                 createdAt: new Date()
             });
@@ -178,6 +180,17 @@ export default function AdminMarioPage() {
                             type="number" 
                             name="targetScore" 
                             value={formData.targetScore} 
+                            onChange={handleChange} 
+                            className="bg-black/50 border border-gray-700 rounded p-3 text-white focus:outline-none focus:border-cyan-400"
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label className="text-cyan-400 text-xs font-bold tracking-widest uppercase">Número de WhatsApp (Sin signos, ej. 523312345678)</label>
+                        <input 
+                            type="text" 
+                            name="whatsappNumber" 
+                            value={formData.whatsappNumber} 
                             onChange={handleChange} 
                             className="bg-black/50 border border-gray-700 rounded p-3 text-white focus:outline-none focus:border-cyan-400"
                         />
