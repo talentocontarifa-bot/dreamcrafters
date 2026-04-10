@@ -31,7 +31,7 @@ export default function AdminMarioPage() {
     const fetchInvitations = async () => {
         try {
             const querySnapshot = await getDocs(collection(db, "invitations"));
-            const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as any));
             // Filtrar solo las de mario
             setInvitations(data.filter(inv => inv.type === "mario"));
         } catch (error) {
