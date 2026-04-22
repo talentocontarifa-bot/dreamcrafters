@@ -40,7 +40,8 @@ export default function GraciasMarioPage() {
             
             // 1. Generar un slug (identificador único) basado en nombre, edad y fecha
             const rawSlug = `${formData.names}-${formData.ageMessage}-${d.getDate()}-${months[d.getMonth()]}`;
-            const orderId = rawSlug.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            const normalizedSlug = rawSlug.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const orderId = normalizedSlug.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
             // 2. Guardar en Firebase con el slug amigable
             await setDoc(doc(db, "invitations", orderId), {
