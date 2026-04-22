@@ -38,11 +38,13 @@ export default function GraciasMarioPage() {
             const generatedDate = `${days[d.getDay()]} ${d.getDate()} de ${months[d.getMonth()]} ${d.getFullYear()}`;
             const generatedTime = `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')} hrs`;
             
-            // 1. Generar un slug (identificador único) basado en nombre, edad y fecha
-            const rawSlug = `${formData.names}_${formData.ageMessage}_${d.getDate()}_${months[d.getMonth()]}`;
-            let normalizedSlug = rawSlug.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            normalizedSlug = normalizedSlug.toLowerCase().replace(/ano/g, 'anio'); // Evitar la palabra "ano"
-            const orderId = normalizedSlug.replace(/[^a-z0-9]+/g, '_').replace(/(^_|_$)/g, '');
+            // 1. Generar un slug súper limpio: ej. ruben_feliz_cumple_6
+            const ageMatch = formData.ageMessage.match(/\d+/);
+            const ageNum = ageMatch ? ageMatch[0] : "";
+            
+            const cleanName = formData.names.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/(^_|_$)/g, '');
+            
+            const orderId = ageNum ? `${cleanName}_feliz_cumple_${ageNum}` : `${cleanName}_feliz_cumple`;
 
             // 2. Guardar en Firebase con el slug amigable
             await setDoc(doc(db, "invitations", orderId), {
