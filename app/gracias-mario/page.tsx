@@ -23,7 +23,7 @@ export default function GraciasMarioPage() {
 
     const handleWhatsAppSubmit = () => {
         const adminPhone = "529845828658"; // El número de Dreamcrafters
-        const text = `¡Hola! Acabo de pagar la invitación de Mario Galaxy. Aquí están mis datos para que la armen:%0A
+        const text = `¡Hola! Acabo de pagar la invitación de Mario Galaxy. Aquí están mis datos para que la armen:\n
 *Festejado:* ${formData.names}
 *Edad:* ${formData.ageMessage}
 *Fecha:* ${formData.date}
