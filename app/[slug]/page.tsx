@@ -1,7 +1,35 @@
 import { notFound } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase"; // Asegúrate de que este import funciona con tu estructura
+import { db } from "@/lib/firebase";
+import type { Metadata, ResolvingMetadata } from 'next';
 
+export async function generateMetadata(
+    { params }: { params: Promise<{ slug: string }> },
+    parent: ResolvingMetadata
+): Promise<Metadata> {
+    const slug = (await params).slug;
+    let data = null;
+    try {
+        const docRef = doc(db, "invitations", slug);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) data = docSnap.data();
+    } catch (e) {}
+
+    if (data && data.type === "mario") {
+        return {
+            title: `¡Misión Cumpleaños! - ${data.names || 'Mario Galaxy'}`,
+            description: `¡Acompáñanos a celebrar el cumpleaños de ${data.names || ''}! Haz clic para ver las directivas de la misión.`,
+            openGraph: {
+                images: ["/invitacionmario/link_preview_mario.webp"],
+            }
+        }
+    }
+
+    return {
+        title: "Invitación",
+        description: "Haz clic para ver la invitación"
+    }
+}
 export default async function InvitationPage({
     params,
 }: {

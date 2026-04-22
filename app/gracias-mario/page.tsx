@@ -9,13 +9,11 @@ export default function GraciasMarioPage() {
     const [formData, setFormData] = useState({
         names: "",
         ageMessage: "¡CUMPLE 6 AÑOS!",
-        date: "",
-        timeLabel: "16:00 - 20:00 PM",
+        eventDateTime: "",
         addressLabel: "",
         mapEmbed: "",
         targetScore: "50",
         whatsappNumber: "",
-        countdownDate: "",
         directivesTitle: "TRAJE ESPACIAL",
         directivesText: "¡Festejaremos al puro estilo cósmico! ¡Por favor no olvides traer tu traje de baño!"
     });
@@ -25,19 +23,31 @@ export default function GraciasMarioPage() {
     };
 
     const handleWhatsAppSubmit = async () => {
-        if (!formData.names || !formData.date) {
+        if (!formData.names || !formData.eventDateTime) {
             alert("Por favor llena al menos el nombre y la fecha del evento.");
             return;
         }
 
         setIsSubmitting(true);
         try {
-            // 1. Generar un código de orden único
-            const orderId = `MARIO-${Math.floor(1000 + Math.random() * 9000)}`;
+            // Formatear fechas y generar slug único
+            const d = new Date(formData.eventDateTime);
+            const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            const days = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+            
+            const generatedDate = `${days[d.getDay()]} ${d.getDate()} de ${months[d.getMonth()]} ${d.getFullYear()}`;
+            const generatedTime = `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')} hrs`;
+            
+            // 1. Generar un slug (identificador único) basado en nombre, edad y fecha
+            const rawSlug = `${formData.names}-${formData.ageMessage}-${d.getDate()}-${months[d.getMonth()]}`;
+            const orderId = rawSlug.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
-            // 2. Guardar en Firebase
+            // 2. Guardar en Firebase con el slug amigable
             await setDoc(doc(db, "invitations", orderId), {
                 ...formData,
+                date: generatedDate,
+                timeLabel: generatedTime,
+                countdownDate: formData.eventDateTime,
                 type: "mario",
                 status: "pending",
                 createdAt: new Date().toISOString()
@@ -81,17 +91,9 @@ export default function GraciasMarioPage() {
                                 <label className="text-sm font-semibold text-cyan-300 tracking-wider">MENSAJE DE EDAD</label>
                                 <input name="ageMessage" value={formData.ageMessage} onChange={handleChange} className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all" />
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-semibold text-cyan-300 tracking-wider">FECHA DEL EVENTO</label>
-                                <input name="date" value={formData.date} onChange={handleChange} placeholder="Ej. SÁBADO 24 DE MAYO 2026" className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all" />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-semibold text-cyan-300 tracking-wider">HORA DEL EVENTO</label>
-                                <input name="timeLabel" value={formData.timeLabel} onChange={handleChange} placeholder="Ej. 16:00 - 20:00 PM" className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all" />
-                            </div>
                             <div className="space-y-2 md:col-span-2">
-                                <label className="text-sm font-semibold text-cyan-300 tracking-wider">FECHA PARA CONTADOR (Formato ISO)</label>
-                                <input type="datetime-local" name="countdownDate" value={formData.countdownDate} onChange={handleChange} className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all [color-scheme:dark]" />
+                                <label className="text-sm font-semibold text-cyan-300 tracking-wider">FECHA Y HORA DEL EVENTO</label>
+                                <input type="datetime-local" name="eventDateTime" value={formData.eventDateTime} onChange={handleChange} className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all [color-scheme:dark]" />
                             </div>
                             <div className="space-y-2 md:col-span-2">
                                 <label className="text-sm font-semibold text-cyan-300 tracking-wider">DIRECCIÓN / SALÓN</label>
