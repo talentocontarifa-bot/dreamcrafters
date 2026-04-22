@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
 export default function GraciasMarioPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+    const [paymentId, setPaymentId] = useState<string>("");
+
     const [formData, setFormData] = useState({
         names: "",
         ageMessage: "¡CUMPLE 6 AÑOS!",
@@ -18,6 +21,23 @@ export default function GraciasMarioPage() {
         directivesText: "¡Festejaremos al puro estilo cósmico! ¡Por favor no olvides traer tu traje de baño!"
     });
 
+    useEffect(() => {
+        // Leemos las variables que Mercado Pago inyecta en la URL
+        const params = new URLSearchParams(window.location.search);
+        const pid = params.get("payment_id") || params.get("collection_id") || params.get("test_id");
+        const status = params.get("status") || params.get("collection_status");
+        
+        // Bypass para pruebas de administrador: si pones ?admin=test
+        const isAdmin = params.get("admin") === "test";
+
+        if (isAdmin || (pid && (status === "approved" || status === "successful"))) {
+            setPaymentId(pid || "MODO_PRUEBA");
+            setIsAuthorized(true);
+        } else {
+            setIsAuthorized(false);
+        }
+    }, []);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -25,6 +45,11 @@ export default function GraciasMarioPage() {
     const handleWhatsAppSubmit = async () => {
         if (!formData.names || !formData.eventDateTime) {
             alert("Por favor llena al menos el nombre y la fecha del evento.");
+            return;
+        }
+
+        if (localStorage.getItem(`mp_used_${paymentId}`)) {
+            alert("⚠️ Este pago ya fue utilizado para generar una invitación. Si necesitas corregir algo, contacta a soporte.");
             return;
         }
 
@@ -46,7 +71,7 @@ export default function GraciasMarioPage() {
             
             const orderId = ageNum ? `${cleanName}_feliz_cumple_${ageNum}` : `${cleanName}_feliz_cumple`;
 
-            // 2. Guardar en Firebase con el slug amigable
+            // 2. Guardar en Firebase con el slug amigable y el ID de pago
             await setDoc(doc(db, "invitations", orderId), {
                 ...formData,
                 date: generatedDate,
@@ -54,12 +79,16 @@ export default function GraciasMarioPage() {
                 countdownDate: formData.eventDateTime,
                 type: "mario",
                 status: "pending",
+                paymentId: paymentId,
                 createdAt: new Date().toISOString()
             });
 
-            // 3. Enviar WhatsApp corto
+            // Registrar que este pago ya se usó
+            localStorage.setItem(`mp_used_${paymentId}`, "true");
+
+            // 3. Enviar WhatsApp corto con la referencia del pago
             const adminPhone = "529845828658"; 
-            const text = `¡Hola! Acabo de pagar mi invitación web de Mario Galaxy.\n\nMi código de orden es: *${orderId}*\n\n¡Quedo a la espera de mi enlace final!`;
+            const text = `¡Hola! Acabo de pagar mi invitación web de Mario Galaxy.\n\nMi código de orden es: *${orderId}*\n*(Pago MP: #${paymentId})*\n\n¡Quedo a la espera de mi enlace final!`;
             const url = `https://wa.me/${adminPhone}?text=${encodeURIComponent(text)}`;
             
             window.open(url, "_blank");
@@ -70,6 +99,24 @@ export default function GraciasMarioPage() {
             setIsSubmitting(false);
         }
     };
+
+    // Mostrar pantalla de carga mientras valida la URL
+    if (isAuthorized === null) {
+        return <div className="min-h-screen bg-black flex items-center justify-center text-cyan-400">Verificando transacción...</div>;
+    }
+
+    // Pantalla de bloqueo si la URL está limpia o el pago fue rechazado
+    if (!isAuthorized) {
+        return (
+            <div className="min-h-screen bg-black flex flex-col items-center justify-center p-4 text-center">
+                <h1 className="text-4xl font-bold text-red-500 mb-4">ACCESO DENEGADO 🛑</h1>
+                <p className="text-gray-400 max-w-md">No se detectó un pago válido. Para crear tu invitación, por favor realiza el proceso de compra primero.</p>
+                <a href="https://mpago.la/2QmNo6M" className="mt-8 bg-cyan-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-cyan-500">
+                    Ir a Comprar Invitación
+                </a>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden selection:bg-brand-cyan selection:text-black">
