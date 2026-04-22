@@ -36,7 +36,7 @@ export default function GraciasMarioPage() {
 *Título Info:* ${formData.directivesTitle}
 *Detalles Info:* ${formData.directivesText}
 `;
-        const url = `https://wa.me/${adminPhone}?text=${text}`;
+        const url = `https://wa.me/${adminPhone}?text=${encodeURIComponent(text)}`;
         window.open(url, "_blank");
     };
 
