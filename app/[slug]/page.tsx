@@ -40,6 +40,8 @@ export default async function InvitationPage({
         if (data.directivesTitle) queryParams.set("directivesTitle", data.directivesTitle);
         if (data.directivesText) queryParams.set("directivesText", data.directivesText);
 
+        // Cache buster to force the iframe to reload fresh assets
+        queryParams.set("t", Date.now().toString());
         const iframeUrl = `/invitacionmario/index.html?${queryParams.toString()}`;
 
         return (
