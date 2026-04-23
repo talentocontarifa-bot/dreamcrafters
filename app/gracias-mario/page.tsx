@@ -8,14 +8,15 @@ export default function GraciasMarioPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
     const [paymentId, setPaymentId] = useState<string>("");
+    const [showMapHelp, setShowMapHelp] = useState(false);
 
     const [formData, setFormData] = useState({
         names: "",
         ageMessage: "¡CUMPLE 6 AÑOS!",
-        eventDateTime: "",
+        eventDate: "",
+        eventTime: "",
         addressLabel: "",
         mapEmbed: "",
-        targetScore: "50",
         whatsappNumber: "",
         directivesTitle: "TRAJE ESPACIAL",
         directivesText: "¡Festejaremos al puro estilo cósmico! ¡Por favor no olvides traer tu traje de baño!"
@@ -43,8 +44,8 @@ export default function GraciasMarioPage() {
     };
 
     const handleWhatsAppSubmit = async () => {
-        if (!formData.names || !formData.eventDateTime) {
-            alert("Por favor llena al menos el nombre y la fecha del evento.");
+        if (!formData.names || !formData.eventDate || !formData.eventTime) {
+            alert("Por favor llena al menos el nombre y la fecha/hora del evento.");
             return;
         }
 
@@ -55,8 +56,9 @@ export default function GraciasMarioPage() {
 
         setIsSubmitting(true);
         try {
+            const eventDateTime = `${formData.eventDate}T${formData.eventTime}`;
             // Formatear fechas y generar slug único
-            const d = new Date(formData.eventDateTime);
+            const d = new Date(eventDateTime);
             const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
             const days = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
             
@@ -74,9 +76,10 @@ export default function GraciasMarioPage() {
             // 2. Guardar en Firebase con el slug amigable y el ID de pago
             await setDoc(doc(db, "invitations", orderId), {
                 ...formData,
+                targetScore: "50",
                 date: generatedDate,
                 timeLabel: generatedTime,
-                countdownDate: formData.eventDateTime,
+                countdownDate: eventDateTime,
                 type: "mario",
                 status: "pending",
                 paymentId: paymentId,
@@ -142,32 +145,37 @@ export default function GraciasMarioPage() {
                                 <label className="text-sm font-semibold text-cyan-300 tracking-wider">MENSAJE DE EDAD</label>
                                 <input name="ageMessage" value={formData.ageMessage} onChange={handleChange} className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all" />
                             </div>
-                            <div className="space-y-2 md:col-span-2">
-                                <label className="text-sm font-semibold text-cyan-300 tracking-wider">FECHA Y HORA DEL EVENTO</label>
-                                <input type="datetime-local" name="eventDateTime" value={formData.eventDateTime} onChange={handleChange} className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all [color-scheme:dark]" />
+                            <div className="space-y-2">
+                                <label className="text-sm font-semibold text-cyan-300 tracking-wider">FECHA DEL EVENTO</label>
+                                <input type="date" name="eventDate" value={formData.eventDate} onChange={handleChange} className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all [color-scheme:dark]" />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-sm font-semibold text-cyan-300 tracking-wider">HORA DEL EVENTO</label>
+                                <input type="time" name="eventTime" value={formData.eventTime} onChange={handleChange} className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all [color-scheme:dark]" />
                             </div>
                             <div className="space-y-2 md:col-span-2">
                                 <label className="text-sm font-semibold text-cyan-300 tracking-wider">DIRECCIÓN / SALÓN</label>
                                 <input name="addressLabel" value={formData.addressLabel} onChange={handleChange} placeholder="Ej. Salón Estrella, Av. Galaxia Sur 123" className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all" />
                             </div>
                             <div className="space-y-2 md:col-span-2">
-                                <label className="text-sm font-semibold text-cyan-300 tracking-wider">URL MAPS (EMBED LINK)</label>
-                                <input name="mapEmbed" value={formData.mapEmbed} onChange={handleChange} placeholder="https://www.google.com/maps/embed?..." className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all" />
+                                <div className="flex items-center justify-between">
+                                    <label className="text-sm font-semibold text-cyan-300 tracking-wider">LINK DE GOOGLE MAPS</label>
+                                    <button type="button" onClick={() => setShowMapHelp(true)} className="text-xs text-cyan-400 underline hover:text-cyan-300">
+                                        ¿Cómo obtener mi link?
+                                    </button>
+                                </div>
+                                <input name="mapEmbed" value={formData.mapEmbed} onChange={handleChange} placeholder="https://maps.app.goo.gl/..." className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all" />
                             </div>
-                            <div className="space-y-2">
+                            <div className="space-y-2 md:col-span-2">
                                 <label className="text-sm font-semibold text-cyan-300 tracking-wider">WHATSAPP (CONFIRMACIÓN)</label>
                                 <input name="whatsappNumber" value={formData.whatsappNumber} onChange={handleChange} placeholder="Ej. 529845828658" className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all" />
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-semibold text-cyan-300 tracking-wider">PUNTOS DEL JUEGO</label>
-                                <input type="number" name="targetScore" value={formData.targetScore} onChange={handleChange} className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all" />
-                            </div>
                             <div className="space-y-2 md:col-span-2">
-                                <label className="text-sm font-semibold text-cyan-300 tracking-wider">TÍTULO DE REGLAS/CÓDIGO DE VESTIMENTA</label>
+                                <label className="text-sm font-semibold text-cyan-300 tracking-wider">TÍTULO</label>
                                 <input name="directivesTitle" value={formData.directivesTitle} onChange={handleChange} className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all" />
                             </div>
                             <div className="space-y-2 md:col-span-2">
-                                <label className="text-sm font-semibold text-cyan-300 tracking-wider">TEXTO DE REGLAS</label>
+                                <label className="text-sm font-semibold text-cyan-300 tracking-wider">TEXTO</label>
                                 <textarea name="directivesText" rows={3} value={formData.directivesText} onChange={handleChange} className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all"></textarea>
                             </div>
                         </div>
@@ -183,6 +191,39 @@ export default function GraciasMarioPage() {
                     </form>
                 </div>
             </div>
+
+            {/* Modal de Ayuda Maps */}
+            {showMapHelp && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+                    <div className="bg-slate-900 border border-cyan-500/30 rounded-2xl p-6 max-w-sm w-full shadow-2xl relative">
+                        <button onClick={() => setShowMapHelp(false)} className="absolute top-4 right-4 text-gray-400 hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                        <h3 className="text-xl font-bold text-cyan-400 mb-4">¿Cómo obtener el link?</h3>
+                        <div className="space-y-4 text-gray-300 text-sm">
+                            <div className="flex gap-3">
+                                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold">1</div>
+                                <p>Busca tu salón o dirección en la app de <strong>Google Maps</strong>.</p>
+                            </div>
+                            <div className="flex gap-3">
+                                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold">2</div>
+                                <p>Toca el botón <strong>"Compartir"</strong> que aparece debajo del nombre.</p>
+                            </div>
+                            <div className="flex gap-3">
+                                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold">3</div>
+                                <p>Selecciona <strong>"Copiar enlace"</strong> y pégalo aquí.</p>
+                            </div>
+                            <div className="mt-4 p-3 bg-black/50 rounded-lg border border-white/5">
+                                <p className="text-xs text-gray-400 mb-1">Ejemplo de link válido:</p>
+                                <p className="text-xs text-cyan-300 break-all">https://maps.app.goo.gl/abcdef123456</p>
+                            </div>
+                        </div>
+                        <button onClick={() => setShowMapHelp(false)} className="mt-6 w-full py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl transition-colors">
+                            Entendido
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
