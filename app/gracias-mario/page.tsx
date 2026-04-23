@@ -62,7 +62,7 @@ export default function GraciasMarioPage() {
             const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
             const days = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
             
-            const generatedDate = `${days[d.getDay()]} ${d.getDate()} de ${months[d.getMonth()]} ${d.getFullYear()}`;
+            const generatedDate = `${days[d.getDay()]} ${d.getDate()} de ${months[d.getMonth()]}`.toUpperCase();
             const generatedTime = `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')} hrs`;
             
             // 1. Generar un slug súper limpio: ej. ruben_feliz_cumple_6

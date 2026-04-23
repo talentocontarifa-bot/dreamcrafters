@@ -21,8 +21,8 @@
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding-top: 15vh;
-          gap: 15px;
+          padding-top: 5vh;
+          gap: 10px;
       }
       .hero-title-img {
           margin: 0 auto !important;
@@ -46,7 +46,6 @@
       /* 2. Mejorar la lectura frente a la galaxia (Reducir glow excesivo, añadir sombra oscura) */
       .mario-galaxy-name, 
       .neon-age-text, 
-      .neon-date, 
       .info-value, 
       #directivesTitle {
           text-shadow: 
@@ -57,6 +56,15 @@
             2px -2px 0 #000, 
             -2px 2px 0 #000, 
             2px 2px 0 #000 !important;
+      }
+      
+      /* Color amarillo para la fecha */
+      .neon-date {
+          color: #ffdc3b !important;
+          text-shadow: 
+            0 0 10px rgba(255, 220, 59, 0.5), 
+            2px 2px 4px #000,
+            -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000 !important;
       }
       
       /* Asegurar que el texto del mapa se lea bien */
