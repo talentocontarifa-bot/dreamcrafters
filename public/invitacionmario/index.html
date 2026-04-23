@@ -57,7 +57,6 @@
             2px -2px 0 #000, 
             -2px 2px 0 #000, 
             2px 2px 0 #000 !important;
-          color: white !important;
       }
       
       /* Asegurar que el texto del mapa se lea bien */
@@ -126,15 +125,16 @@
           </div>
         </header>
 
-        <!-- EVENT DATE -->
-        <div class="text-center slide-in-up delay-1" style="margin-bottom: 20px;">
-           <h3 class="neon-date">SÁBADO 24 DE MAYO 2026</h3>
-        </div>
-
         <!-- PANEL 1: COUNTDOWN -->
         <section class="scifi-panel slide-in-up delay-1">
           <div class="scifi-tab">COUNTDOWN</div>
           <div class="panel-content col" style="gap:20px;">
+          
+             <!-- EVENT DATE (MOVED INSIDE) -->
+             <div class="text-center" style="margin-top: -10px;">
+                <h3 class="neon-date">SÁBADO 24 DE MAYO 2026</h3>
+             </div>
+
              <div class="countdown-box glow-box" style="width: 100%; border: 2px solid #48e2ff; padding: 25px 15px;">
                 <div class="time-col">
                   <span class="time-num" id="days" style="font-size: 3rem;">00</span>
@@ -151,9 +151,8 @@
                   <span class="time-label" style="font-size: 1rem;">MINS</span>
                 </div>
              </div>
-             <div style="display:flex; flex-direction:row; gap:10px; width: 100%;">
-               <button id="btn-add-calendar" class="scifi-btn" style="flex:1; min-height: 48px; border-radius: 8px;">📅 AGENDAR</button>
-               <button id="btn-contact-whatsapp" class="scifi-btn scifi-btn-secondary" style="flex:1; min-height: 48px; border-radius: 8px;">WHATSAPP 📞</button>
+             <div style="display:flex; flex-direction:column; width: 100%;">
+               <button id="btn-add-calendar" class="scifi-btn" style="width: 100%; min-height: 48px; border-radius: 8px;">📅 AGENDAR</button>
              </div>
           </div>
         </section>
