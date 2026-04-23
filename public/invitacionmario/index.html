@@ -11,6 +11,66 @@
     <!-- Removed canvas-confetti CDN for privacy/tracking prevention reasons. Now bundled. -->
     <script type="module" crossorigin src="/invitacionmario/assets/index-BzLgwDAa.js"></script>
     <link rel="stylesheet" crossorigin href="/invitacionmario/assets/index-BhJOKptm.css">
+    
+    <style>
+      /* --- CORRECCIONES VISUALES (SOBRE-ESCRITURAS) --- */
+      
+      /* 1. Prevenir que el nombre se encime con la imagen */
+      .hero-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding-top: 15vh;
+          gap: 15px;
+      }
+      .hero-title-img {
+          margin: 0 auto !important;
+          width: 90% !important;
+          max-width: 400px;
+          position: relative !important;
+      }
+      .mario-galaxy-name {
+          position: static !important;
+          margin: 0 !important;
+          font-size: clamp(2.5rem, 8vw, 4rem) !important;
+          line-height: 1.1 !important;
+          z-index: 2;
+      }
+      .neon-age-text {
+          position: static !important;
+          margin: 0 !important;
+          z-index: 2;
+      }
+
+      /* 2. Mejorar la lectura frente a la galaxia (Reducir glow excesivo, añadir sombra oscura) */
+      .mario-galaxy-name, 
+      .neon-age-text, 
+      .neon-date, 
+      .info-value, 
+      #directivesTitle {
+          text-shadow: 
+            0 0 10px rgba(0,0,0,0.9), 
+            0 0 20px rgba(0,0,0,0.9),
+            3px 3px 6px rgba(0,0,0,1),
+            -2px -2px 0 #000, 
+            2px -2px 0 #000, 
+            -2px 2px 0 #000, 
+            2px 2px 0 #000 !important;
+          color: white !important;
+      }
+      
+      /* Asegurar que el texto del mapa se lea bien */
+      .info-value {
+          font-weight: 800 !important;
+          letter-spacing: 0.5px;
+      }
+      
+      .info-label {
+          text-shadow: 1px 1px 2px black !important;
+          font-weight: bold;
+      }
+    </style>
   </head>
   <body>
      <!-- PRELOADER / GAME SCREEN -->
@@ -184,6 +244,38 @@
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3732.923485642878!2d-103.38885142491517!3d20.67261948088921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8428b0304f5e7141%3A0x15f79ee89d978a3f!2sGlorieta%20La%20Minerva!5e0!3m2!1sen!2smx!4v1712711018596!5m2!1sen!2smx" width="100%" height="300" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
     </div>
-
+    
+    <!-- FIX DE GOOGLE MAPS PARA LINKS CORTOS -->
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+          const urlParams = new URLSearchParams(window.location.search);
+          const mapLink = urlParams.get('mapEmbed');
+          
+          if (mapLink && !mapLink.includes('<iframe') && !mapLink.includes('embed')) {
+             // Si el cliente puso un link normal (ej. https://maps.app.goo.gl/...)
+             // Los iframes de Google Maps darán error porque no permiten ser incrustados.
+             // Solución: Reemplazamos los iframes por un botón gigante.
+             document.querySelectorAll('iframe').forEach(iframe => {
+                const btnContainer = document.createElement('div');
+                btnContainer.style.padding = '20px';
+                
+                const btn = document.createElement('a');
+                btn.href = mapLink;
+                btn.target = "_blank";
+                btn.className = "scifi-btn";
+                btn.style.cssText = "display: block; width: 100%; padding: 18px; text-align: center; font-size: 1.1rem; background: linear-gradient(90deg, #1f6487, #06b6d4); color: white; text-decoration: none; border-radius: 12px; font-family: 'Rajdhani', sans-serif; font-weight: bold; letter-spacing: 1px; box-shadow: 0 0 20px rgba(6,182,212,0.4);";
+                btn.innerHTML = "🗺️ ABRIR EN GOOGLE MAPS";
+                
+                btnContainer.appendChild(btn);
+                
+                if(iframe.parentNode) {
+                   iframe.parentNode.replaceChild(btnContainer, iframe);
+                }
+             });
+          }
+        }, 1000); // Dar tiempo a que el script compilado reaccione primero
+      });
+    </script>
   </body>
 </html>
