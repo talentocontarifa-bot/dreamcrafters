@@ -26,5 +26,12 @@
     "imageUrl": "https://files.catbox.moe/7a73rk.jpg",
     "message": "¡Prueba en vivo del bot Vigilante! 🤖✨\n\nPublicación programada automáticamente para las 8:00 PM.\nSi ves esto, el Action de GitHub funcionó a la perfección. 🚀\n\n#Automatizacion #Dreamcrafters #MarketingAutomated",
     "status": "published"
+  },
+  {
+    "id": "ig_post_6",
+    "scheduledTimeUnix": 1778808000,
+    "imageUrl": "https://files.catbox.moe/g1gh7o.jpg",
+    "message": "⏳ ¡Prueba 100% Automática! ⏳\n\nEste post nadie lo forzó, el Vigilante despertó por sí solo a su hora para publicarlo.\n\n#RobotTrabajando #Automatizacion #Dreamcrafters",
+    "status": "pending"
   }
 ]
